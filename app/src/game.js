@@ -4,26 +4,40 @@ import { TourClassique } from "./tower.js";
 
 
 export class Game {
-    constructor(niveau) {
+    constructor(niveau, vague=1) {
         this.niveau = niveaux[niveau]; // Niveau actuel du jeu
-        this.enemies = []; // Liste des ennemis
+        this.ennemies = []; // Liste des ennemis
+        this.ennemiesASpawn = {}; // Liste des ennemis
         this.towers = []; // Liste des tours
         this.projectiles = []; // Liste des projectiles
         this.heart = niveau.heart; // Coeur du joueur
-        this.spawnInterval = niveau.intervale; // Intervalle de spawn des ennemis
-        this.lastSpawnTime = Date.now();// Temps du dernier spawn d'ennemi
-        this.enemyCount = 0; // Compteur d'ennemis
+        
         this.canvas = document.getElementById('gameCanvas');
         this.ctx = this.canvas.getContext('2d');
         this.chemin = this.niveau.chemin;
         this.imageCoeur = new Image();
         this.imageCoeur.src = './app/assets/img/heart.png';
-        this.nbEnemy = 0;
         this.jeuDemarre = false; // Indique si le jeu a démarré
         this.HTMLnumVague = document.getElementById('numVague');
         this.HTMLnbEnnemisRestants = document.getElementById('nbEnnemisRestants');
         this.HTMLnbEnnemisMorts = document.getElementById('nbEnnemisMorts');
+
+        this.vague = vague; // Compteur de vagues
+    
+        this.totalEnnemis = 0; // Nombre total d'ennemis à spawn dans la vague
         this.nbEnnemisMorts = 0; // Compteur d'ennemis morts
+    }
+
+    initialisationVague() {
+        for( const typeEnemy of this.niveau.vagues[this.vague-1].ennemis) {
+            this.ennemiesASpawn[typeEnemy.type] = {
+                nb: typeEnemy.nb, // Nombre d'ennemis à spawn
+                intervale: typeEnemy.intervale // Intervalle de spawn en millisecondes
+            };
+            this.totalEnnemis += typeEnemy.nb; // Ajoute le nombre d'ennemis à spawn au total
+        }
+        console.log("Initialisation de la vague :" + this.vague);
+        console.log(this.ennemiesASpawn);
     }
 
     /**
@@ -31,12 +45,38 @@ export class Game {
      * Met à jour le temps du dernier spawn, ajoute une nouvelle instance d'Enemy au tableau des ennemis et incrémente le compteur d'ennemis.
      */
     spawnEnnemis() {
-        if (Date.now() - this.lastSpawnTime >= this.niveau.intervale && this.niveau.nbEnemyMax > this.nbEnemy) {
-            this.lastSpawnTime = Date.now();
-            this.enemies.push(new Enemy(this.chemin));
-            this.nbEnemy++;
+        const currentTime = Date.now();
+
+        for (const [type, data] of Object.entries(this.ennemiesASpawn)) {
+            // Si le nombre d'ennemis à spawn pour ce type est déjà atteint, on passe au suivant
+            if (data.nb <= 0) continue;
+
+            // Initialise le temps de spawn s'il n'existe pas
+            if (!data.lastSpawnTime) {
+                data.lastSpawnTime = 0;
+            }
+
+            // Si le temps depuis le dernier spawn de ce type est suffisant
+            if (currentTime - data.lastSpawnTime >= data.intervale) {
+                // Création de l'ennemi en fonction du type
+                let ennemi;
+                switch (type) {
+                    case "classique":
+                        ennemi = new Enemy(this.chemin); // Tu peux faire évoluer ça selon le type
+                        break;
+                    // case "rapide": etc.
+                    default:
+                        console.warn("Type d'ennemi inconnu :", type);
+                        continue;
+                }
+
+                this.ennemies.push(ennemi);
+                data.nb--; // Un ennemi de moins à spawn
+                data.lastSpawnTime = currentTime; // Mise à jour du dernier spawn
+            }
         }
     }
+
 
     /**
      * Met à jour l'état de tous les ennemis dans le jeu.
@@ -46,13 +86,13 @@ export class Game {
      * Sinon, l'ennemi est dessiné sur le contexte du canvas.
      */
     majEnnemis() {
-        for (const enemy of this.enemies) {
+        for (const enemy of this.ennemies) {
             if (!enemy.update(this.niveau.heart)) {
                 // Si l'ennemi n'est plus en vie, on le retire de la liste
                 this.nbEnnemisMorts++;
-                const index = this.enemies.indexOf(enemy);
+                const index = this.ennemies.indexOf(enemy);
                 if (index > -1) {
-                    this.enemies.splice(index, 1);
+                    this.ennemies.splice(index, 1);
                 }
             }else{
                 enemy.draw(this.ctx);
@@ -97,7 +137,7 @@ export class Game {
     surveillanceTours() {
         for (const tower of this.towers) {
             tower.dessiner(this.ctx);
-            const enemyProche = tower.chercherEnnemi(this.enemies);
+            const enemyProche = tower.chercherEnnemi(this.ennemies);
             if (enemyProche) {
                 tower.tirer(enemyProche);
             }
@@ -123,9 +163,18 @@ export class Game {
         this.towers.push(tower);
     }
     majUI() {
-        //this.HTMLnumVague.textContent = ...;
-        this.HTMLnbEnnemisRestants.textContent = this.niveau.nbEnemyMax - this.nbEnnemisMorts;
+        this.HTMLnumVague.textContent = `Vague ${this.vague}`;
+        this.HTMLnbEnnemisRestants.textContent = this.totalEnnemis - this.nbEnnemisMorts;
         this.HTMLnbEnnemisMorts.textContent = this.nbEnnemisMorts;
+        if (this.nbEnnemisMorts == this.totalEnnemis){
+            this.vague++;
+            this.initialisationVague();
+            this.nbEnnemisMorts = 0; // Réinitialise le compteur d'ennemis morts
+            const lancerVagueBtn = document.getElementById('lancerVagueBtn');
+            lancerVagueBtn.disabled = false; // Réactive le bouton pour la prochaine vague
+            this.jeuDemarre = false; // Indique que le jeu n'est plus en cours
+            console.log("Fin de la vague " + (this.vague - 1) + ", passage à la vague " + this.vague);
+        }
     }
 
     /**
@@ -149,8 +198,6 @@ export class Game {
         // boucle suivante
         requestAnimationFrame(() => this.boucleDeJeu());
     }
-
-
 
 
     /**
@@ -186,7 +233,12 @@ export class Game {
         lancerVagueBtn.addEventListener('click', () => {
             lancerVagueBtn.disabled = true; // Désactive le bouton pour éviter les clics multiples
             this.jeuDemarre = true; // Indique que le jeu a démarré
+            for(const [type, data] of Object.entries(this.ennemiesASpawn)) {
+                data.lastSpawnTime = Date.now(); // Réinitialise le temps de dernier spawn
+            }
         });
+        this.initialisationVague(); // Initialise les ennemis de la vague
+        this.spawnEnnemis(); // Lance le spawn des ennemis
         this.boucleDeJeu();
     }
 }
