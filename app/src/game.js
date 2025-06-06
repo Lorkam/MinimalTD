@@ -28,6 +28,12 @@ export class Game {
         this.nbEnnemisMorts = 0; // Compteur d'ennemis morts
     }
 
+    /**
+     * Initialise la vague actuelle d'ennemis en configurant le nombre et l'intervalle de spawn
+     * pour chaque type d'ennemi selon la configuration de la vague en cours.
+     * Met à jour l'objet `ennemiesASpawn` avec les détails de spawn des ennemis et incrémente le nombre total d'ennemis.
+     * Affiche les détails de l'initialisation dans la console.
+     */
     initialisationVague() {
         for( const typeEnemy of this.niveau.vagues[this.vague-1].ennemis) {
             this.ennemiesASpawn[typeEnemy.type] = {
@@ -76,7 +82,6 @@ export class Game {
             }
         }
     }
-
 
     /**
      * Met à jour l'état de tous les ennemis dans le jeu.
@@ -162,6 +167,13 @@ export class Game {
         }
         this.towers.push(tower);
     }
+
+    /**
+     * Met à jour l'interface utilisateur pour refléter l'état actuel du jeu,
+     * notamment le numéro de la vague, le nombre d'ennemis restants et le nombre d'ennemis morts.
+     * Si tous les ennemis d'une vague sont éliminés, initialise la vague suivante,
+     * réactive le bouton de lancement de vague, et réinitialise les compteurs appropriés.
+     */
     majUI() {
         this.HTMLnumVague.textContent = `Vague ${this.vague}`;
         this.HTMLnbEnnemisRestants.textContent = this.totalEnnemis - this.nbEnnemisMorts;
@@ -198,7 +210,6 @@ export class Game {
         // boucle suivante
         requestAnimationFrame(() => this.boucleDeJeu());
     }
-
 
     /**
      * Initialise et démarre la boucle principale du jeu.
