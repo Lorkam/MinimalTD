@@ -1,0 +1,17 @@
+
+body{
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+canvas {
+  background: #cfcfcf;
+  display: block;
+  margin: 0;
+}
+
+#lancerVagueBtn{
+    position: absolute; 
+    bottom: 20px; 
+    right: 20px;
+}
