@@ -7,7 +7,7 @@ export class Enemy {
         this.speed = 1;
         this.cheminIndex = 0;
         this.couleur = 'red';
-        this.pvMax = 100;
+        this.pvMax = 40;
         this.pv = this.pvMax;
         this.taille = 10; // pour la détection de souris
     }

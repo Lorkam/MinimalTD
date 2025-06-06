@@ -12,6 +12,25 @@ canvas {
 
 #lancerVagueBtn{
     position: absolute; 
-    bottom: 20px; 
-    right: 20px;
+    font-size: 20px;
+    padding: 10px 20px;
+    background-color: #fcfcfc;
+    border: 2px solid #000000;
+    border-radius: 10px;
+    bottom: 60px; 
+    right: 100px;
+}
+#divInfoVague{
+    position: absolute; 
+    font-size: 20px;
+    padding: 10px 20px;
+    background-color: #fcfcfc;
+    border: 2px solid #000000;
+    border-radius: 10px;
+    top: 20px; 
+    left: 10px;
+    p{
+      margin: 0;
+      padding: 0;
+    }
 }

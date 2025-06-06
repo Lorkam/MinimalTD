@@ -20,6 +20,10 @@ export class Game {
         this.imageCoeur.src = './app/assets/img/heart.png';
         this.nbEnemy = 0;
         this.jeuDemarre = false; // Indique si le jeu a démarré
+        this.HTMLnumVague = document.getElementById('numVague');
+        this.HTMLnbEnnemisRestants = document.getElementById('nbEnnemisRestants');
+        this.HTMLnbEnnemisMorts = document.getElementById('nbEnnemisMorts');
+        this.nbEnnemisMorts = 0; // Compteur d'ennemis morts
     }
 
     /**
@@ -43,8 +47,9 @@ export class Game {
      */
     majEnnemis() {
         for (const enemy of this.enemies) {
-            if (!enemy.update(this.niveau.heart)){
+            if (!enemy.update(this.niveau.heart)) {
                 // Si l'ennemi n'est plus en vie, on le retire de la liste
+                this.nbEnnemisMorts++;
                 const index = this.enemies.indexOf(enemy);
                 if (index > -1) {
                     this.enemies.splice(index, 1);
@@ -65,7 +70,7 @@ export class Game {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
         // déssine le chemin
         this.ctx.strokeStyle = "white";
-        this.ctx.lineWidth = 6;
+        this.ctx.lineWidth = 30;
         this.ctx.beginPath();
         this.ctx.moveTo(this.chemin[0].x, this.chemin[0].y);
         for (let i = 1; i < this.chemin.length; i++) {
@@ -73,6 +78,10 @@ export class Game {
         }
         this.ctx.stroke();
         // Affichage du coeur
+        this.ctx.beginPath();
+        this.ctx.fillStyle = "white";
+        this.ctx.arc(this.niveau.heart.x+25, this.niveau.heart.y+22, 35, 0, Math.PI * 2);
+        this.ctx.fill();
         this.ctx.drawImage(this.imageCoeur, this.niveau.heart.x, this.niveau.heart.y, 50, 50);
     }
 
@@ -113,6 +122,11 @@ export class Game {
         }
         this.towers.push(tower);
     }
+    majUI() {
+        //this.HTMLnumVague.textContent = ...;
+        this.HTMLnbEnnemisRestants.textContent = this.niveau.nbEnemyMax - this.nbEnnemisMorts;
+        this.HTMLnbEnnemisMorts.textContent = this.nbEnnemisMorts;
+    }
 
     /**
      * Boucle principale du jeu qui gère le rendu du niveau, le spawn des ennemis,
@@ -130,6 +144,8 @@ export class Game {
         // Maj des ennemis
         if (this.jeuDemarre) this.majEnnemis();
 
+        // Mise à jour de l'interface utilisateur
+        this.majUI();
         // boucle suivante
         requestAnimationFrame(() => this.boucleDeJeu());
     }
@@ -137,6 +153,13 @@ export class Game {
 
 
 
+    /**
+     * Initialise et démarre la boucle principale du jeu.
+     * - Place des tours par défaut sur tous les emplacements disponibles.
+     * - Configure l'événement mousemove pour afficher la portée d'une tour lors du survol.
+     * - Configure le bouton "lancerVagueBtn" pour démarrer une nouvelle vague et le désactive après clic.
+     * - Lance la boucle principale du jeu via `boucleDeJeu`.
+     */
     play(){
         for (const emplacement of this.niveau.emplacementsTower) {
             this.ajouterTour('classique', emplacement);
@@ -165,7 +188,5 @@ export class Game {
             this.jeuDemarre = true; // Indique que le jeu a démarré
         });
         this.boucleDeJeu();
-
-        //this.boucleDeJeu();
     }
 }
