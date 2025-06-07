@@ -6,8 +6,8 @@ export class Enemy {
         this.y = chemin[0].y;
         this.speed = 1;
         this.cheminIndex = 0;
-        this.couleur = 'red';
-        this.pvMax = 40;
+        this.couleur = 'black';
+        this.pvMax = 1;
         this.pv = this.pvMax;
         this.taille = 10; // pour la détection de souris
     }
@@ -66,5 +66,26 @@ export class Enemy {
      */
     changeCouleur(couleur) {
         this.couleur = couleur;
+    }
+}
+
+export class EnemyClassique extends Enemy {
+    constructor(chemin) {
+        super(chemin);
+        this.couleur = 'red';
+        this.pvMax = 40;
+        this.pv = this.pvMax;
+        this.taille = 10; // pour la détection de souris
+    }
+}
+
+export class EnemyTank extends Enemy {
+    constructor(chemin) {
+        super(chemin);
+        this.couleur = 'rgb(15, 89, 0)';
+        this.pvMax = 150;
+        this.pv = this.pvMax;
+        this.taille = 10; // pour la détection de souris
+        this.speed = 0.5;
     }
 }

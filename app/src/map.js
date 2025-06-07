@@ -17,12 +17,13 @@ export const niveaux = {
       },
       {
         ennemis: [
-          { type: "classique", nb: 3, intervale: 1250 }
+          { type: "classique", nb: 3, intervale: 1250 },
+          { type: "tank", nb: 1, intervale: 1250 },
         ]
       },
       {
         ennemis: [
-          { type: "classique", nb: 10, intervale: 1250 }
+          { type: "tank", nb: 3, intervale: 1500 }
         ]
       }
     ]

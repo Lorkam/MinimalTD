@@ -1,5 +1,5 @@
 import {niveaux} from "./map.js";
-import { Enemy } from "./enemy.js";
+import { EnemyClassique, EnemyTank } from "./enemy.js";
 import { TourClassique } from "./tower.js";
 
 
@@ -29,14 +29,15 @@ export class Game {
     }
 
     initialisationVague() {
+        console.log("Initialisation de la vague :" + this.vague);
         for( const typeEnemy of this.niveau.vagues[this.vague-1].ennemis) {
+            console.log(typeEnemy);
             this.ennemiesASpawn[typeEnemy.type] = {
                 nb: typeEnemy.nb, // Nombre d'ennemis à spawn
                 intervale: typeEnemy.intervale // Intervalle de spawn en millisecondes
             };
             this.totalEnnemis += typeEnemy.nb; // Ajoute le nombre d'ennemis à spawn au total
         }
-        console.log("Initialisation de la vague :" + this.vague);
         console.log(this.ennemiesASpawn);
     }
 
@@ -62,9 +63,11 @@ export class Game {
                 let ennemi;
                 switch (type) {
                     case "classique":
-                        ennemi = new Enemy(this.chemin); // Tu peux faire évoluer ça selon le type
+                        ennemi = new EnemyClassique(this.chemin); // Tu peux faire évoluer ça selon le type
                         break;
-                    // case "rapide": etc.
+                    case "tank":
+                        ennemi = new EnemyTank(this.chemin); // Tu peux faire évoluer ça selon le type
+                        break;
                     default:
                         console.warn("Type d'ennemi inconnu :", type);
                         continue;
@@ -167,13 +170,14 @@ export class Game {
         this.HTMLnbEnnemisRestants.textContent = this.totalEnnemis - this.nbEnnemisMorts;
         this.HTMLnbEnnemisMorts.textContent = this.nbEnnemisMorts;
         if (this.nbEnnemisMorts == this.totalEnnemis){
+            console.log("Fin de la vague " + (this.vague - 1) + ", passage à la vague " + this.vague);
             this.vague++;
-            this.initialisationVague();
             this.nbEnnemisMorts = 0; // Réinitialise le compteur d'ennemis morts
+            this.totalEnnemis = 0; // Réinitialise le nombre total d'ennemis à spawn
+            this.initialisationVague();
             const lancerVagueBtn = document.getElementById('lancerVagueBtn');
             lancerVagueBtn.disabled = false; // Réactive le bouton pour la prochaine vague
             this.jeuDemarre = false; // Indique que le jeu n'est plus en cours
-            console.log("Fin de la vague " + (this.vague - 1) + ", passage à la vague " + this.vague);
         }
     }
 
