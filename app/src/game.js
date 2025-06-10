@@ -31,14 +31,14 @@ export class Game {
     initialisationVague() {
         console.log("Initialisation de la vague :" + this.vague);
         for( const typeEnemy of this.niveau.vagues[this.vague-1].ennemis) {
-            console.log(typeEnemy);
+            //console.log(typeEnemy);
             this.ennemiesASpawn[typeEnemy.type] = {
                 nb: typeEnemy.nb, // Nombre d'ennemis à spawn
                 intervale: typeEnemy.intervale // Intervalle de spawn en millisecondes
             };
             this.totalEnnemis += typeEnemy.nb; // Ajoute le nombre d'ennemis à spawn au total
         }
-        console.log(this.ennemiesASpawn);
+        //console.log(this.ennemiesASpawn);
     }
 
     /**
