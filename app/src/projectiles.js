@@ -33,7 +33,7 @@ export class Projectile {
         const dx = this.target.x - this.x;
         const dy = this.target.y - this.y;
         const dist = Math.sqrt(dx * dx + dy * dy);
-        
+
         if (dist < this.speed) {
             // Si le projectile atteint la cible, inflige des dégâts et supprime le projectile
             this.target.pv -= this.damage;
@@ -51,10 +51,19 @@ export class Projectile {
      * @param {CanvasRenderingContext2D} ctx - Le contexte du canvas sur lequel dessiner.
      */
     draw(ctx) {
+        ctx.save();
         ctx.fillStyle = "yellow"; // Couleur du projectile
+        ctx.translate(this.x, this.y);
+        // Calcule l'angle vers la cible
+        const dx = this.target.x - this.x;
+        const dy = this.target.y - this.y;
+        const angle = Math.atan2(dy, dx);
+        ctx.rotate(angle);
         ctx.beginPath();
-        ctx.arc(this.x, this.y, 5, 0, Math.PI * 2); // Dessine un cercle pour représenter le projectile
+        // Dessine une ellipse (ovale) centrée sur (0, 0), inclinée vers la cible
+        ctx.ellipse(0, 0, 8, 2, 0, 0, Math.PI * 2);
         ctx.fill();
+        ctx.restore();
     }
 
 }

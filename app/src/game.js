@@ -1,5 +1,5 @@
 import {niveaux} from "./map.js";
-import { EnemyClassique, EnemyTank } from "./enemy.js";
+import { EnemyClassique, EnemyTank, EnemyRapide } from "./enemy.js";
 import { TourClassique } from "./tower.js";
 
 
@@ -21,8 +21,10 @@ export class Game {
         this.HTMLnumVague = document.getElementById('numVague');
         this.HTMLnbEnnemisRestants = document.getElementById('nbEnnemisRestants');
         this.HTMLnbEnnemisMorts = document.getElementById('nbEnnemisMorts');
+        this.HTMLgolds = document.getElementById('golds');
 
         this.vague = vague; // Compteur de vagues
+        this.golds = 0; // Or du joueur
     
         this.totalEnnemis = 0; // Nombre total d'ennemis à spawn dans la vague
         this.nbEnnemisMorts = 0; // Compteur d'ennemis morts
@@ -68,6 +70,9 @@ export class Game {
                     case "tank":
                         ennemi = new EnemyTank(this.chemin); // Tu peux faire évoluer ça selon le type
                         break;
+                    case "rapide":
+                        ennemi = new EnemyRapide(this.chemin); // Tu peux faire évoluer ça selon le type
+                        break;
                     default:
                         console.warn("Type d'ennemi inconnu :", type);
                         continue;
@@ -93,6 +98,7 @@ export class Game {
             if (!enemy.update(this.niveau.heart)) {
                 // Si l'ennemi n'est plus en vie, on le retire de la liste
                 this.nbEnnemisMorts++;
+                this.golds += enemy.recompense; // Ajoute l'or gagné à la variable d'or
                 const index = this.ennemies.indexOf(enemy);
                 if (index > -1) {
                     this.ennemies.splice(index, 1);
@@ -169,6 +175,7 @@ export class Game {
         this.HTMLnumVague.textContent = `Vague ${this.vague}`;
         this.HTMLnbEnnemisRestants.textContent = this.totalEnnemis - this.nbEnnemisMorts;
         this.HTMLnbEnnemisMorts.textContent = this.nbEnnemisMorts;
+        this.HTMLgolds.textContent = this.golds;
         if (this.nbEnnemisMorts == this.totalEnnemis){
             console.log("Fin de la vague " + (this.vague - 1) + ", passage à la vague " + this.vague);
             this.vague++;

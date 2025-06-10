@@ -10,6 +10,7 @@ export class Enemy {
         this.pvMax = 1;
         this.pv = this.pvMax;
         this.taille = 10; // pour la détection de souris
+        this.recompense = 0; // Récompense pour la destruction de l'ennemi
     }
 
     /**
@@ -76,6 +77,7 @@ export class EnemyClassique extends Enemy {
         this.pvMax = 40;
         this.pv = this.pvMax;
         this.taille = 10; // pour la détection de souris
+        this.recompense = 2;
     }
 }
 
@@ -87,5 +89,17 @@ export class EnemyTank extends Enemy {
         this.pv = this.pvMax;
         this.taille = 10; // pour la détection de souris
         this.speed = 0.5;
+        this.recompense = 4;
+    }
+}
+export class EnemyRapide extends Enemy {
+    constructor(chemin) {
+        super(chemin);
+        this.couleur = 'rgb(184, 197, 0)';
+        this.pvMax = 20;
+        this.pv = this.pvMax;
+        this.taille = 7; // pour la détection de souris
+        this.speed = 3;
+        this.recompense = 3;
     }
 }
