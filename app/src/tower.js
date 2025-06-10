@@ -72,16 +72,27 @@ export class TourClassique extends Tower {
      * @param {Array<Enemy>} listeEnnemis - The list of enemy objects to search through. Each enemy should have `x` and `y` properties.
      * @returns {Enemy|undefined} The first enemy object found within range, or `undefined` if none are found.
      */
+    /**
+     * Cherche l'ennemi le plus proche du coeur (ayant la plus grande distanceParcourue)
+     * qui est à portée de la tour.
+     *
+     * @param {Array<Enemy>} listeEnnemis - Liste des ennemis à vérifier.
+     * @returns {Enemy|undefined} L'ennemi le plus avancé dans la portée, ou undefined si aucun.
+     */
     chercherEnnemi(listeEnnemis) {
+        let cible = undefined;
+        let maxDistanceParcourue = -Infinity;
         for (const ennemi of listeEnnemis) {
             const distance = Math.sqrt(
                 Math.pow(ennemi.x - this.position.x, 2) +
                 Math.pow(ennemi.y - this.position.y, 2)
             );
-            if (distance <= this.portee) {
-                return ennemi; // Retourne le premier ennemi trouvé dans la portée
+            if (distance <= this.portee && ennemi.distanceParcourue > maxDistanceParcourue) {
+                cible = ennemi;
+                maxDistanceParcourue = ennemi.distanceParcourue;
             }
         }
+        return cible;
     }
 
     tirer(enemy) {

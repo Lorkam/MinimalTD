@@ -6,10 +6,12 @@ export class Enemy {
         this.y = chemin[0].y;
         this.speed = 1;
         this.cheminIndex = 0;
+        this.distanceParcourue = 0; // Distance parcourue par l'ennemi
         this.couleur = 'black';
         this.pvMax = 1;
         this.pv = this.pvMax;
         this.taille = 10; // pour la détection de souris
+        this.recompense = 0; // Récompense pour la destruction de l'ennemi
     }
 
     /**
@@ -21,6 +23,7 @@ export class Enemy {
         const dx = target.x - this.x;
         const dy = target.y - this.y;
         const dist = Math.sqrt(dx * dx + dy * dy);
+        this.distanceParcourue += this.speed; // Met à jour la distance parcourue par l'ennemi
         if (dist < this.speed) {
             this.cheminIndex++;
         } else {
@@ -76,6 +79,7 @@ export class EnemyClassique extends Enemy {
         this.pvMax = 40;
         this.pv = this.pvMax;
         this.taille = 10; // pour la détection de souris
+        this.recompense = 2;
     }
 }
 
@@ -87,5 +91,17 @@ export class EnemyTank extends Enemy {
         this.pv = this.pvMax;
         this.taille = 10; // pour la détection de souris
         this.speed = 0.5;
+        this.recompense = 4;
+    }
+}
+export class EnemyRapide extends Enemy {
+    constructor(chemin) {
+        super(chemin);
+        this.couleur = 'rgb(184, 197, 0)';
+        this.pvMax = 20;
+        this.pv = this.pvMax;
+        this.taille = 7; // pour la détection de souris
+        this.speed = 3;
+        this.recompense = 3;
     }
 }
