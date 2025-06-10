@@ -5,19 +5,21 @@ import { TourClassique } from "./tower.js";
 
 export class Game {
     constructor(niveau, vague=1) {
-        this.niveau = niveaux[niveau]; // Niveau actuel du jeu
+        this.niveau = JSON.parse(JSON.stringify(niveaux[niveau])); // Copie profonde du niveau pour éviter les modifications directes
         this.ennemies = []; // Liste des ennemis
         this.ennemiesASpawn = {}; // Liste des ennemis
         this.towers = []; // Liste des tours
         this.projectiles = []; // Liste des projectiles
-        this.heart = niveau.heart; // Coeur du joueur
+        this.heart = this.niveau.heart; // Copie profonde du coeur du joueur
         
         this.canvas = document.getElementById('gameCanvas');
         this.ctx = this.canvas.getContext('2d');
         this.chemin = this.niveau.chemin;
         this.imageCoeur = new Image();
         this.imageCoeur.src = './app/assets/img/heart.png';
+        this.chemin = this.niveau.chemin;
         this.jeuDemarre = false; // Indique si le jeu a démarré
+        this.jeuTermine = false; // Indique si le jeu a démarré
         this.HTMLnumVague = document.getElementById('numVague');
         this.HTMLnbEnnemisRestants = document.getElementById('nbEnnemisRestants');
         this.HTMLnbEnnemisMorts = document.getElementById('nbEnnemisMorts');
@@ -40,7 +42,8 @@ export class Game {
             };
             this.totalEnnemis += typeEnemy.nb; // Ajoute le nombre d'ennemis à spawn au total
         }
-        //console.log(this.ennemiesASpawn);
+        console.log('liste des ennemis à spawn pour la vague ' + this.vague + ':');
+        console.log(this.ennemiesASpawn);
     }
 
     /**
@@ -176,15 +179,33 @@ export class Game {
         this.HTMLnbEnnemisRestants.textContent = this.totalEnnemis - this.nbEnnemisMorts;
         this.HTMLnbEnnemisMorts.textContent = this.nbEnnemisMorts;
         this.HTMLgolds.textContent = this.golds;
-        if (this.nbEnnemisMorts == this.totalEnnemis){
+    }
+
+    verifChangementVague() {
+        const lancerVagueBtn = document.getElementById('lancerVagueBtn');
+        if (this.nbEnnemisMorts == this.totalEnnemis && this.niveau.vagues[this.vague - 1].derniereVague==false) {
             console.log("Fin de la vague " + (this.vague - 1) + ", passage à la vague " + this.vague);
             this.vague++;
             this.nbEnnemisMorts = 0; // Réinitialise le compteur d'ennemis morts
             this.totalEnnemis = 0; // Réinitialise le nombre total d'ennemis à spawn
             this.initialisationVague();
-            const lancerVagueBtn = document.getElementById('lancerVagueBtn');
             lancerVagueBtn.disabled = false; // Réactive le bouton pour la prochaine vague
             this.jeuDemarre = false; // Indique que le jeu n'est plus en cours
+        }else if(this.nbEnnemisMorts == this.totalEnnemis && this.niveau.vagues[this.vague - 1].derniereVague==true) {
+            console.log("Fin de la dernière vague");
+            console.log("Félicitations ! Vous avez terminé le jeu !");
+            this.jeuDemarre = false; // Indique que le jeu n'est plus en cours
+            this.jeuTermine = true; // Indique que le jeu est terminé
+            lancerVagueBtn.disabled = false;
+            document.getElementById('divEcranSombre').style.display = 'flex'; // Affiche l'image de victoire
+            document.getElementById('divImgVictoire').style.display = 'flex'; // Affiche l'image de victoire
+        }else if(this.niveau.heart.pv <= 0) {
+            console.log("Game Over ! Vous avez perdu !");
+            this.jeuDemarre = false; // Indique que le jeu n'est plus en cours
+            this.jeuTermine = true; // Indique que le jeu est terminé
+            lancerVagueBtn.disabled = false;
+            document.getElementById('divEcranSombre').style.display = 'flex'; // Affiche l'image de défaite
+            document.getElementById('divImgDefaite').style.display = 'flex'; // Affiche l'image de défaite
         }
     }
 
@@ -206,6 +227,7 @@ export class Game {
 
         // Mise à jour de l'interface utilisateur
         this.majUI();
+        if (!this.jeuTermine) this.verifChangementVague();
         // boucle suivante
         requestAnimationFrame(() => this.boucleDeJeu());
     }

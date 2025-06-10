@@ -19,14 +19,14 @@ export class Projectile {
         this.target = target;
         this.x = tower.position.x;
         this.y = tower.position.y;
-        this.speed = 5;
+        this.speed = 10;
         this.damage = tower.degats;
     }
 
     /**
      * Met à jour la position du projectile vers sa cible.
      * Si le projectile atteint la cible, applique les dégâts et indique la fin.
-     *
+     * 
      * @returns {boolean} Retourne true si le projectile a atteint sa cible et appliqué les dégâts, false sinon.
      */
     update() {
