@@ -1,24 +1,18 @@
 import { Game } from "./game.js";
 
-
-let game = new Game('Niveau 1', 2);
+const parametreGame = ['Niveau 1', 5]; // Paramètres du jeu, par exemple le niveau et la difficulté
+let game = new Game(parametreGame[0], parametreGame[1]); // Création d'une instance de Game avec les paramètres
 game.play();
 
-
-
-document.getElementById('btnRejouerVictoire').addEventListener('click', () => {
-    console.log("Rejouer le jeu");
-    document.getElementById('divEcranSombre').style.display = 'none'; // Masque l'écran sombre
-    document.getElementById('divImgVictoire').style.display = 'none'; // Masque l'image de victoire
+function reset() {
+    console.log("Réinitialisation du niveau");
+    document.getElementById('divEcranSombre').style.display = 'none';
+    document.getElementById('divImgVictoire').style.display = 'none';
+    document.getElementById('divImgDefaite').style.display = 'none';
     game = null;
-    game = new Game('Niveau 1');
+    game = new Game(parametreGame[0], parametreGame[1]);
     game.play();
-});
-document.getElementById('btnRejouerDefaite').addEventListener('click', () => {
-    console.log("Rejouer le jeu");
-    document.getElementById('divEcranSombre').style.display = 'none'; // Affiche l'image de défaite
-    document.getElementById('divImgDefaite').style.display = 'none'; // Affiche l'image de défaite
-    game = null;
-    game = new Game('Niveau 1');
-    game.play();
-});
+}
+
+document.getElementById('btnRejouerVictoire').addEventListener('click', reset);
+document.getElementById('btnRejouerDefaite').addEventListener('click', reset);

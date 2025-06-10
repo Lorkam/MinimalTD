@@ -34,6 +34,8 @@ export class Game {
 
     initialisationVague() {
         console.log("Initialisation de la vague :" + this.vague);
+        this.nbEnnemisMorts = 0; // Réinitialise le compteur d'ennemis morts
+        this.totalEnnemis = 0; // Réinitialise le nombre total d'ennemis à spawn
         for( const typeEnemy of this.niveau.vagues[this.vague-1].ennemis) {
             //console.log(typeEnemy);
             this.ennemiesASpawn[typeEnemy.type] = {
@@ -186,8 +188,6 @@ export class Game {
         if (this.nbEnnemisMorts == this.totalEnnemis && this.niveau.vagues[this.vague - 1].derniereVague==false) {
             console.log("Fin de la vague " + (this.vague - 1) + ", passage à la vague " + this.vague);
             this.vague++;
-            this.nbEnnemisMorts = 0; // Réinitialise le compteur d'ennemis morts
-            this.totalEnnemis = 0; // Réinitialise le nombre total d'ennemis à spawn
             this.initialisationVague();
             lancerVagueBtn.disabled = false; // Réactive le bouton pour la prochaine vague
             this.jeuDemarre = false; // Indique que le jeu n'est plus en cours
