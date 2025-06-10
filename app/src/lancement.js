@@ -1,7 +1,7 @@
 import { Game } from "./game.js";
 
 
-let game = new Game('Niveau 1', 5);
+let game = new Game('Niveau 1', 2);
 game.play();
 
 

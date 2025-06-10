@@ -6,6 +6,7 @@ export class Enemy {
         this.y = chemin[0].y;
         this.speed = 1;
         this.cheminIndex = 0;
+        this.distanceParcourue = 0; // Distance parcourue par l'ennemi
         this.couleur = 'black';
         this.pvMax = 1;
         this.pv = this.pvMax;
@@ -22,6 +23,7 @@ export class Enemy {
         const dx = target.x - this.x;
         const dy = target.y - this.y;
         const dist = Math.sqrt(dx * dx + dy * dy);
+        this.distanceParcourue += this.speed; // Met à jour la distance parcourue par l'ennemi
         if (dist < this.speed) {
             this.cheminIndex++;
         } else {
