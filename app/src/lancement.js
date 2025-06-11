@@ -1,6 +1,6 @@
 import { Game } from "./game.js";
 
-const parametreGame = ['Niveau 1', 5]; // Paramètres du jeu, par exemple le niveau et la difficulté
+const parametreGame = ['Niveau 1', 1]; // Paramètres du jeu, par exemple le niveau et la difficulté
 let game = new Game(parametreGame[0], parametreGame[1]); // Création d'une instance de Game avec les paramètres
 game.play();
 

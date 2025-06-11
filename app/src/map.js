@@ -3,10 +3,10 @@ export const niveaux = {
   "Niveau 1": {
     chemin: [{ x: 400, y: 300 }, { x: 1000, y: 300 }],
     emplacementsTower: [
-      { x: 650, y: 260 },
-      { x: 750, y: 260 },
-      { x: 650, y: 340 },
-      { x: 750, y: 340 }
+      { x: 560, y: 260 },
+      { x: 670, y: 340 },
+      { x: 780, y: 260 },
+      { x: 890, y: 340 }
     ],
     heart: { x: 1005, y: 277, pv: 3 },
     vagues: [
@@ -37,7 +37,7 @@ export const niveaux = {
       },
       {
         ennemis: [
-          { type: "rapide", nb: 20, intervale: 500 }
+          { type: "rapide", nb: 20, intervale: 400 }
         ],
         derniereVague: true
       },

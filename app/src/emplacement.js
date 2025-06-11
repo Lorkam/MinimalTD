@@ -1,39 +1,62 @@
 import { TourClassique } from "./tower.js";
 
 export class Emplacement {
-    constructor(position) {
+    constructor(position, partie) {
+        this.partie = partie
         this.x = position['x']; // Position X de l'emplacement
         this.y = position['y']; // Position Y de l'emplacement
         this.taille = 30; // Taille de l'emplacement
         this.image = new Image();
         this.image.src = './app/assets/img/emplacement.png';
         this.tour = null; // Tour placée sur cet emplacement (null si aucune)
+        this.prixTours = {'classique': 10}; // Prix des tours
     }
 
-    dessiner(ctx){
-        ctx.drawImage(this.image, this.x-15, this.y-15, 30, 30);
+    dessiner(){
+        this.partie.ctx.drawImage(this.image, this.x-25, this.y-25, 50, 50);
     }
 
     ajouterTour(type){
         switch (type) {
             case 'classique':
-                this.tour = new TourClassique(this.x, this.y);
-                break;
+                if (this.partie.golds >= this.prixTours[type]) {
+                    this.tour = new TourClassique({x:this.x, y:this.y}, this.partie); // Crée une nouvelle tour classique
+                    this.partie.towers.push(this.tour); // Ajoute la tour à la liste des tours
+                    return -1*this.prixTours[type]; // renvoie le coût de la tour
+                }else{
+                    console.error("Pas assez d'or pour acheter cette tour.");
+                    return 0; // Retourne 0 si l'or est insuffisant
+                }
             // Ajouter d'autres types de tours ici si nécessaire
             default:
                 console.error("Type de tour inconnu :", type);
+                return 0; // Retourne 0 si le type de tour est inconnu
         }
     }
 
 
-    actionsDuTour(ctx) {
+    actionsDuTour() {
         // Vérifie si une tour est déjà placée sur cet emplacement
         if (this.tour) {
-            console.log(this.tour);
-            this.tour.dessiner(ctx);
+            this.tour.dessiner(this.partie.ctx);
+            const ennemiProche = this.tour.chercherEnnemi(); // Cherche un ennemi à portée de la tour
+            if (ennemiProche) {
+                this.tour.tirer(ennemiProche);
+            }
+            this.tour.majBalles(this.partie.ctx);
         }else{
             // Si aucune tour n'est placée, dessine l'emplacement
-            this.dessiner(ctx);
+            this.dessiner(this.partie.ctx);
+        }
+    }
+
+    clicEmplacement(){
+        // Vérifie si une tour est déjà placée sur cet emplacement
+        if (this.tour) {
+            console.log("clic sur une tour.");
+            return 0; // Retourne l'or sans rien faire si une tour est déjà placée
+        } else {
+            return this.ajouterTour('classique'); // Ajoute une tour classique si l'emplacement est libre
         }
     }
 }

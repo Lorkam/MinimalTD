@@ -1,6 +1,7 @@
 
 export class Enemy {
-    constructor(chemin) {
+    constructor(chemin, partie) {
+        this.partie = partie; // Référence à la partie à laquelle appartient l'ennemi
         this.chemin = chemin;
         this.x = chemin[0].x;
         this.y = chemin[0].y;
@@ -17,7 +18,7 @@ export class Enemy {
     /**
      * Met à jour la position des ennemis en fonction du chemin.
      */
-    update(coeur) {
+    update() {
         const target = this.chemin[this.cheminIndex + 1];
         if (!target) return;
         const dx = target.x - this.x;
@@ -31,11 +32,13 @@ export class Enemy {
             this.y += (dy / dist) * this.speed;
         }
         if(this.pv <= 0) {// Si les points de vie de l'ennemi sont à 0 ou moins, il est considéré comme mort
+            this.mort('tour'); // Appelle la méthode mort pour gérer la mort de l'ennemi
             return false; // Indique que l'ennemi n'est plus en vie
         }else {
             if (this.cheminIndex >= this.chemin.length - 1) {
-                coeur.pv--; // Retire un point de vie au coeur du joueur
-                console.log("L'ennemi a atteint la fin du chemin : pv du coeur = " + coeur.pv);
+                this.partie.niveau.heart.pv--; // Retire un point de vie au coeur du joueur
+                console.log("L'ennemi a atteint la fin du chemin : pv du coeur = " + this.partie.niveau.heart.pv);
+                this.mort('coeur'); // Appelle la méthode mort pour gérer la mort de l'ennemi
                 return false; // Indique que l'ennemi n'est plus en vie
             }   
             return true; // Indique que l'ennemi est toujours en vie
@@ -70,13 +73,23 @@ export class Enemy {
     changeCouleur(couleur) {
         this.couleur = couleur;
     }
+
+    mort(type){
+        if (type=='tour') this.partie.golds += this.recompense; // Ajoute la récompense au joueur
+        // Si l'ennemi n'est plus en vie, on le retire de la liste
+        this.partie.nbEnnemisMorts++;
+        const index = this.partie.ennemies.indexOf(this);
+        if (index > -1) {
+            this.partie.ennemies.splice(index, 1);
+        }
+    }
 }
 
 export class EnemyClassique extends Enemy {
-    constructor(chemin) {
-        super(chemin);
+    constructor(chemin, partie) {
+        super(chemin, partie);
         this.couleur = 'red';
-        this.pvMax = 40;
+        this.pvMax = 20;
         this.pv = this.pvMax;
         this.taille = 10; // pour la détection de souris
         this.recompense = 2;
@@ -84,24 +97,67 @@ export class EnemyClassique extends Enemy {
 }
 
 export class EnemyTank extends Enemy {
-    constructor(chemin) {
-        super(chemin);
+    constructor(chemin, partie) {
+        super(chemin, partie);
         this.couleur = 'rgb(15, 89, 0)';
-        this.pvMax = 150;
+        this.pvMax = 100;
         this.pv = this.pvMax;
         this.taille = 10; // pour la détection de souris
         this.speed = 0.5;
         this.recompense = 4;
     }
 }
+
 export class EnemyRapide extends Enemy {
-    constructor(chemin) {
-        super(chemin);
+    constructor(chemin, partie) {
+        super(chemin, partie);
         this.couleur = 'rgb(184, 197, 0)';
-        this.pvMax = 20;
+        this.pvMax = 15;
         this.pv = this.pvMax;
         this.taille = 7; // pour la détection de souris
         this.speed = 3;
-        this.recompense = 3;
+        this.recompense = 1;
+    }
+
+    /**
+     * Dessine les ennemis sur le canvas sous forme de triangle pointant vers la direction de déplacement.
+     * @param {CanvasRenderingContext2D} ctx - Le canvas sur lequel dessiner.
+     */
+    draw(ctx) {
+        // Calculer la direction du mouvement
+        let angle = 0;
+        const target = this.chemin[this.cheminIndex + 1];
+        if (target) {
+            const dx = target.x - this.x;
+            const dy = target.y - this.y;
+            angle = Math.atan2(dy, dx);
+        }
+
+        ctx.save();
+        ctx.translate(this.x, this.y);
+        ctx.rotate(angle);
+
+        // Dessiner un triangle pointant vers la droite (0 radian)
+        ctx.beginPath();
+        ctx.moveTo(this.taille, 0); // pointe du triangle
+        ctx.lineTo(-this.taille, this.taille / 1.5);
+        ctx.lineTo(-this.taille, -this.taille / 1.5);
+        ctx.closePath();
+        ctx.fillStyle = this.couleur;
+        ctx.fill();
+
+        ctx.restore();
+
+        // Barre de vie
+        if (this.pv < this.pvMax) {
+            const barWidth = this.taille * 2;
+            const barHeight = 4;
+            const barX = this.x - this.taille;
+            const barY = this.y + this.taille + 4;
+            ctx.fillStyle = 'gray';
+            ctx.fillRect(barX, barY, barWidth, barHeight);
+            ctx.fillStyle = 'green';
+            ctx.fillRect(barX, barY, barWidth * (this.pv / this.pvMax), barHeight);
+        }
     }
 }

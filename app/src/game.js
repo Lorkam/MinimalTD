@@ -1,6 +1,7 @@
 import {niveaux} from "./map.js";
 import { EnemyClassique, EnemyTank, EnemyRapide } from "./enemy.js";
 import { TourClassique } from "./tower.js";
+import { Emplacement } from "./emplacement.js";
 
 
 export class Game {
@@ -8,6 +9,7 @@ export class Game {
         this.niveau = JSON.parse(JSON.stringify(niveaux[niveau])); // Copie profonde du niveau pour éviter les modifications directes
         this.ennemies = []; // Liste des ennemis
         this.ennemiesASpawn = {}; // Liste des ennemis
+        this.emplacements = []; // Liste des emplacements pour les tours
         this.towers = []; // Liste des tours
         this.projectiles = []; // Liste des projectiles
         this.heart = this.niveau.heart; // Copie profonde du coeur du joueur
@@ -26,7 +28,7 @@ export class Game {
         this.HTMLgolds = document.getElementById('golds');
 
         this.vague = vague; // Compteur de vagues
-        this.golds = 0; // Or du joueur
+        this.golds = 10; // Or du joueur
     
         this.totalEnnemis = 0; // Nombre total d'ennemis à spawn dans la vague
         this.nbEnnemisMorts = 0; // Compteur d'ennemis morts
@@ -76,13 +78,13 @@ export class Game {
                 let ennemi;
                 switch (type) {
                     case "classique":
-                        ennemi = new EnemyClassique(this.chemin); // Tu peux faire évoluer ça selon le type
+                        ennemi = new EnemyClassique(this.chemin, this); // Tu peux faire évoluer ça selon le type
                         break;
                     case "tank":
-                        ennemi = new EnemyTank(this.chemin); // Tu peux faire évoluer ça selon le type
+                        ennemi = new EnemyTank(this.chemin, this); // Tu peux faire évoluer ça selon le type
                         break;
                     case "rapide":
-                        ennemi = new EnemyRapide(this.chemin); // Tu peux faire évoluer ça selon le type
+                        ennemi = new EnemyRapide(this.chemin, this); // Tu peux faire évoluer ça selon le type
                         break;
                     default:
                         console.warn("Type d'ennemi inconnu :", type);
@@ -105,15 +107,7 @@ export class Game {
      */
     majEnnemis() {
         for (const enemy of this.ennemies) {
-            if (!enemy.update(this.niveau.heart)) {
-                // Si l'ennemi n'est plus en vie, on le retire de la liste
-                this.nbEnnemisMorts++;
-                this.golds += enemy.recompense; // Ajoute l'or gagné à la variable d'or
-                const index = this.ennemies.indexOf(enemy);
-                if (index > -1) {
-                    this.ennemies.splice(index, 1);
-                }
-            }else{
+            if (enemy.update()) {
                 enemy.draw(this.ctx);
             }
         }
@@ -144,25 +138,13 @@ export class Game {
         this.ctx.drawImage(this.imageCoeur, this.niveau.heart.x, this.niveau.heart.y, 50, 50);
     }
 
-    /**
-     * Met à jour et gère toutes les tours du jeu.
-     * 
-     * Pour chaque tour :
-     * - Dessine la tour sur le canvas.
-     * - Cherche l'ennemi le plus proche.
-     * - Tire sur l'ennemi le plus proche s'il y en a un.
-     * - Met à jour et dessine les balles de la tour.
-     */
-    surveillanceTours() {
-        for (const tower of this.towers) {
-            tower.dessiner(this.ctx);
-            const enemyProche = tower.chercherEnnemi(this.ennemies);
-            if (enemyProche) {
-                tower.tirer(enemyProche);
-            }
-            tower.majBalles(this.ctx);
+    gestionStructures() {
+        for (const emplacement of this.emplacements) {
+            emplacement.actionsDuTour();
         }
     }
+
+
 
     /**
      * Ajoute une tour au jeu en fonction du type et de l'emplacement spécifiés.
@@ -232,7 +214,7 @@ export class Game {
         // Spawn des ennemis
         if (this.jeuDemarre) this.spawnEnnemis();
     
-        this.surveillanceTours();
+        this.gestionStructures();
     
         // Maj des ennemis
         if (this.jeuDemarre) this.majEnnemis();
@@ -253,7 +235,7 @@ export class Game {
      */
     play(){
         for (const emplacement of this.niveau.emplacementsTower) {
-            this.ajouterTour('classique', emplacement);
+            this.emplacements.push(new Emplacement(emplacement, this)); // Ajoute l'emplacement à la liste des emplacements
         }
         this.canvas.addEventListener("mousemove", (e) => {
             const rect = this.canvas.getBoundingClientRect();
@@ -269,6 +251,22 @@ export class Game {
                     tower.afficherPortee = true; // Affiche la portée de la tour
                 } else {
                     tower.afficherPortee = false; // Masque la portée de la tour
+                }
+            }
+        });
+
+        this.canvas.addEventListener("click", (e) => {
+            const rect = this.canvas.getBoundingClientRect();
+            const mouseX = e.clientX - rect.left;
+            const mouseY = e.clientY - rect.top;
+
+            for (const emplacement of this.emplacements) {
+                const dx = mouseX - emplacement.x;
+                const dy = mouseY - emplacement.y;
+                const distance = Math.sqrt(dx * dx + dy * dy);
+
+                if (distance <= emplacement.taille / 2) {
+                    this.golds += emplacement.clicEmplacement(); // Gère le clic sur l'emplacement
                 }
             }
         });
