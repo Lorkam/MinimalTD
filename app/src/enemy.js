@@ -36,8 +36,8 @@ export class Enemy {
             return false; // Indique que l'ennemi n'est plus en vie
         }else {
             if (this.cheminIndex >= this.chemin.length - 1) {
-                this.partie.niveau.heart.pv--; // Retire un point de vie au coeur du joueur
-                console.log("L'ennemi a atteint la fin du chemin : pv du coeur = " + this.partie.niveau.heart.pv);
+                this.partie.heartPV--; // Retire un point de vie au coeur du joueur
+                console.log("L'ennemi a atteint la fin du chemin : pv du coeur = " + this.partie.heartPV);
                 this.mort('coeur'); // Appelle la méthode mort pour gérer la mort de l'ennemi
                 return false; // Indique que l'ennemi n'est plus en vie
             }   

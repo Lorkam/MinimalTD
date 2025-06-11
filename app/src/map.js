@@ -8,7 +8,7 @@ export const niveaux = {
       { x: 780, y: 260 },
       { x: 890, y: 340 }
     ],
-    heart: { x: 1005, y: 277, pv: 3 },
+    heart: { x: 1005, y: 277},
     vagues: [
       {
         ennemis: [
@@ -19,7 +19,6 @@ export const niveaux = {
       {
         ennemis: [
           { type: "classique", nb: 4, intervale: 1250 },
-          { type: "tank", nb: 1, intervale: 1000 },
         ],
         derniereVague: false
       },
@@ -37,7 +36,7 @@ export const niveaux = {
       },
       {
         ennemis: [
-          { type: "rapide", nb: 20, intervale: 400 }
+          { type: "rapide", nb: 20, intervale: 300 }
         ],
         derniereVague: true
       },
@@ -51,7 +50,7 @@ export const niveaux = {
       { x: 700, y: 210 },
       { x: 860, y: 290 }
     ],
-    heart: { x: 875, y: 460, pv: 3 },
+    heart: { x: 875, y: 460},
     vagues: [
       {
         ennemis: [

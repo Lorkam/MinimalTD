@@ -4,7 +4,7 @@ import { TourClassique } from "./tower.js";
 import { Emplacement } from "./emplacement.js";
 
 
-export class Game {
+export class Partie {
     constructor(niveau, vague=1) {
         this.niveau = JSON.parse(JSON.stringify(niveaux[niveau])); // Copie profonde du niveau pour éviter les modifications directes
         this.ennemies = []; // Liste des ennemis
@@ -12,7 +12,8 @@ export class Game {
         this.emplacements = []; // Liste des emplacements pour les tours
         this.towers = []; // Liste des tours
         this.projectiles = []; // Liste des projectiles
-        this.heart = this.niveau.heart; // Copie profonde du coeur du joueur
+        this.heartPos = this.niveau.heart; // Copie profonde du coeur du joueur
+        this.heartPV = 3; // Copie profonde du coeur du joueur
         
         this.canvas = document.getElementById('gameCanvas');
         this.ctx = this.canvas.getContext('2d');
@@ -52,8 +53,6 @@ export class Game {
             };
             this.totalEnnemis += typeEnemy.nb; // Ajoute le nombre d'ennemis à spawn au total
         }
-        console.log('liste des ennemis à spawn pour la vague ' + this.vague + ':');
-        console.log(this.ennemiesASpawn);
     }
 
     /**
@@ -133,9 +132,9 @@ export class Game {
         // Affichage du coeur
         this.ctx.beginPath();
         this.ctx.fillStyle = "white";
-        this.ctx.arc(this.niveau.heart.x+25, this.niveau.heart.y+22, 35, 0, Math.PI * 2);
+        this.ctx.arc(this.heartPos.x+25, this.heartPos.y+22, 35, 0, Math.PI * 2);
         this.ctx.fill();
-        this.ctx.drawImage(this.imageCoeur, this.niveau.heart.x, this.niveau.heart.y, 50, 50);
+        this.ctx.drawImage(this.imageCoeur, this.heartPos.x, this.heartPos.y, 50, 50);
     }
 
     gestionStructures() {
@@ -180,7 +179,7 @@ export class Game {
     verifChangementVague() {
         const lancerVagueBtn = document.getElementById('lancerVagueBtn');
         if (this.nbEnnemisMorts == this.totalEnnemis && this.niveau.vagues[this.vague - 1].derniereVague==false) {
-            console.log("Fin de la vague " + (this.vague - 1) + ", passage à la vague " + this.vague);
+            console.log("Fin de la vague " + (this.vague ) + ", passage à la vague " + (this.vague+1));
             this.vague++;
             this.initialisationVague();
             lancerVagueBtn.disabled = false; // Réactive le bouton pour la prochaine vague
@@ -193,7 +192,7 @@ export class Game {
             lancerVagueBtn.disabled = false;
             document.getElementById('divEcranSombre').style.display = 'flex'; // Affiche l'image de victoire
             document.getElementById('divImgVictoire').style.display = 'flex'; // Affiche l'image de victoire
-        }else if(this.niveau.heart.pv <= 0) {
+        }else if(this.heartPV <= 0) {
             console.log("Game Over ! Vous avez perdu !");
             this.jeuDemarre = false; // Indique que le jeu n'est plus en cours
             this.jeuTermine = true; // Indique que le jeu est terminé

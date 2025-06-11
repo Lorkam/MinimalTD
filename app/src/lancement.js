@@ -1,17 +1,17 @@
-import { Game } from "./game.js";
+import { Partie } from "./game.js";
 
-const parametreGame = ['Niveau 1', 1]; // Paramètres du jeu, par exemple le niveau et la difficulté
-let game = new Game(parametreGame[0], parametreGame[1]); // Création d'une instance de Game avec les paramètres
-game.play();
+const parametrePartie = ['Niveau 1', 1]; // Paramètres du jeu, par exemple le niveau et la difficulté
+let partie = new Partie(parametrePartie[0], parametrePartie[1]); // Création d'une instance de Partie avec les paramètres
+partie.play();
 
 function reset() {
     console.log("Réinitialisation du niveau");
     document.getElementById('divEcranSombre').style.display = 'none';
     document.getElementById('divImgVictoire').style.display = 'none';
     document.getElementById('divImgDefaite').style.display = 'none';
-    game = null;
-    game = new Game(parametreGame[0], parametreGame[1]);
-    game.play();
+    partie = null;
+    partie = new Partie(parametrePartie[0], parametrePartie[1]);
+    partie.play();
 }
 
 document.getElementById('btnRejouerVictoire').addEventListener('click', reset);
