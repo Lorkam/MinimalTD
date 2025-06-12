@@ -56,7 +56,7 @@
     <script>
         const date = new Date().getTime();
         const logiqueJS = document.createElement('script');
-        logiqueJS.src = '../src/lancement.js?v=' + date; // cache buster avec timestamp
+        logiqueJS.src = '../src/partie/lancement.js?v=' + date; // cache buster avec timestamp
         logiqueJS.type = 'module';
         document.getElementById('script-container').appendChild(logiqueJS);
     </script>
