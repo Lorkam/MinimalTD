@@ -36,11 +36,11 @@ export class Noeud {
     estCache() {
         return (this.imgtechnoDebloquee.classList.contains('cachee') && this.imgtechnoBloquee.classList.contains('cachee') && this.imgtechnoHiden.classList.contains('cachee'));
     }
+
     decouvrir() {
         this.imgtechnoHiden.classList.remove('cachee');
         this.imgtechnoHiden.classList.add('apparition');
     }
-    
     decouvrirMieux() {
         // Disparition de l'image "hidden"
         this.imgtechnoHiden.classList.add('cachee');
@@ -49,7 +49,6 @@ export class Noeud {
         this.imgtechnoBloquee.classList.remove('cachee');
         this.imgtechnoBloquee.classList.add('apparition');
     }
-    
     debloquer() {
         // Placeholder for unlocking the node
         this.imgtechnoBloquee.classList.remove('apparition');
