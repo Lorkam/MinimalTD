@@ -1,3 +1,9 @@
+body{
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+}
+
 .imgArbreTechno{
     width: 50px;
     height: 50px;
@@ -5,6 +11,13 @@
 .noeud{
     width: min-content;
     height: min-content;
+    z-index: 10;
+}
+canvas{
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 9; /* pour que le canvas soit derrière les noeuds */
 }
 
 /* positionnement des noeuds */
@@ -50,6 +63,7 @@
     left: 45%;
     transform: translate(-50%, -50%);
 }
+
 .cachee{
     position: absolute;
     opacity: 0;
@@ -86,4 +100,19 @@
     100% {
         opacity: 1;
     }
+}
+#divInfoNoeud{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 180px;
+    height: 80px;
+    border: 2px solid rgb(0, 57, 133);
+    border-radius: 20px;
+    background-color: rgba(216, 233, 255, 0.863);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    pointer-events: none; /* pour que les clics passent à travers */
+
 }
