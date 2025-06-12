@@ -15,13 +15,24 @@
 </head>
 <body>
     <div class="arbre">
-        <div class="noeud" id="centre"><img class="imgArbreTechno" src="../assets/img/technoDebloquee.png"><img class="imgArbreTechno" src="../assets/img/technoBloquee.png"></div>
-        <div class="noeud" id="vitesseAttaque"><img class="imgArbreTechno" src="../assets/img/vitesseAttaqueDebloquee.png"><img class="imgArbreTechno" src="../assets/img/vitesseAttaqueBloquee.png"></div>
-        <div class="noeud" id="degats"><img class="imgArbreTechno" src="../assets/img/augmDegatsDebloquee.png"><img class="imgArbreTechno" src="../assets/img/augmDegatsBloquee.png"></div>
-        <div class="noeud" id="orDeDepart"><img class="imgArbreTechno" src="../assets/img/orDepartDebloquee.png"><img class="imgArbreTechno" src="../assets/img/orDepartBloquee.png"></div>
-        <div class="noeud" id="lvlUpTours"><img class="imgArbreTechno" src="../assets/img/lvlUpDebloquee.png"><img class="imgArbreTechno" src="../assets/img/lvlUpBloquee.png"></div>
-        <div class="noeud" id="critRate"><img class="imgArbreTechno" src="../assets/img/technoDebloquee.png"><img class="imgArbreTechno" src="../assets/img/technoHiden.png"></div>
-        <div class="noeud" id="critDamage"><img class="imgArbreTechno" src="../assets/img/technoDebloquee.png"><img class="imgArbreTechno" src="../assets/img/technoHiden.png"></div>
+        <div class="noeud" id="centre"><img class="imgArbreTechno debloquee cachee" src="../assets/img/technoDebloquee.png"><img class="imgArbreTechno bloquee" src="../assets/img/technoBloquee.png"></div>
+        <div class="noeud" id="vitesseAttaque"><img class="imgArbreTechno debloquee cachee" src="../assets/img/vitesseAttaqueDebloquee.png"><img class="imgArbreTechno bloquee cachee" src="../assets/img/vitesseAttaqueBloquee.png"><img class="imgArbreTechno hiden" src="../assets/img/technoHiden.png"></div>
+        <div class="noeud" id="degats"><img class="imgArbreTechno debloquee cachee" src="../assets/img/augmDegatsDebloquee.png"><img class="imgArbreTechno bloquee cachee" src="../assets/img/augmDegatsBloquee.png"><img class="imgArbreTechno hiden" src="../assets/img/technoHiden.png"></div>
+        <div class="noeud" id="orDeDepart"><img class="imgArbreTechno debloquee cachee" src="../assets/img/orDepartDebloquee.png"><img class="imgArbreTechno bloquee cachee" src="../assets/img/orDepartBloquee.png"><img class="imgArbreTechno hiden" src="../assets/img/technoHiden.png"></div>
+        <div class="noeud" id="lvlUpTours"><img class="imgArbreTechno debloquee cachee" src="../assets/img/lvlUpDebloquee.png"><img class="imgArbreTechno bloquee cachee" src="../assets/img/lvlUpBloquee.png"><img class="imgArbreTechno hiden" src="../assets/img/technoHiden.png"></div>
+        <div class="noeud" id="critRate"><img class="imgArbreTechno debloquee cachee" src="../assets/img/critRateDebloquee.png"><img class="imgArbreTechno bloquee cachee" src="../assets/img/critRateBloquee.png"><img class="imgArbreTechno hiden" src="../assets/img/technoHiden.png"></div>
+        <div class="noeud" id="critDamage"><img class="imgArbreTechno debloquee cachee" src="../assets/img/critDmgDebloquee.png"><img class="imgArbreTechno bloquee cachee" src="../assets/img/critDmgBloquee.png"><img class="imgArbreTechno hiden" src="../assets/img/technoHiden.png"></div>
     </div>
+
+
+
+    <div id="script-container"></div>
+    <script>
+        const date = new Date().getTime();
+        const logiqueJS = document.createElement('script');
+        logiqueJS.src = '../src/technologies/script.js?v=' + date; // cache buster avec timestamp
+        logiqueJS.type = 'module';
+        document.getElementById('script-container').appendChild(logiqueJS);
+    </script>
 </body>
 </html>

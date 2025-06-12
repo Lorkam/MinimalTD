@@ -32,6 +32,11 @@ export class Partie {
     
         this.totalEnnemis = 0; // Nombre total d'ennemis à spawn dans la vague
         this.nbEnnemisMorts = 0; // Compteur d'ennemis morts
+
+        document.addEventListener('contextmenu', function (e) {
+            e.preventDefault();
+        });
+
     }
 
     /**
