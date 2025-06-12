@@ -7,7 +7,7 @@ export class Emplacement {
         this.y = position['y']; // Position Y de l'emplacement
         this.taille = 30; // Taille de l'emplacement
         this.image = new Image();
-        this.image.src = './app/assets/img/emplacement.png';
+        this.image.src = '../assets/img/emplacement.png';
         this.tour = null; // Tour placée sur cet emplacement (null si aucune)
         this.prixTours = {'classique': 10}; // Prix des tours
     }

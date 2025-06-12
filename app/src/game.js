@@ -1,6 +1,5 @@
-import {niveaux} from "./map.js";
+import { niveaux } from "./map.js";
 import { EnemyClassique, EnemyTank, EnemyRapide } from "./enemy.js";
-import { TourClassique } from "./tower.js";
 import { Emplacement } from "./emplacement.js";
 
 
@@ -19,7 +18,7 @@ export class Partie {
         this.ctx = this.canvas.getContext('2d');
         this.chemin = this.niveau.chemin;
         this.imageCoeur = new Image();
-        this.imageCoeur.src = './app/assets/img/heart.png';
+        this.imageCoeur.src = '../assets/img/heart.png';
         this.chemin = this.niveau.chemin;
         this.jeuDemarre = false; // Indique si le jeu a démarré
         this.jeuTermine = false; // Indique si le jeu a démarré
@@ -29,7 +28,7 @@ export class Partie {
         this.HTMLgolds = document.getElementById('golds');
 
         this.vague = vague; // Compteur de vagues
-        this.golds = 10; // Or du joueur
+        this.golds = 100; // Or du joueur
     
         this.totalEnnemis = 0; // Nombre total d'ennemis à spawn dans la vague
         this.nbEnnemisMorts = 0; // Compteur d'ennemis morts
@@ -143,26 +142,6 @@ export class Partie {
         }
     }
 
-
-
-    /**
-     * Ajoute une tour au jeu en fonction du type et de l'emplacement spécifiés.
-     *
-     * @param {string} type - Le type de la tour à ajouter (par exemple, 'classique').
-     * @param {*} emplacement - L'emplacement où la tour doit être placée.
-     */
-    ajouterTour(type, emplacement) {
-        let tower;
-        switch (type) {
-            case 'classique':
-                tower = new TourClassique(emplacement);
-                break;
-            default:
-                console.error("Type de tour inconnu :", type);
-        }
-        this.towers.push(tower);
-    }
-
     /**
      * Met à jour l'interface utilisateur pour refléter l'état actuel du jeu,
      * notamment le numéro de la vague, le nombre d'ennemis restants et le nombre d'ennemis morts.
@@ -241,15 +220,15 @@ export class Partie {
             const mouseX = e.clientX - rect.left;
             const mouseY = e.clientY - rect.top;
 
-            for (const tower of this.towers) {
-                const dx = mouseX - tower.position.x;
-                const dy = mouseY - tower.position.y;
+            for (const emplacement of this.emplacements) {
+                const dx = mouseX - emplacement.x;
+                const dy = mouseY - emplacement.y;
                 const distance = Math.sqrt(dx * dx + dy * dy);
 
                 if (distance <= 20) {
-                    tower.afficherPortee = true; // Affiche la portée de la tour
+                    if (emplacement.tour) emplacement.tour.afficherPortee = true; // Affiche la portée de la tour
                 } else {
-                    tower.afficherPortee = false; // Masque la portée de la tour
+                    if (emplacement.tour) emplacement.tour.afficherPortee = false; // Masque la portée de la tour
                 }
             }
         });

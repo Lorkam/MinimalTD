@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Technologies</title>
+    <div id="style-container"></div>
+    <script>
+        const dateCSS = new Date().getTime();
+        const logiqueCSS = document.createElement('link');
+        logiqueCSS.href = '../css/styleTechnologies.css?v=' + dateCSS; // cache buster avec timestamp
+        logiqueCSS.rel = 'stylesheet';
+        document.getElementById('style-container').appendChild(logiqueCSS);
+    </script>
+</head>
+<body>
+    <div class="arbre">
+        <div class="noeud">aze</div>
+        <div class="noeud">aze</div>
+        <div class="noeud">aze</div>
+        <div class="noeud">aze</div>
+        <div class="noeud">aze</div>
+        <div class="noeud">aze</div>
+        <div class="noeud">aze</div>
+    </div>
+</body>
+</html>

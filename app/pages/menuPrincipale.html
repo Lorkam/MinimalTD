@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mini Tower Defense</title>
+    <div id="style-container"></div>
+    <script>
+        const dateCSS = new Date().getTime();
+        const logiqueCSS = document.createElement('link');
+        logiqueCSS.href = '../css/style.css?v=' + dateCSS; // cache buster avec timestamp
+        logiqueCSS.rel = 'stylesheet';
+        document.getElementById('style-container').appendChild(logiqueCSS);
+    </script>
+</head>
+<body>
+    <div class="flex-column">
+        <form id="formNiveau" action="partie.php" method="post">
+            <h1>Mini Tower Defense</h1>
+            <div class="flex-row">
+                <select id="niveau" name="niveau">
+                    <option value="Niveau 1">Niveau 1</option>
+                    <option value="Niveau 2">Niveau 2</option>
+                    <option value="Niveau 3">Niveau 3</option>
+                    <option value="Niveau 4">Niveau 4</option>
+                    <option value="Niveau 5">Niveau 5</option>
+                <input type="submit" value="Jouer">
+            </div>
+        </form>
+        <button id="btnTechnologies" onclick="window.location.href='technologies.html'">Technologies</button>
+
+
+
+
+
+
+    <div id="script-container"></div>
+    <script>
+        const dateJS = new Date().getTime();
+        const logiqueJS = document.createElement('script');
+        logiqueJS.src = '../src/lancement.js?v=' + dateJS; // cache buster avec timestamp
+        logiqueJS.type = 'module';
+        document.getElementById('script-container').appendChild(logiqueJS);
+    </script>
+</body>
+</html>
