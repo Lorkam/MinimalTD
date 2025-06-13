@@ -237,6 +237,8 @@ export class Partie {
                 }
             }
         });
+        console.log('ctx :');
+        console.log(this.ctx);
 
         this.canvas.addEventListener("click", (e) => {
             const rect = this.canvas.getBoundingClientRect();

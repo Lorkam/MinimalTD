@@ -22,10 +22,17 @@ class MenuTechnologies {
         document.addEventListener('contextmenu', function (e) {
             e.preventDefault();
         });
+        // Ajustement de la taille du canvas
+        window.addEventListener('resize', () => {
+            this.canvas.width = window.innerWidth;
+            this.canvas.height = window.innerHeight;
+            this.dessinerLiensNoeuds();
+        });
     }
 
 
     dessinerLiensNoeuds() {
+        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
         for(const noeud of this.noeuds) {
             const positionNoeud = noeud.getPosition();
 
@@ -48,10 +55,12 @@ class MenuTechnologies {
                 this.ctx.lineWidth = 2;
                 this.ctx.stroke();
             }
-            this.ctx.beginPath();
-            this.ctx.arc(posNoeudX, posNoeudY-2, 24, 0, Math.PI * 2);
-            this.ctx.fillStyle = 'white';
-            this.ctx.fill();
+            if (!noeud.estCache()){
+                this.ctx.beginPath();
+                this.ctx.arc(posNoeudX, posNoeudY-2, 30, 0, Math.PI * 2);
+                this.ctx.fillStyle = '#ffffff';
+                this.ctx.fill();
+            }
         }
     }
 }

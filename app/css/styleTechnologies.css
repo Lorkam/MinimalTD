@@ -5,8 +5,8 @@ body{
 }
 
 .imgArbreTechno{
-    width: 50px;
-    height: 50px;
+    width: 60px;
+    height: 60px;
 }
 .noeud{
     width: min-content;
@@ -14,10 +14,11 @@ body{
     z-index: 10;
 }
 canvas{
+    background: #cfcfcf;
     position: absolute;
     top: 0;
     left: 0;
-    z-index: 9; /* pour que le canvas soit derrière les noeuds */
+    z-index: -1; /* pour que le canvas soit derrière les noeuds */
 }
 
 /* positionnement des noeuds */
@@ -29,37 +30,37 @@ canvas{
 }
 #vitesseAttaque{
     position: absolute;
-    top: 60%;
+    top: 65%;
     left: 40%;
     transform: translate(-50%, -50%);
 }
 #degats{
     position: absolute;
-    top: 40%;
+    top: 35%;
     left: 40%;
     transform: translate(-50%, -50%);
 }
 #orDeDepart{
     position: absolute;
-    top: 40%;
+    top: 35%;
     left: 60%;
     transform: translate(-50%, -50%);
 }
 #lvlUpTours{
     position: absolute;
-    top: 60%;
+    top: 65%;
     left: 60%;
     transform: translate(-50%, -50%);
 }
 #critRate{
     position: absolute;
-    top: 25%;
+    top: 20%;
     left: 35%;
     transform: translate(-50%, -50%);
 }
 #critDamage{
     position: absolute;
-    top: 25%;
+    top: 20%;
     left: 45%;
     transform: translate(-50%, -50%);
 }
@@ -107,12 +108,67 @@ canvas{
     left: 0;
     width: 180px;
     height: 80px;
-    border: 2px solid rgb(0, 57, 133);
     border-radius: 20px;
-    background-color: rgba(216, 233, 255, 0.863);
+    background-color: #fcfcfc;
+    border: 2px solid #000000;
     display: flex;
     justify-content: center;
     align-items: center;
     pointer-events: none; /* pour que les clics passent à travers */
-
+    z-index: 11; /* pour que le divInfoNoeud soit au-dessus des noeuds */
+}
+#divRetourMenuPrincipale{
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    width: min-content;
+    height: min-content;
+    padding: 10px;
+    border-radius: 20px;
+    background-color: #fcfcfc;
+    border: 2px solid #000000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    pointer-events: auto; /* pour que les clics soient captés */
+    img{
+        width: 30px;
+        height: 30px;
+    }
+}
+#divMonaies{
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: min-content;
+    height: min-content;
+    padding: 10px;
+    border-radius: 20px;
+    background-color: #fcfcfc;
+    border: 2px solid #000000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    pointer-events: auto; /* pour que les clics soient captés */
+}
+.flex-column{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.flex-row{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+#divTriangles, #divRonds{
+    margin: 3px;
+    font-size: 20px;
+    img{
+        margin-left: 5px;
+        width: 30px;
+        height: 30px;
+    }
 }
