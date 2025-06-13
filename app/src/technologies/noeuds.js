@@ -80,14 +80,12 @@ export class Noeud {
     }
 
     afficherInfo(){
-        console.log(`Afficher`);
         this.divInfoNoeud.style.top = `${this.divElementHTML.offsetTop - this.divInfoNoeud.offsetHeight - 35}px`;
         this.divInfoNoeud.style.left = `${this.divElementHTML.offsetLeft - (this.divInfoNoeud.offsetWidth/2)}px`;
         this.divInfoNoeud.classList.remove('cachee');
         this.divInfoNoeud.classList.add('apparition');
     }
     cacherInfo() {
-        console.log(`Cacher`);
         this.divInfoNoeud.classList.remove('apparition');
         this.divInfoNoeud.classList.add('cachee');
     }

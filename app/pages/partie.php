@@ -15,6 +15,7 @@
 </head>
 <body>
     <input type="hidden" id="niveauChoisi" value="<?php echo $_POST['niveau']; ?>">
+    <div id="divRetourMenuPrincipale" onclick="window.location.href='menuPrincipale.html'"><img src="../assets/img/maison.png"></div>
     <canvas id="gameCanvas" width="1550" height="710"></canvas>
 
 

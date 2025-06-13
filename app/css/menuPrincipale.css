@@ -11,6 +11,7 @@ body{
     background-position: center;
     background-repeat: no-repeat;
     background-attachment: fixed;
+    font-family: 'Franklin Gothic Medium';
 }
 .flex-row{
   display : flex;
@@ -30,17 +31,41 @@ body{
     top: 20%;
     left: 5%;
     width: 30%;
-    height: 70%;
+    height: 60%;
     background-color: #fcfcfcee;
     border: 3px solid #000000;
     border-radius: 30px;
+    padding-bottom: 10px;
 }
+#listeBtnPrincipaux{
+    height: 100%;
+    justify-content: space-evenly;
+}
+h1{
+    text-align: center;
+    font-size: 38px;
+}
+.btnMenuPrincipale{
+    width: 90%;
+    height: min-content;
+    font-size: 30px;
+    font-weight: bold;
+    border: 2px solid #000000;
+    border-radius: 15px;
+}
+.btnMenuPrincipale:hover{
+    background-color: #dbdbdb;
+    color: #000000;
+    cursor: pointer;
+}
+
+/* Menu du milieu */
 #menuMilieu{
     position: absolute; 
     top: 20%;
     left: 40%;
     width: 30%;
-    height: 70%;
+    height: 60%;
     background-color: #fcfcfcee;
     border: 3px solid #000000;
     border-radius: 30px;
@@ -56,24 +81,118 @@ body{
     opacity: 1;
     visibility: visible;
     pointer-events: auto;
-    animation: apparition 0.5s ease-in-out forwards;
+    animation: apparitionMenuJouer 0.5s ease-in-out forwards;
 }
-@keyframes apparition {
+@keyframes apparitionMenuJouer {
     0% {
-        transform: translate(-110%, 5%) scale(0);
+        transform: translate(-75%, 5%) scale(0);
     }
     100% {
         transform: translate(0, 0) scale(1);
     }
 }
 .disparition {
-    animation: disparition 0.5s ease-in-out forwards;
+    animation: disparitionMenuJouer 0.5s ease-in-out forwards;
 }
-@keyframes disparition {
+@keyframes disparitionMenuJouer {
     0% {
         transform: translate(0, 0) scale(1);
     }
     100% {
-        transform: translate(-110%, 5%) scale(0);
+        transform: translate(-75%, 5%) scale(0);
     }
+}
+/*  Animations du choix du niveau  */
+h2{
+    text-align: center;
+    font-size: 30px;
+    margin-top: 20px;
+}
+#divContainerNiveaux{
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+#divNiveaux{
+    width: 1000px;
+    position: absolute;
+    left: 35%;
+    bottom: 60px;
+    text-align: center;
+    font-size: 30px;
+    justify-content: space-between;
+}
+.from1To2{
+    animation: from1To2 0.5s ease-in-out forwards;
+}
+@keyframes from1To2 {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(-45%);
+    }
+}
+.from2To3{
+    animation: from2To3 0.5s ease-in-out forwards;
+}
+@keyframes from2To3 {
+    0% {
+        transform: translateX(-45%);
+    }
+    100% {
+        transform: translateX(-89%);
+    }
+}
+.from3To2{
+    animation: from3To2 0.5s ease-in-out forwards;
+}
+@keyframes from3To2 {
+    0% {
+        transform: translateX(-89%);
+    }
+    100% {
+        transform: translateX(-45%);
+    }
+}
+.from2To1{
+    animation: from2To1 0.5s ease-in-out forwards;
+}
+@keyframes from2To1 {
+    0% {
+        transform: translateX(-45%);
+    }
+    100% {
+        transform: translateX(0);
+    }
+}
+.fleche{
+    position: absolute;
+    bottom: 55px;
+    width: min-content;
+    height: min-content;
+    background-color: #00000000;
+    border: none;
+    font-size: 30px;
+    img{
+        width: 30px;
+        height: 30px;
+    }
+}
+#flecheGauche{
+    left: 10px;
+}
+#flecheDroite{
+    right: 10px;
+}
+#btnLancerNiveau{
+    position: absolute;
+    bottom: 10px;
+    left: 5%;
+    width: 90%;
+    height: min-content;
+    font-size: 30px;
+    font-weight: bold;
+    border: 2px solid #000000;
+    border-radius: 15px;
 }

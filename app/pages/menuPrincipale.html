@@ -14,13 +14,18 @@
     </script>
 </head>
 <body>
-    <div class="flex-column" id="menuGauche">
-        <h1>Mini Tower Defense</h1>
-        <button id="btnJouer">Jouer</button>
-        <button id="btnTechnologies" onclick="window.location.href='technologies.html'">Technologies</button>
+    <div id="menuGauche">
+        <div class="flex-column" id="listeBtnPrincipaux">
+            <h1>Mini Tower Defense</h1>
+            <button id="btnJouer" class="btnMenuPrincipale">Jouer</button>
+            <button id="btnTechnologies" class="btnMenuPrincipale" onclick="window.location.href='technologies.html'">Technologies</button>
+            <button id="btnSauvegarder" class="btnMenuPrincipale">Sauvegarder</button>
+            <button id="btnChargerSave" class="btnMenuPrincipale">Charger une sauvegarde</button>
+            <button id="btnCredits" class="btnMenuPrincipale">Crédits</button>
+        </div>
     </div>
     <div class="flex-column cachee" id="menuMilieu">
-        <form id="formNiveau" action="partie.php" method="post">
+        <form id="formNiveau" action="partie.php" method="post" style="display: none;">
             <div class="flex-row">
                 <select id="niveau" name="niveau">
                     <option value="Niveau 1">Niveau 1</option>
@@ -31,6 +36,13 @@
                 <input type="submit" value="Jouer">
             </div>
         </form>
+        <div id="divContainerNiveaux">
+            <h2>Choisissez un niveau</h2>
+            <div class="flex-row" id="divNiveaux"><span>Niveau 1</span><span>Niveau 2</span><span>Niveau 3</span></div>
+            <button id="flecheGauche" class="fleche"><img src="../assets/img/flecheGauche.png"></button>
+            <button id="flecheDroite" class="fleche"><img src="../assets/img/flecheDroite.png"></button>
+            <button id="btnLancerNiveau">Lancer le Niveau</button>
+        </div>
     </div>
 
 

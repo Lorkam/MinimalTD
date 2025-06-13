@@ -10,7 +10,25 @@ canvas {
   margin: 0;
   z-index: 2;
 }
-
+#divRetourMenuPrincipale{
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    width: min-content;
+    height: min-content;
+    padding: 10px;
+    border-radius: 20px;
+    background-color: #fcfcfc;
+    border: 2px solid #000000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    pointer-events: auto; /* pour que les clics soient captés */
+    img{
+        width: 30px;
+        height: 30px;
+    }
+}
 #lancerVagueBtn{
     position: absolute; 
     font-size: 20px;
@@ -28,7 +46,7 @@ canvas {
     background-color: #fcfcfc;
     border: 2px solid #000000;
     border-radius: 10px;
-    top: 20px; 
+    top: 80px; 
     left: 10px;
     p{
       margin: 0;
