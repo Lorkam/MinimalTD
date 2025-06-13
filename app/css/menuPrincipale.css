@@ -1,0 +1,79 @@
+
+body{
+    margin: 0;
+    padding: 0;
+    width: 100VW;
+    height: 100VH;
+    overflow: hidden;
+    background-color: #cfcfcf;
+    background-image: url('../assets/img/fondMainMenu.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+.flex-row{
+  display : flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+.flex-column{
+  display : flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+#menuGauche{
+    position: absolute; 
+    top: 20%;
+    left: 5%;
+    width: 30%;
+    height: 70%;
+    background-color: #fcfcfcee;
+    border: 3px solid #000000;
+    border-radius: 30px;
+}
+#menuMilieu{
+    position: absolute; 
+    top: 20%;
+    left: 40%;
+    width: 30%;
+    height: 70%;
+    background-color: #fcfcfcee;
+    border: 3px solid #000000;
+    border-radius: 30px;
+}
+.cachee{
+    position: absolute;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    top: -9999px; /* fais dégager de l'écran */
+}
+.apparition {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    animation: apparition 0.5s ease-in-out forwards;
+}
+@keyframes apparition {
+    0% {
+        transform: translate(-110%, 5%) scale(0);
+    }
+    100% {
+        transform: translate(0, 0) scale(1);
+    }
+}
+.disparition {
+    animation: disparition 0.5s ease-in-out forwards;
+}
+@keyframes disparition {
+    0% {
+        transform: translate(0, 0) scale(1);
+    }
+    100% {
+        transform: translate(-110%, 5%) scale(0);
+    }
+}

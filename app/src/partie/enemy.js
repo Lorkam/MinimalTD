@@ -1,10 +1,10 @@
 
 export class Enemy {
-    constructor(chemin, partie) {
+    constructor(partie) {
         this.partie = partie; // Référence à la partie à laquelle appartient l'ennemi
-        this.chemin = chemin;
-        this.x = chemin[0].x;
-        this.y = chemin[0].y;
+        this.chemin = partie.chemin;
+        this.x = this.chemin[0].x;
+        this.y = this.chemin[0].y;
         this.speed = 1;
         this.cheminIndex = 0;
         this.distanceParcourue = 0; // Distance parcourue par l'ennemi
@@ -86,8 +86,8 @@ export class Enemy {
 }
 
 export class EnemyClassique extends Enemy {
-    constructor(chemin, partie) {
-        super(chemin, partie);
+    constructor( partie) {
+        super(partie);
         this.couleur = 'red';
         this.pvMax = 20;
         this.pv = this.pvMax;
@@ -97,8 +97,8 @@ export class EnemyClassique extends Enemy {
 }
 
 export class EnemyTank extends Enemy {
-    constructor(chemin, partie) {
-        super(chemin, partie);
+    constructor(partie) {
+        super(partie);
         this.couleur = 'rgb(15, 89, 0)';
         this.pvMax = 100;
         this.pv = this.pvMax;
@@ -109,8 +109,8 @@ export class EnemyTank extends Enemy {
 }
 
 export class EnemyRapide extends Enemy {
-    constructor(chemin, partie) {
-        super(chemin, partie);
+    constructor(partie) {
+        super(partie);
         this.couleur = 'rgb(184, 197, 0)';
         this.pvMax = 15;
         this.pv = this.pvMax;

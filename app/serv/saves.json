@@ -1,0 +1,18 @@
+{
+    "saves": {
+        "test": {
+            "description": "sauvegarde de test",
+            "monaies": {"triangles": 42, "ronds": 7},
+            "niveauxCompletes": {"Niveau 1": true, "Niveau 2": false, "Niveau 3": false},
+            "dateCreation": "2025-06-01",
+            "dateDerniereSave": "2025-06-14"
+        },
+        "save1": {
+            "description": "save 1",
+            "monaies": {"triangles": 0, "ronds": 0},
+            "niveauxCompletes": {"Niveau 1": false, "Niveau 2": false, "Niveau 3": false},
+            "dateCreation": "2025-06-01",
+            "dateDerniereSave": "2025-06-14"
+        }
+    }
+}

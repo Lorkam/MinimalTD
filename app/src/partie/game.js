@@ -81,13 +81,13 @@ export class Partie {
                 let ennemi;
                 switch (type) {
                     case "classique":
-                        ennemi = new EnemyClassique(this.chemin, this); // Tu peux faire évoluer ça selon le type
+                        ennemi = new EnemyClassique(this); // Tu peux faire évoluer ça selon le type
                         break;
                     case "tank":
-                        ennemi = new EnemyTank(this.chemin, this); // Tu peux faire évoluer ça selon le type
+                        ennemi = new EnemyTank(this); // Tu peux faire évoluer ça selon le type
                         break;
                     case "rapide":
-                        ennemi = new EnemyRapide(this.chemin, this); // Tu peux faire évoluer ça selon le type
+                        ennemi = new EnemyRapide(this); // Tu peux faire évoluer ça selon le type
                         break;
                     default:
                         console.warn("Type d'ennemi inconnu :", type);
@@ -237,8 +237,6 @@ export class Partie {
                 }
             }
         });
-        console.log('ctx :');
-        console.log(this.ctx);
 
         this.canvas.addEventListener("click", (e) => {
             const rect = this.canvas.getBoundingClientRect();
