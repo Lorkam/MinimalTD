@@ -6,7 +6,6 @@ let partie = new Partie(parametrePartie[0], parametrePartie[1]); // Création d'
 partie.play();
 
 function reset() {
-    console.log("Réinitialisation du niveau");
     document.getElementById('divEcranSombre').style.display = 'none';
     document.getElementById('divImgVictoire').style.display = 'none';
     document.getElementById('divImgDefaite').style.display = 'none';
