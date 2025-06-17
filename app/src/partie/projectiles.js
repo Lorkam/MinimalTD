@@ -6,21 +6,39 @@ export class Projectile {
     /**
      * Crée une nouvelle instance de Projectile.
      * @param {Tower} tower - L'objet tour qui tire le projectile.
-     * @param {Enemy} target - La cible visée par le projectile.
+     * @param {Enemy} cible - La cible visée par le projectile.
      * @property {Tower} tower - Référence à la tour qui a tiré le projectile.
-     * @property {Enemy} target - La cible du projectile.
+     * @property {Enemy} cible - La cible du projectile.
      * @property {number} x - Coordonnée x de la position de départ du projectile.
      * @property {number} y - Coordonnée y de la position de départ du projectile.
      * @property {number} speed - Vitesse à laquelle le projectile se déplace.
      * @property {number} damage - Quantité de dégâts infligés par le projectile.
      */
-    constructor(tower, target) {
-        this.tower = tower;
-        this.target = target;
-        this.x = tower.position.x;
-        this.y = tower.position.y;
+    constructor(tour, cible) {
+        this.tour = tour;
+        this.cible = cible;
+        this.x = tour.position.x;
+        this.y = tour.position.y;
+        this.couleur = "yellow"; // Couleur du projectile
         this.speed = 10;
-        this.damage = tower.degats;
+        var degatsInfliges;
+        if(Math.random(100) < this.tour.tauxCrit){
+            degatsInfliges = this.tour.degats * this.tour.multiplicateurCrit; // Dégâts infligés en cas de critique
+            this.couleur = "red"; // Change la couleur du projectile en rouge pour indiquer un coup critique
+        }else{
+            degatsInfliges = this.tour.degats; // Dégâts normaux
+        }
+        this.degats = degatsInfliges; // Dégâts infligés par le projectile
+    }
+
+    /**
+     * Inflige des dégâts à l'ennemi ciblé, en tenant compte des coups critiques.
+     * Si un coup critique est déclenché (en fonction du tauxCrit de la tour), 
+     * applique un multiplicateur de dégâts et change la couleur du projectile en rouge.
+     * Réduit les points de vie (pv) de la cible en conséquence.
+     */
+    toucherEnnemi() {
+        this.cible.pv -= this.degats; // Applique les dégâts à l'ennemi
     }
 
     /**
@@ -30,13 +48,13 @@ export class Projectile {
      * @returns {boolean} Retourne true si le projectile a atteint sa cible et appliqué les dégâts, false sinon.
      */
     update() {
-        const dx = this.target.x - this.x;
-        const dy = this.target.y - this.y;
+        const dx = this.cible.x - this.x;
+        const dy = this.cible.y - this.y;
         const dist = Math.sqrt(dx * dx + dy * dy);
 
         if (dist < this.speed) {
             // Si le projectile atteint la cible, inflige des dégâts et supprime le projectile
-            this.target.pv -= this.damage;
+            this.toucherEnnemi();
             return true; // Indique que le projectile a atteint sa cible
         } else {
             // Déplace le projectile vers la cible
@@ -52,11 +70,11 @@ export class Projectile {
      */
     draw(ctx) {
         ctx.save();
-        ctx.fillStyle = "yellow"; // Couleur du projectile
+        ctx.fillStyle = this.couleur; // Couleur du projectile
         ctx.translate(this.x, this.y);
         // Calcule l'angle vers la cible
-        const dx = this.target.x - this.x;
-        const dy = this.target.y - this.y;
+        const dx = this.cible.x - this.x;
+        const dy = this.cible.y - this.y;
         const angle = Math.atan2(dy, dx);
         ctx.rotate(angle);
         ctx.beginPath();

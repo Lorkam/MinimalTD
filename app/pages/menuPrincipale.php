@@ -23,9 +23,9 @@ $sauvegarde = $_SESSION['nomSauvegarde']??null;
         <div class="flex-column" id="listeBtnPrincipaux">
             <h1>Mini Tower Defense</h1>
             <button id="btnJouer" class="btnMenuPrincipale <?php if($sauvegarde==null){echo "disabled";}?>" <?php if($sauvegarde==null){echo "disabled";}?>>Jouer</button>
-            <button id="btnTechnologies" class="btnMenuPrincipale" onclick="window.location.href='technologies.php'">Technologies</button>
-            <button id="btnMenuSauvegarder" class="btnMenuPrincipale">Sauvegarder</button>
-            <button id="btnMenuChargerSave" class="btnMenuPrincipale">Charger une sauvegarde</button>
+            <button id="btnTechnologies" class="btnMenuPrincipale <?php if($sauvegarde==null){echo "disabled";}?>" onclick="window.location.href='technologies.php'" <?php if($sauvegarde==null){echo "disabled";}?>>Technologies</button>
+            <button id="btnMenuSauvegarder" class="btnMenuPrincipale">Charger une sauvegarde</button>
+            <button id="btnMenuChargerSave" class="btnMenuPrincipale">jcp quoi</button>
             <button id="btnCredits" class="btnMenuPrincipale">Crédits</button>
         </div>
     </div>

@@ -42,7 +42,7 @@ $sauvegarde = $_SESSION['nomSauvegarde'];
     <script>
         const date = new Date().getTime();
         const logiqueJS = document.createElement('script');
-        logiqueJS.src = '../src/technologies/arbre.js?v=' + date; // cache buster avec timestamp
+        logiqueJS.src = '../src/fonctionnementPages/technologies.js?v=' + date; // cache buster avec timestamp
         logiqueJS.type = 'module';
         document.getElementById('script-container').appendChild(logiqueJS);
     </script>

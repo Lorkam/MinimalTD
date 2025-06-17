@@ -6,14 +6,16 @@ import { Sauvegarde } from "../sauvegarde/sauvegarde.js";
 
 export class Partie {
     constructor(niveau, vague, nomSauvegarde) {
+        this.sauvegarde = new Sauvegarde(nomSauvegarde); // Instance de la classe Sauvegarde
+        /* Chargement du niveau */
         this.niveau = JSON.parse(JSON.stringify(niveaux[niveau])); // Copie profonde du niveau pour éviter les modifications directes
         this.ennemies = []; // Liste des ennemis
         this.ennemiesASpawn = {}; // Liste des ennemis
         this.emplacements = []; // Liste des emplacements pour les tours
         this.towers = []; // Liste des tours
         this.projectiles = []; // Liste des projectiles
-        this.heartPos = this.niveau.heart; // Copie profonde du coeur du joueur
-        this.heartPV = 3; // Copie profonde du coeur du joueur
+        this.heartPos = this.niveau.heart;
+        this.heartPV = 3; // Points de vie du coeur
         
         this.canvas = document.getElementById('gameCanvas');
         this.ctx = this.canvas.getContext('2d');
@@ -29,7 +31,8 @@ export class Partie {
         this.HTMLgolds = document.getElementById('golds');
 
         this.vague = vague; // Compteur de vagues
-        this.golds = 100; // Or du joueur
+        this.golds = 10; // Or du joueur
+        this.monaieTechno = {triangles:0, ronds:0, hexagones:0}; // Monnaie pour les technologies
     
         this.totalEnnemis = 0; // Nombre total d'ennemis à spawn dans la vague
         this.nbEnnemisMorts = 0; // Compteur d'ennemis morts
@@ -37,13 +40,6 @@ export class Partie {
         document.addEventListener('contextmenu', function (e) {
             e.preventDefault();
         });
-        this.sauvegarde = new Sauvegarde(nomSauvegarde); // Instance de la classe Sauvegarde
-        this.modificateurs = {
-            degatsToursClassiques: 1,
-            vitesseAttaqueToursClassiques: 1,
-            prixToursClassiques: 1,
-            porteeToursClassiques: 1,
-        }; // Liste des modificateurs de la partie
 
     }
 
@@ -65,6 +61,13 @@ export class Partie {
             };
             this.totalEnnemis += typeEnemy.nb; // Ajoute le nombre d'ennemis à spawn au total
         }
+    }
+
+    initialiserModificateurs() {
+        this.modificateurs = this.sauvegarde.modificateurs; // Liste des modificateurs de la partie
+        this.golds += this.modificateurs.economie.goldBonusDepart; // Ajoute le bonus d'or de départ
+        this.heartPV += this.modificateurs.coeurBonus; // Ajoute le bonus de points de vie du coeur
+        console.log(this.sauvegarde);
     }
 
     /**
@@ -178,7 +181,7 @@ export class Partie {
             this.jeuDemarre = false; // Indique que le jeu n'est plus en cours
         }else if(this.nbEnnemisMorts == this.totalEnnemis && this.niveau.vagues[this.vague - 1].derniereVague==true) {
             console.log("Fin de la dernière vague");
-            console.log("Félicitations ! Vous avez terminé le jeu !");
+            console.log("Félicitations ! Vous avez terminé ce niveau !");
             this.jeuDemarre = false; // Indique que le jeu n'est plus en cours
             this.jeuTermine = true; // Indique que le jeu est terminé
             lancerVagueBtn.disabled = false;
@@ -226,7 +229,6 @@ export class Partie {
      */
     async play(){
         this.sauvegarde = (await this.sauvegarde.lireSaves()).saves[this.sauvegarde.nom]; // Récupère la sauvegarde actuelle
-        console.log(this.sauvegarde);
         this.initialiserModificateurs(); // Initialise les modificateurs de la partie
 
         for (const emplacement of this.niveau.emplacementsTower) {
@@ -277,28 +279,6 @@ export class Partie {
         this.initialisationVague(); // Initialise les ennemis de la vague
         this.spawnEnnemis(); // Lance le spawn des ennemis
         this.boucleDeJeu();
-    }
-
-    initialiserModificateurs(){
-        const liste = this.sauvegarde.technologies
-        console.log(liste);
-        for (const modif of Object.keys(liste)) {
-            switch (modif) {
-                case "degatsToursClassiques":
-                    this.modificateurs.degatsToursClassiques = liste[modif];
-                    break;
-                case "vitesseAttaqueToursClassiques":
-                    this.modificateurs.vitesseAttaqueToursClassiques = liste[modif];
-                    break;
-                case "prixToursClassiques":
-                    this.modificateurs.prixToursClassiques = liste[modif];
-                    break;
-                default:
-                    console.warn("Modificateur inconnu :", modif);
-                    break;
-            }
-        }
-        console.log(this.modificateurs);
     }
 
 

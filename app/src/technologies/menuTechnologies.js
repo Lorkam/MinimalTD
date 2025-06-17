@@ -1,6 +1,6 @@
 import { Noeud } from "./noeuds.js";
 
-class MenuTechnologies {
+export class MenuTechnologies {
     constructor() {
         this.noeuds = [
             new Noeud("centre", 100, "or", this, ['vitesseAttaque', 'degats', 'orDeDepart', 'lvlUpTours']),
@@ -64,9 +64,4 @@ class MenuTechnologies {
         }
     }
 }
-
-
-
-const menuTechnologies = new MenuTechnologies();
-menuTechnologies.dessinerLiensNoeuds();
 

@@ -75,7 +75,9 @@ export class Enemy {
     }
 
     mort(type){
-        if (type=='tour') this.partie.golds += this.recompense; // Ajoute la récompense au joueur
+        if (type=='tour') {
+            this.partie.golds += this.recompense + this.partie.modificateurs.economie.goldBonusParEnnemis; // Ajoute la récompense au joueur
+        } // Ajoute la récompense au joueur
         // Si l'ennemi n'est plus en vie, on le retire de la liste
         this.partie.nbEnnemisMorts++;
         const index = this.partie.ennemies.indexOf(this);

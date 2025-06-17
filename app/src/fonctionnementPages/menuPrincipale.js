@@ -196,6 +196,9 @@ btnSauvegarder.addEventListener('click', async (e) => {
             }
             btnJouer.disabled = false; // Active le bouton Jouer
             btnJouer.classList.remove('disabled'); // Enlève la classe disabled
+            const btnTechnologies = document.querySelector("#btnTechnologies");
+            btnTechnologies.disabled = false; // Active le bouton Jouer
+            btnTechnologies.classList.remove('disabled'); // Enlève la classe disabled
 
         } catch (error) {
             console.error('Erreur lors de la sélection de la sauvegarde :', error);

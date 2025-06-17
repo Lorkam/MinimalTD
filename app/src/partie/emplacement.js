@@ -22,7 +22,7 @@ export class Emplacement {
                 if (this.partie.golds >= nouvelleTour.prix) { // Vérifie si l'or est suffisant
                     this.tour = nouvelleTour;
                     this.partie.towers.push(this.tour); // Ajoute la tour à la liste des tours
-                    console.log(this.tour);
+                    //console.log(this.tour);
                     return -1*this.tour.prix; // renvoie le coût de la tour
                 }else{
                     console.error("Pas assez d'or pour acheter cette tour.");

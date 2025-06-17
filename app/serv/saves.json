@@ -2,23 +2,71 @@
     "saves": {
         "test": {
             "description": "sauvegarde de test",
-            "monaies": {"triangles": 42, "ronds": 7},
+            "monaies": {"triangles":0, "ronds":0, "hexagones":10},
             "niveauxCompletes": {"Niveau 1": true, "Niveau 2": false, "Niveau 3": false},
             "dateCreation": "2025-06-01",
             "dateDerniereSave": "2025-06-14",
-            "technologies":{
-                "degatsToursClassiques": 1.5,
-                "vitesseAttaqueToursClassiques": 1.5,
-                "prixToursClassiques": 0.5
+            "modificateurs":{
+                "toursClassiques":{
+                    "degats": 1,
+                    "vitesseAttaque": 1,
+                    "prix": 1,
+                    "tauxCrit": 0.1,
+                    "multiplicateurCrit": 1.2,
+                    "portee":1
+                },
+                "economie":{
+                    "goldBonusDepart": 0,
+                    "goldBonusParEnnemis": 0
+                },
+                "coeurBonus":0
+            },
+            "technologies": {
+                "centre":{"lvl1":true}, 
+                "degats":{"lvl1":true, "lvl2":false, "lvl3":false},
+                "vitesseAttaque":{"lvl1":false, "lvl2":false, "lvl3":false},
+                "portee":{"lvl1":false, "lvl2":false, "lvl3":false},
+                "tauxCrit":{"lvl1":false, "lvl2":false},
+                "multiplicateurCrit":{"lvl1":false, "lvl2":false},
+                "prix":{"lvl1":false, "lvl2":false, "lvl3":false},
+                "coeurBonus":{"lvl1":false, "lvl2":false, "lvl3":false},
+                "goldsBonusDepart": {"lvl1":false, "lvl2":false, "lvl3":false},
+                "goldsBonusParEnnemis": {"lvl1":false, "lvl2":false, "lvl3":false}
             }
         },
         "vide": {
             "description": "sauvegarde vide",
-            "monaies": {"triangles": 0, "ronds": 0},
+            "monaies": {"triangles": 0, "ronds": 0, "hexagones":0},
             "niveauxCompletes": {"Niveau 1": false, "Niveau 2": false, "Niveau 3": false},
             "dateCreation": "",
             "dateDerniereSave": "",
-            "technologies":{}
+            "modificateurs":{
+                "toursClassiques":{
+                    "degats": 1,
+                    "vitesseAttaque": 1,
+                    "prix": 1,
+                    "tauxCrit": 0,
+                    "multiplicateurCrit": 1.2,
+                    "portee":1
+                },
+                "economie":{
+                    "goldBonusDepart": 0,
+                    "goldBonusParEnnemis": 0
+                },
+                "coeurBonus":0
+            },
+            "technologies": {
+                "centre":{"lvl1":false}, 
+                "degats":{"lvl1":false, "lvl2":false, "lvl3":false},
+                "vitesseAttaque":{"lvl1":false, "lvl2":false, "lvl3":false},
+                "portee":{"lvl1":false, "lvl2":false, "lvl3":false},
+                "tauxCrit":{"lvl1":false, "lvl2":false},
+                "multiplicateurCrit":{"lvl1":false, "lvl2":false},
+                "prix":{"lvl1":false, "lvl2":false, "lvl3":false},
+                "coeurBonus":{"lvl1":false, "lvl2":false, "lvl3":false},
+                "goldsBonusDepart": {"lvl1":false, "lvl2":false, "lvl3":false},
+                "goldsBonusParEnnemis": {"lvl1":false, "lvl2":false, "lvl3":false}
+            }
         }
     }
 }
