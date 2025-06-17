@@ -83,5 +83,53 @@ export const niveaux = {
         derniereVague: true
       },
     ]
+  },
+  "Niveau 3": {
+    chemin: [{ x: 300, y: 300 }, { x: 800, y: 300 }, { x: 800, y: 450 }, { x: 500, y: 450 }, { x: 500, y: 150 }, { x: 950, y: 150 }, { x: 950, y: 450 }],
+    emplacementsTower: [
+      { x: 580, y: 375 },
+      { x: 580, y: 225 },
+      { x: 720, y: 375 },
+      { x: 720, y: 225 },
+      { x: 875, y: 375 },
+      { x: 875, y: 225 }
+    ],
+    heart: { x: 925, y: 460},
+    vagues: [
+      {
+        ennemis: [
+          { type: "classique", nb: 10, intervale: 500 },
+          { type: "tank", nb: 1, intervale: 1000 },
+        ],
+        derniereVague: false
+      },
+      {
+        ennemis: [
+          { type: "tank", nb: 5, intervale: 750 },
+          { type: "rapide", nb: 10, intervale: 500 },
+        ],
+        derniereVague: false
+      },
+      {
+        ennemis: [
+          { type: "tank", nb: 15, intervale: 500 },
+        ],
+        derniereVague: false
+      },
+      {
+        ennemis: [
+          { type: "rapide", nb: 30, intervale: 300 },
+        ],
+        derniereVague: false
+      },
+      {
+        ennemis: [
+          { type: "classique", nb: 40, intervale: 1000 },
+          { type: "tank", nb: 20, intervale: 1750 },
+          { type: "rapide", nb: 50, intervale: 750 },
+        ],
+        derniereVague: true
+      },
+    ]
   }
 };

@@ -1,41 +1,89 @@
-const menuJouer = document.querySelector('#menuMilieu');
+import { recupAllNomSaves, selectionnerSauvegarde } from '../sauvegarde/sauvegarde.js';
+
 const btnJouer = document.querySelector('#btnJouer');
+const btnMenuSauvegarder = document.querySelector('#btnMenuSauvegarder');
+const menuMilieu = document.querySelector('#menuMilieu');
+/* Menu Jouer */
+const menuJouer = document.querySelector('#divContainerNiveaux');
 const divContainerNiveaux = document.querySelector('#divContainerNiveaux');
 const btnLancerNiveau = document.querySelector('#btnLancerNiveau');
+const inputNumNiveau = document.querySelector('#numNiveau');
 const divNiveaux = document.querySelector('#divNiveaux');
+const divImagesNiveaux = document.querySelector('#divImagesNiveaux');
 var lvlActuellementSelectionne = 1;
+/* Menu Sauvegarder */
+const menuSauvegarder = document.querySelector('#divContainerSauvegarder');
+const divSauvegardes = document.querySelector('#divSauvegardes');
+const listeSauvegardes = divSauvegardes.querySelectorAll('div');
+const btnSauvegarder = document.querySelector('#btnSauvegarder');
+var nomSauvegarde = ''; 
+
 const endroitsClickable = [
     btnJouer, 
-    menuJouer, 
+    menuMilieu, 
     divNiveaux, 
+    ...divNiveaux.querySelectorAll('span'), 
+    ...document.querySelectorAll('#divImagesNiveaux img'),
     ...document.querySelectorAll('.fleche img'), 
     btnLancerNiveau, 
     divContainerNiveaux, 
-    document.querySelector('h2')
+    divImagesNiveaux,
+    ...document.querySelectorAll('h2'),
+    menuSauvegarder,
+    divSauvegardes,
+    ...listeSauvegardes,
+    btnMenuSauvegarder,
+    btnSauvegarder,
 ];
 //console.log(endroitsClickable);
 
-function afficherMenuJouer(){
-    menuJouer.classList.remove("cachee");
-    menuJouer.classList.add("apparition");
+function affichermenuMilieu(){
+    menuMilieu.classList.remove("cachee");
+    menuMilieu.classList.add("apparition");
     setTimeout(() => {
-        menuJouer.classList.remove("apparition");
+        menuMilieu.classList.remove("apparition");
     }, 500); // Durée de l'animation d'apparition
 }
 
-btnJouer.addEventListener('click', function() {
-    if (menuJouer.classList.contains("cachee")){
-        afficherMenuJouer();
+function affichermenuJouer(affichage){
+    if(affichage == true){
+        menuJouer.style.display = 'block';
+    } else {
+        menuJouer.style.display = 'none';
     }
+}
+
+function affichermenuSauvegarder(affichage){
+    if(affichage == true){
+        menuSauvegarder.style.display = 'block';
+    } else {
+        menuSauvegarder.style.display = 'none';
+    }
+}
+
+btnJouer.addEventListener('click', function() {
+    if (menuMilieu.classList.contains("cachee")){
+        affichermenuMilieu();
+    }
+    affichermenuSauvegarder(false);
+    affichermenuJouer(true);
 });
+btnMenuSauvegarder.addEventListener('click', function() {
+    if (menuMilieu.classList.contains("cachee")){
+        affichermenuMilieu();
+    }
+    affichermenuJouer(false);
+    affichermenuSauvegarder(true);
+});
+/* Gestion du clic en dehors du menu du milieu */
 document.querySelector('body').addEventListener('click', (e) => {
     //console.log(e.target);
-    if (!menuJouer.classList.contains("cachee")) {
+    if (!menuMilieu.classList.contains("cachee")) {
         if (!endroitsClickable.includes(e.target)) {
-            menuJouer.classList.add("disparition");
+            menuMilieu.classList.add("disparition");
             setTimeout(() => {
-                menuJouer.classList.add("cachee");
-                menuJouer.classList.remove("disparition");
+                menuMilieu.classList.add("cachee");
+                menuMilieu.classList.remove("disparition");
             }, 500); // Durée de l'animation de disparition
         }
     }
@@ -57,6 +105,7 @@ document.querySelectorAll('.fleche img').forEach((fleche) => {
 });
 
 function mettreAJourNiveauSelectionne(action) {
+    const nomsNiveaux = ['Niveau 1', 'Niveau 2', 'Niveau 3'];
     switch (action) {
         case '-':
             switch (lvlActuellementSelectionne) {
@@ -64,10 +113,15 @@ function mettreAJourNiveauSelectionne(action) {
                     divNiveaux.classList.remove('from3To2');
                     divNiveaux.classList.remove('from1To2');
                     divNiveaux.classList.add('from2To1');
+                    divImagesNiveaux.classList.remove('from3To2');
+                    divImagesNiveaux.classList.remove('from1To2');
+                    divImagesNiveaux.classList.add('from2To1');
                     break;
                 case 3:
                     divNiveaux.classList.remove('from2To3');
                     divNiveaux.classList.add('from3To2');
+                    divImagesNiveaux.classList.remove('from2To3');
+                    divImagesNiveaux.classList.add('from3To2');
                     break;
             }
             if (lvlActuellementSelectionne > 1) {
@@ -79,11 +133,16 @@ function mettreAJourNiveauSelectionne(action) {
                 case 1:
                     divNiveaux.classList.remove('from2To1');
                     divNiveaux.classList.add('from1To2');
+                    divImagesNiveaux.classList.remove('from2To1');
+                    divImagesNiveaux.classList.add('from1To2');
                     break;
                 case 2:
                     divNiveaux.classList.remove('from3To2');
                     divNiveaux.classList.remove('from1To2');
                     divNiveaux.classList.add('from2To3');
+                    divImagesNiveaux.classList.remove('from3To2');
+                    divImagesNiveaux.classList.remove('from1To2');
+                    divImagesNiveaux.classList.add('from2To3');
                     break;
             }
             if (lvlActuellementSelectionne < 3) {
@@ -91,14 +150,57 @@ function mettreAJourNiveauSelectionne(action) {
             }
             break;
     }
-    for(let i = 1; i <= divNiveaux.children.length; i++) {
-        const niveau = divNiveaux.children[i-1];
-        if (i == lvlActuellementSelectionne) {
-            niveau.style.visibility = 'visible';
-        } else {
-            setTimeout(() => {
-                niveau.style.visibility = 'hidden';
-            }, 500); // Durée de l'animation de disparition
-        }
+    inputNumNiveau.value = nomsNiveaux[lvlActuellementSelectionne-1];
+}
+
+/* Gestion des sauvegardes */
+async function afficherSauvegardes() {
+    const listeSaves = await recupAllNomSaves();
+    for(let i=0; i<listeSaves.length; i++){
+        listeSauvegardes[i].textContent = listeSaves[i];
     }
 }
+afficherSauvegardes();
+
+function clicSauvegarde(cible){
+    if (!cible.classList.contains('sauvegardeSelectionnee') && cible.textContent !== 'Emplacement Vide') { // à changer
+        cible.classList.add('sauvegardeSelectionnee');
+        nomSauvegarde = cible.textContent;
+        for(const save of listeSauvegardes) {
+            if (save !== cible) {
+                save.classList.remove('sauvegardeSelectionnee');
+            }
+        }
+    } else {
+        console.error("L'élément cliqué n'est pas une sauvegarde valide.");
+    }
+}
+listeSauvegardes.forEach((sauvegarde) => {
+    sauvegarde.addEventListener('click', (e) => {
+        e.stopPropagation(); // Empêche la propagation de l'événement click
+        clicSauvegarde(sauvegarde);
+    });
+});
+btnSauvegarder.addEventListener('click', async (e) => {
+    e.stopPropagation(); // Empêche la propagation de l'événement click
+    if (nomSauvegarde !== '') {
+        try {
+            await selectionnerSauvegarde(nomSauvegarde);
+            const sauvegardeSelectionnee = document.querySelector('.sauvegardeSelectionnee');
+            for(const save of listeSauvegardes) {
+                if(save == sauvegardeSelectionnee) {
+                    save.childNodes[0].textContent = save.childNodes[0].textContent.replace('✅', '')+'✅'; // Enlève le ✅ de la sauvegarde sélectionnée
+                }else {
+                    save.childNodes[0].textContent = save.childNodes[0].textContent.replace('✅', ''); // Enlève le ✅ des autres sauvegardes
+                }
+            }
+            btnJouer.disabled = false; // Active le bouton Jouer
+            btnJouer.classList.remove('disabled'); // Enlève la classe disabled
+
+        } catch (error) {
+            console.error('Erreur lors de la sélection de la sauvegarde :', error);
+        }
+    } else {
+        console.error("Aucune sauvegarde n'a été sélectionnée.");
+    }
+});

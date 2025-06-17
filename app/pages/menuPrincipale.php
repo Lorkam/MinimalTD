@@ -1,3 +1,8 @@
+<?php 
+session_start();
+$sauvegarde = $_SESSION['nomSauvegarde']??null;
+//var_dump($sauvegarde);
+?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -17,31 +22,29 @@
     <div id="menuGauche">
         <div class="flex-column" id="listeBtnPrincipaux">
             <h1>Mini Tower Defense</h1>
-            <button id="btnJouer" class="btnMenuPrincipale">Jouer</button>
-            <button id="btnTechnologies" class="btnMenuPrincipale" onclick="window.location.href='technologies.html'">Technologies</button>
-            <button id="btnSauvegarder" class="btnMenuPrincipale">Sauvegarder</button>
-            <button id="btnChargerSave" class="btnMenuPrincipale">Charger une sauvegarde</button>
+            <button id="btnJouer" class="btnMenuPrincipale <?php if($sauvegarde==null){echo "disabled";}?>" <?php if($sauvegarde==null){echo "disabled";}?>>Jouer</button>
+            <button id="btnTechnologies" class="btnMenuPrincipale" onclick="window.location.href='technologies.php'">Technologies</button>
+            <button id="btnMenuSauvegarder" class="btnMenuPrincipale">Sauvegarder</button>
+            <button id="btnMenuChargerSave" class="btnMenuPrincipale">Charger une sauvegarde</button>
             <button id="btnCredits" class="btnMenuPrincipale">Crédits</button>
         </div>
     </div>
     <div class="flex-column cachee" id="menuMilieu">
-        <form id="formNiveau" action="partie.php" method="post" style="display: none;">
-            <div class="flex-row">
-                <select id="niveau" name="niveau">
-                    <option value="Niveau 1">Niveau 1</option>
-                    <option value="Niveau 2">Niveau 2</option>
-                    <option value="Niveau 3">Niveau 3</option>
-                    <option value="Niveau 4">Niveau 4</option>
-                    <option value="Niveau 5">Niveau 5</option>
-                <input type="submit" value="Jouer">
-            </div>
-        </form>
-        <div id="divContainerNiveaux">
+        <div id="divContainerNiveaux" style="display: none;">
             <h2>Choisissez un niveau</h2>
+            <div class="flex-row" id="divImagesNiveaux"><img src="../assets/img/niveau1.png"><img src="../assets/img/niveau2.png"><img src="../assets/img/niveau3.png"></div>
             <div class="flex-row" id="divNiveaux"><span>Niveau 1</span><span>Niveau 2</span><span>Niveau 3</span></div>
             <button id="flecheGauche" class="fleche"><img src="../assets/img/flecheGauche.png"></button>
             <button id="flecheDroite" class="fleche"><img src="../assets/img/flecheDroite.png"></button>
-            <button id="btnLancerNiveau">Lancer le Niveau</button>
+            <form id="formLancerNiveau" action="partie.php" method="post">
+                <input type="hidden" id="numNiveau" name="numNiveau" value="Niveau 1">
+                <button id="btnLancerNiveau" class="btnBasMenuMilieu">Lancer le Niveau</button>
+            </form>
+        </div>
+        <div id="divContainerSauvegarder" style="display: none;">
+            <h2>Sauvegardes</h2>
+            <div class="flex-column" id="divSauvegardes"><div class="emplacementSauvegarde">Emplacement Vide<span></span></div><div class="emplacementSauvegarde">Emplacement Vide<span></span></div><div class="emplacementSauvegarde">Emplacement Vide<span></span></div><div class="emplacementSauvegarde">Emplacement Vide<span></span></div></div>
+            <button id="btnSauvegarder" class="btnBasMenuMilieu">Sauvegarder</button>
         </div>
     </div>
 

@@ -1,3 +1,7 @@
+<?php 
+session_start();
+$sauvegarde = $_SESSION['nomSauvegarde'];
+?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -14,8 +18,9 @@
     </script>
 </head>
 <body>
-    <input type="hidden" id="niveauChoisi" value="<?php echo $_POST['niveau']; ?>">
-    <div id="divRetourMenuPrincipale" onclick="window.location.href='menuPrincipale.html'"><img src="../assets/img/maison.png"></div>
+    <input type="hidden" id="nomSauvegarde" value="<?php echo $sauvegarde; ?>">
+    <input type="hidden" id="niveauChoisi" value="<?php echo $_POST['numNiveau']; ?>">
+    <div id="divRetourMenuPrincipale" onclick="window.location.href='menuPrincipale.php'"><img src="../assets/img/maison.png"></div>
     <canvas id="gameCanvas" width="1550" height="710"></canvas>
 
 
@@ -33,14 +38,14 @@
         <img src="../assets/img/victoire.png" alt="victoire">
         <div class="flex-row">
             <button id="btnRejouerVictoire">Rejouer</button>
-            <button class="btnMainMenu">Revenir au menu principale</button>
+            <button class="btnMainMenu" onclick="window.location.href='menuPrincipale.php'">Revenir au menu principale</button>
         </div>
     </div>
     <div id="divImgDefaite" style="display: none;">
         <img src="../assets/img/defaite.png" alt="defaite">
         <div class="flex-row">
             <button id="btnRejouerDefaite">Réessayer</button>
-            <button class="btnMainMenu">Revenir au menu principale</button>
+            <button class="btnMainMenu" onclick="window.location.href='menuPrincipale.php'">Revenir au menu principale</button>
         </div>
     </div>
 

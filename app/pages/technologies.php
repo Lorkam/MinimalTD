@@ -1,3 +1,7 @@
+<?php 
+session_start();
+$sauvegarde = $_SESSION['nomSauvegarde'];
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -25,7 +29,7 @@
         <div class="noeud" id="critDamage"><img class="imgArbreTechno debloquee cachee" src="../assets/img/critDmgDebloquee.png"><img class="imgArbreTechno bloquee cachee" src="../assets/img/critDmgBloquee.png"><img class="imgArbreTechno hiden cachee" src="../assets/img/technoHiden.png"></div>
     </div>
 
-    <div id="divRetourMenuPrincipale" onclick="window.location.href='menuPrincipale.html'"><img src="../assets/img/maison.png"></div>
+    <div id="divRetourMenuPrincipale" onclick="window.location.href='menuPrincipale.php'"><img src="../assets/img/maison.png"></div>
     <div id="divMonaies" class="flex-column">
         <div id="divTriangles" class="flex-row">18 <img src="../assets/img/triangle.png"></div>
         <div id="divRonds" class="flex-row">6 <img src="../assets/img/rond.png"></div>

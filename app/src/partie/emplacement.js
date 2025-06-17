@@ -9,7 +9,6 @@ export class Emplacement {
         this.image = new Image();
         this.image.src = '../assets/img/emplacement.png';
         this.tour = null; // Tour placée sur cet emplacement (null si aucune)
-        this.prixTours = {'classique': 10}; // Prix des tours
     }
 
     dessiner(){
@@ -19,10 +18,12 @@ export class Emplacement {
     ajouterTour(type){
         switch (type) {
             case 'classique':
-                if (this.partie.golds >= this.prixTours[type]) {
-                    this.tour = new TourClassique({x:this.x, y:this.y}, this.partie); // Crée une nouvelle tour classique
+                const nouvelleTour = new TourClassique({x:this.x, y:this.y}, this.partie); // Crée une nouvelle tour classique
+                if (this.partie.golds >= nouvelleTour.prix) { // Vérifie si l'or est suffisant
+                    this.tour = nouvelleTour;
                     this.partie.towers.push(this.tour); // Ajoute la tour à la liste des tours
-                    return -1*this.prixTours[type]; // renvoie le coût de la tour
+                    console.log(this.tour);
+                    return -1*this.tour.prix; // renvoie le coût de la tour
                 }else{
                     console.error("Pas assez d'or pour acheter cette tour.");
                     return 0; // Retourne 0 si l'or est insuffisant

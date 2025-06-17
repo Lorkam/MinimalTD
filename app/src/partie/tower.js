@@ -8,6 +8,7 @@ export class Tower {
         this.portee = portee;
         this.position = position;
         this.listeBalles = []; // Liste des projectiles tirés par la tour
+        this.prix = 1; // Prix de la tour
     }
     getDetails() {
         return `Tower type: ${this.type}, portee: ${this.portee}m, position: (${this.position.x}, ${this.position.y})`;
@@ -60,9 +61,10 @@ export class Tower {
 
 export class TourClassique extends Tower {
     constructor(position, partie) {
-        super('Classique', 100, position, partie);
-        this.degats = 10; // Dégâts infligés par la tour
-        this.attaqueSpeed = 1000; // Temps de recharge en millisecondes
+        super('Classique', 100*partie.modificateurs.porteeToursClassiques, position, partie);
+        this.prix = 10*partie.modificateurs.prixToursClassiques; // Prix de la tour
+        this.degats = 10*partie.modificateurs.degatsToursClassiques; // Dégâts infligés par la tour
+        this.attaqueSpeed = 1000/partie.modificateurs.vitesseAttaqueToursClassiques; // Temps de recharge en millisecondes
         this.derniereAttaque = Date.now();
         this.afficherPortee = false; // Indique si la portée de la tour doit être affichée
     }

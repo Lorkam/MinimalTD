@@ -1,10 +1,11 @@
 import { niveaux } from "./map.js";
 import { EnemyClassique, EnemyTank, EnemyRapide } from "./enemy.js";
 import { Emplacement } from "./emplacement.js";
+import { Sauvegarde } from "../sauvegarde/sauvegarde.js";
 
 
 export class Partie {
-    constructor(niveau, vague=1) {
+    constructor(niveau, vague, nomSauvegarde) {
         this.niveau = JSON.parse(JSON.stringify(niveaux[niveau])); // Copie profonde du niveau pour éviter les modifications directes
         this.ennemies = []; // Liste des ennemis
         this.ennemiesASpawn = {}; // Liste des ennemis
@@ -36,6 +37,13 @@ export class Partie {
         document.addEventListener('contextmenu', function (e) {
             e.preventDefault();
         });
+        this.sauvegarde = new Sauvegarde(nomSauvegarde); // Instance de la classe Sauvegarde
+        this.modificateurs = {
+            degatsToursClassiques: 1,
+            vitesseAttaqueToursClassiques: 1,
+            prixToursClassiques: 1,
+            porteeToursClassiques: 1,
+        }; // Liste des modificateurs de la partie
 
     }
 
@@ -216,7 +224,11 @@ export class Partie {
      * - Configure le bouton "lancerVagueBtn" pour démarrer une nouvelle vague et le désactive après clic.
      * - Lance la boucle principale du jeu via `boucleDeJeu`.
      */
-    play(){
+    async play(){
+        this.sauvegarde = (await this.sauvegarde.lireSaves()).saves[this.sauvegarde.nom]; // Récupère la sauvegarde actuelle
+        console.log(this.sauvegarde);
+        this.initialiserModificateurs(); // Initialise les modificateurs de la partie
+
         for (const emplacement of this.niveau.emplacementsTower) {
             this.emplacements.push(new Emplacement(emplacement, this)); // Ajoute l'emplacement à la liste des emplacements
         }
@@ -266,4 +278,28 @@ export class Partie {
         this.spawnEnnemis(); // Lance le spawn des ennemis
         this.boucleDeJeu();
     }
-}
+
+    initialiserModificateurs(){
+        const liste = this.sauvegarde.technologies
+        console.log(liste);
+        for (const modif of Object.keys(liste)) {
+            switch (modif) {
+                case "degatsToursClassiques":
+                    this.modificateurs.degatsToursClassiques = liste[modif];
+                    break;
+                case "vitesseAttaqueToursClassiques":
+                    this.modificateurs.vitesseAttaqueToursClassiques = liste[modif];
+                    break;
+                case "prixToursClassiques":
+                    this.modificateurs.prixToursClassiques = liste[modif];
+                    break;
+                default:
+                    console.warn("Modificateur inconnu :", modif);
+                    break;
+            }
+        }
+        console.log(this.modificateurs);
+    }
+
+
+}// fin de la class Partie

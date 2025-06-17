@@ -5,14 +5,20 @@
             "monaies": {"triangles": 42, "ronds": 7},
             "niveauxCompletes": {"Niveau 1": true, "Niveau 2": false, "Niveau 3": false},
             "dateCreation": "2025-06-01",
-            "dateDerniereSave": "2025-06-14"
+            "dateDerniereSave": "2025-06-14",
+            "technologies":{
+                "degatsToursClassiques": 1.5,
+                "vitesseAttaqueToursClassiques": 1.5,
+                "prixToursClassiques": 0.5
+            }
         },
-        "save1": {
-            "description": "save 1",
+        "vide": {
+            "description": "sauvegarde vide",
             "monaies": {"triangles": 0, "ronds": 0},
             "niveauxCompletes": {"Niveau 1": false, "Niveau 2": false, "Niveau 3": false},
-            "dateCreation": "2025-06-01",
-            "dateDerniereSave": "2025-06-14"
+            "dateCreation": "",
+            "dateDerniereSave": "",
+            "technologies":{}
         }
     }
 }

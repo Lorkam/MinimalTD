@@ -1,8 +1,9 @@
 import { Partie } from "./game.js";
 
 const niveauChoisi = document.getElementById('niveauChoisi').value;
-const parametrePartie = [niveauChoisi, 1]; // Paramètres du jeu, par exemple le niveau et la difficulté
-let partie = new Partie(parametrePartie[0], parametrePartie[1]); // Création d'une instance de Partie avec les paramètres
+const nomSauvegarde = document.getElementById('nomSauvegarde').value;
+const parametrePartie = [niveauChoisi, 1, nomSauvegarde]; // Paramètres du jeu, par exemple le niveau et la difficulté
+let partie = new Partie(...parametrePartie); // Création d'une instance de Partie avec les paramètres
 partie.play();
 
 function reset() {
@@ -11,7 +12,7 @@ function reset() {
     document.getElementById('divImgDefaite').style.display = 'none';
     partie = null;
     console.clear();
-    partie = new Partie(parametrePartie[0], parametrePartie[1]);
+    partie = new Partie(...parametrePartie);
     partie.play();
 }
 

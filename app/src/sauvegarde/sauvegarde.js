@@ -1,12 +1,10 @@
 
-class Sauvegarde {
+export class Sauvegarde {
     constructor(nom) {
         this.nom = nom;
         this.emplacementSave = `../serv/saves.json`;
         this.save = null; // Initialisation de la sauvegarde
     }
-
-
     /**
     * Récupère de façon asynchrone les données de sauvegarde du serveur pour l'utilisateur courant.
     *
@@ -26,25 +24,12 @@ class Sauvegarde {
                  headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
                  body: 'action=lireSaves'+ '&nom=' + encodeURIComponent(this.nom)
               });
-
-              return await response.json();
+              const rep = await response.json();
+              return rep;
            } catch (error) {
               console.error('Erreur récupération données :', error);
            }
-    }
-
-    /**
-     * Récupère les données de sauvegarde pour l'utilisateur courant et les stocke dans la propriété `save`.
-     * Appelle `lireSaves()` pour obtenir toutes les sauvegardes, puis assigne la sauvegarde correspondant à `this.nom`.
-     *
-     * @returns {void}
-     */  
-    recupSave() {
-        this.lireSaves().then(data => {
-            this.save = data.saves[this.nom]; // Stocke les données de la sauvegarde
-        })
-    }
-    
+    }    
 }
 
 /**
@@ -57,9 +42,8 @@ class Sauvegarde {
  * @function
  * @returns {Promise<string[]|undefined>} Un tableau de noms de sauvegardes si la requête réussit, sinon undefined en cas d'erreur.
  */
-async function recupAllNomSaves() {
-    const url = '../serv/gestionSaves.php'; // Les valeurs sont des options du select sont les uri
-
+export async function recupAllNomSaves() {
+    const url = '../serv/gestionSaves.php';
     try {
         // création de la requete pour accéder au php
         const response = await fetch(url, {
@@ -75,9 +59,17 @@ async function recupAllNomSaves() {
     }
 }
 
-
-/*const s1 = new Sauvegarde('test');
-s1.recupSave();*/
-//await new Promise(r => setTimeout(r, 10));
-
-const nomSavesDispo =  await recupAllNomSaves();
+export async function selectionnerSauvegarde(nomSauvegarde) {
+    const url = '../serv/gestionSaves.php';
+    try {
+        // création de la requete pour accéder au php
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: 'action=selectionnerSauvegarde' + '&nom=' + encodeURIComponent(nomSauvegarde)
+        });
+        return await response.text();
+    } catch (error) {
+        console.error('Erreur récupération données :', error);
+    }
+}
