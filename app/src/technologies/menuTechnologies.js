@@ -4,19 +4,20 @@ import { Sauvegarde } from "../sauvegarde/sauvegarde.js";
 export class MenuTechnologies {
     constructor(nomSauvegarde) {
         this.noeuds = [
-            new Noeud("centre", 1, "triangle", this, ['vitesseAttaque', 'degats', 'orDeDepart', 'lvlUpTours']),
-            new Noeud("vitesseAttaque", 5, "triangle", this),
-            new Noeud("degats", 5, "triangle", this, ['critRate', 'critDamage']),
-            new Noeud("orDeDepart", 7, "triangle", this),
-            new Noeud("lvlUpTours", 10, "triangle", this),
-            new Noeud("critRate", 20, "triangle", this),
-            new Noeud("critDamage", 20, "triangle", this)
+            new Noeud("centre", 1, "triangles", this, ['vitesseAttaque', 'degats', 'orDeDepart', 'lvlUpTours']),
+            new Noeud("vitesseAttaque", 5, "triangles", this),
+            new Noeud("degats", 5, "triangles", this, ['critRate', 'critDamage']),
+            new Noeud("orDeDepart", 7, "triangles", this),
+            new Noeud("lvlUpTours", 10, "triangles", this),
+            new Noeud("critRate", 20, "triangles", this),
+            new Noeud("critDamage", 20, "triangles", this)
         ];
 
         this.canvas = document.querySelector('#canvasTechno');
         this.ctx = this.canvas.getContext('2d');
 
         this.sauvegarde = new Sauvegarde(nomSauvegarde);
+        this.nomSauvegarde = nomSauvegarde;
 
 
         // Désactivation du menu contextuel de google Chrome
@@ -45,28 +46,28 @@ export class MenuTechnologies {
         }
         for(const noeud of this.noeuds) {
             if (technoDebloquees.includes(noeud.idHTML)) {
-                noeud.debloquer();
+                noeud.debloquer('sauvegarde');
             }
         }
         /* Récupération des monaies de la sauvegarde */
-        const monnaies = this.sauvegarde.monnaies;
-        const monaieTriangle = document.querySelector('#divTriangles span');
-        const monaieRonds = document.querySelector('#divRonds span');
-        const monaieHexagones = document.querySelector('#divHexagones span');
-        for(const monnaie of Object.keys(monnaies)) {
-            switch (monnaie) {
-                case 'triangles':
-                    monaieTriangle.innerHTML = monnaies[monnaie];
-                    break;
-                case 'ronds':
-                    monaieRonds.innerHTML = monnaies[monnaie];
-                    break;
-                case 'hexagones':
-                    monaieHexagones.innerHTML = monnaies[monnaie];
-                    break;
-                default:
-                    break;
-            }
+        this.noeuds[0].majMonnaies();
+    }
+    async enregisterDeblocage(nomTechno, type, montant) {
+        const url = "../serv/gestionSaves.php";
+        try {
+            // création de la requete pour accéder au php
+            const response = await fetch(url, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: 'action=enregisterDeblocage'+'&typeMonnaie=' + type + '&montant=' + montant + '&nom=' + this.nomSauvegarde + '&nomTechno=' + nomTechno
+            });
+
+            const data = await response.text();
+            console.log('data = ', data);
+            this.sauvegarde.monnaies[type] = parseInt(data, 10);
+            return;
+        } catch (error) {
+            console.error('Erreur récupération données :', error);
         }
     }
 

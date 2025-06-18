@@ -49,7 +49,20 @@ export class Noeud {
         this.imgtechnoBloquee.classList.remove('cachee');
         this.imgtechnoBloquee.classList.add('apparition');
     }
-    debloquer() {
+    async debloquer(source = 'clic') {
+        if(source === 'clic'){
+            // Vérification du prix
+            const monnaies = this.menuTechonologies.sauvegarde.monnaies;
+            //console.log(monnaies);
+            if (monnaies[this.typePrix] >= this.prix) {
+                //monnaies[this.typePrix] -= this.prix;
+                await this.menuTechonologies.enregisterDeblocage(this.idHTML, this.typePrix, -1*this.prix);
+                this.majMonnaies();
+            }else {
+                console.error(`Pas assez de ${this.typePrix} pour débloquer la technologie ${this.idHTML} (${monnaies[this.typePrix]}/${this.prix}).`);
+                return;
+            }
+        }
         // animation de déblocage
         this.imgtechnoBloquee.classList.remove('apparition');
         this.imgtechnoBloquee.classList.add('cachee');
@@ -91,5 +104,27 @@ export class Noeud {
     cacherInfo() {
         this.divInfoNoeud.classList.remove('apparition');
         this.divInfoNoeud.classList.add('cachee');
+    }
+
+    majMonnaies() {
+        const monnaies = this.menuTechonologies.sauvegarde.monnaies;
+        const monaieTriangle = document.querySelector('#divTriangles span');
+        const monaieRonds = document.querySelector('#divRonds span');
+        const monaieHexagones = document.querySelector('#divHexagones span');
+        for(const monnaie of Object.keys(monnaies)) {
+            switch (monnaie) {
+                case 'triangles':
+                    monaieTriangle.innerHTML = monnaies[monnaie];
+                    break;
+                case 'ronds':
+                    monaieRonds.innerHTML = monnaies[monnaie];
+                    break;
+                case 'hexagones':
+                    monaieHexagones.innerHTML = monnaies[monnaie];
+                    break;
+                default:
+                    break;
+            }
+        }
     }
 }
