@@ -23,7 +23,7 @@
             },
             "technologies": {
                 "centre":{"lvl1":true}, 
-                "degats":{"lvl1":true, "lvl2":false, "lvl3":false},
+                "degats":{"lvl1":false, "lvl2":false, "lvl3":false},
                 "vitesseAttaque":{"lvl1":false, "lvl2":false, "lvl3":false},
                 "portee":{"lvl1":false, "lvl2":false, "lvl3":false},
                 "tauxCrit":{"lvl1":false, "lvl2":false},

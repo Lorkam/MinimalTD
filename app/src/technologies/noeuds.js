@@ -21,9 +21,9 @@ export class Noeud {
             }
         });
         this.imgtechnoDebloquee.addEventListener('mouseenter', () => this.detectionMouseOver());
-        this.imgtechnoBloquee.addEventListener('mouseenter', () => this.detectionMouseOver());
-
         this.imgtechnoDebloquee.addEventListener('mouseleave', () => this.detectionMouseLeave());
+        
+        this.imgtechnoBloquee.addEventListener('mouseenter', () => this.detectionMouseOver());
         this.imgtechnoBloquee.addEventListener('mouseleave', () => this.detectionMouseLeave());
     }
 
@@ -50,7 +50,7 @@ export class Noeud {
         this.imgtechnoBloquee.classList.add('apparition');
     }
     debloquer() {
-        // Placeholder for unlocking the node
+        // animation de déblocage
         this.imgtechnoBloquee.classList.remove('apparition');
         this.imgtechnoBloquee.classList.add('cachee');
         this.imgtechnoDebloquee.classList.remove('cachee');
@@ -64,7 +64,10 @@ export class Noeud {
                 enfantNoeud.decouvrir();
             }
         }
+        // déssin des liens vers les enfants
         this.menuTechonologies.dessinerLiensNoeuds();
+        // enregistrement de la technologie débloquée
+        //this.menuTechonologies...
     }
 
     detectionMouseOver() {

@@ -1,21 +1,22 @@
 import { Noeud } from "./noeuds.js";
+import { Sauvegarde } from "../sauvegarde/sauvegarde.js";
 
 export class MenuTechnologies {
-    constructor() {
+    constructor(nomSauvegarde) {
         this.noeuds = [
-            new Noeud("centre", 100, "or", this, ['vitesseAttaque', 'degats', 'orDeDepart', 'lvlUpTours']),
-            new Noeud("vitesseAttaque", 200, "or", this),
-            new Noeud("degats", 300, "or", this, ['critRate', 'critDamage']),
-            new Noeud("orDeDepart", 400, "or", this),
-            new Noeud("lvlUpTours", 500, "or", this),
-            new Noeud("critRate", 500, "or", this),
-            new Noeud("critDamage", 500, "or", this)
+            new Noeud("centre", 1, "triangle", this, ['vitesseAttaque', 'degats', 'orDeDepart', 'lvlUpTours']),
+            new Noeud("vitesseAttaque", 5, "triangle", this),
+            new Noeud("degats", 5, "triangle", this, ['critRate', 'critDamage']),
+            new Noeud("orDeDepart", 7, "triangle", this),
+            new Noeud("lvlUpTours", 10, "triangle", this),
+            new Noeud("critRate", 20, "triangle", this),
+            new Noeud("critDamage", 20, "triangle", this)
         ];
 
         this.canvas = document.querySelector('#canvasTechno');
         this.ctx = this.canvas.getContext('2d');
 
-
+        this.sauvegarde = new Sauvegarde(nomSauvegarde);
 
 
         // Désactivation du menu contextuel de google Chrome
@@ -30,6 +31,23 @@ export class MenuTechnologies {
         });
     }
 
+    async initialiserSauvegarde(){
+        this.sauvegarde = (await this.sauvegarde.lireSaves()).saves[this.sauvegarde.nom];
+        const technos = this.sauvegarde.technologies;
+        console.log(technos);
+        for(const techno of Object.keys(technos)) {
+            if (technos[techno].lvl1 === true) {
+                console.log("Technologie " + techno + " OK");
+                for(const noeud of this.noeuds) {
+                    if (noeud.idHTML === techno) {
+                        noeud.debloquer();
+                    }
+                }
+            } else {
+                console.log("Technologie " + techno + " NUL");
+            }
+        }
+    }
 
     dessinerLiensNoeuds() {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);

@@ -18,6 +18,7 @@ $sauvegarde = $_SESSION['nomSauvegarde'];
     </script>
 </head>
 <body>
+    <input type="hidden" id="nomSauvegarde" value="<?php echo $sauvegarde; ?>">
     <canvas id="canvasTechno" width="1550px" height="710px"></canvas>
     <div class="arbre">
         <div class="noeud" id="centre"><img class="imgArbreTechno debloquee cachee" src="../assets/img/technoDebloquee.png"><img class="imgArbreTechno bloquee" src="../assets/img/technoBloquee.png"></div>
@@ -31,8 +32,9 @@ $sauvegarde = $_SESSION['nomSauvegarde'];
 
     <div id="divRetourMenuPrincipale" onclick="window.location.href='menuPrincipale.php'"><img src="../assets/img/maison.png"></div>
     <div id="divMonaies" class="flex-column">
-        <div id="divTriangles" class="flex-row">18 <img src="../assets/img/triangle.png"></div>
-        <div id="divRonds" class="flex-row">6 <img src="../assets/img/rond.png"></div>
+        <div id="divTriangles" class="flex-row">0<img src="../assets/img/triangle.png"></div>
+        <div id="divRonds" class="flex-row">0<img src="../assets/img/rond.png"></div>
+        <div id="divHexagones" class="flex-row">0<img src="../assets/img/hexagone.png"></div>
     </div>
     <div id="divInfoNoeud" class="cachee">coucou</div>
 
