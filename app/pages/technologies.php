@@ -32,9 +32,9 @@ $sauvegarde = $_SESSION['nomSauvegarde'];
 
     <div id="divRetourMenuPrincipale" onclick="window.location.href='menuPrincipale.php'"><img src="../assets/img/maison.png"></div>
     <div id="divMonaies" class="flex-column">
-        <div id="divTriangles" class="flex-row">0<img src="../assets/img/triangle.png"></div>
-        <div id="divRonds" class="flex-row">0<img src="../assets/img/rond.png"></div>
-        <div id="divHexagones" class="flex-row">0<img src="../assets/img/hexagone.png"></div>
+        <div id="divTriangles" class="flex-row"><span>0</span><img src="../assets/img/triangle.png"></div>
+        <div id="divRonds" class="flex-row"><span>0</span><img src="../assets/img/rond.png"></div>
+        <div id="divHexagones" class="flex-row"><span>0</span><img src="../assets/img/hexagone.png"></div>
     </div>
     <div id="divInfoNoeud" class="cachee">coucou</div>
 

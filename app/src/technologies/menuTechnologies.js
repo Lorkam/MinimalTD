@@ -32,19 +32,40 @@ export class MenuTechnologies {
     }
 
     async initialiserSauvegarde(){
+        /* Déblocage des technologies en fonction de la sauvegarde */
         this.sauvegarde = (await this.sauvegarde.lireSaves()).saves[this.sauvegarde.nom];
         const technos = this.sauvegarde.technologies;
-        console.log(technos);
+        const technoDebloquees = [];
+        //console.log(technos);
         for(const techno of Object.keys(technos)) {
             if (technos[techno].lvl1 === true) {
-                console.log("Technologie " + techno + " OK");
-                for(const noeud of this.noeuds) {
-                    if (noeud.idHTML === techno) {
-                        noeud.debloquer();
-                    }
-                }
-            } else {
-                console.log("Technologie " + techno + " NUL");
+                //console.log("Technologie " + techno + " OK");
+                technoDebloquees.push(techno);
+            }
+        }
+        for(const noeud of this.noeuds) {
+            if (technoDebloquees.includes(noeud.idHTML)) {
+                noeud.debloquer();
+            }
+        }
+        /* Récupération des monaies de la sauvegarde */
+        const monnaies = this.sauvegarde.monnaies;
+        const monaieTriangle = document.querySelector('#divTriangles span');
+        const monaieRonds = document.querySelector('#divRonds span');
+        const monaieHexagones = document.querySelector('#divHexagones span');
+        for(const monnaie of Object.keys(monnaies)) {
+            switch (monnaie) {
+                case 'triangles':
+                    monaieTriangle.innerHTML = monnaies[monnaie];
+                    break;
+                case 'ronds':
+                    monaieRonds.innerHTML = monnaies[monnaie];
+                    break;
+                case 'hexagones':
+                    monaieHexagones.innerHTML = monnaies[monnaie];
+                    break;
+                default:
+                    break;
             }
         }
     }

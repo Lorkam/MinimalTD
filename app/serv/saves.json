@@ -2,7 +2,7 @@
     "saves": {
         "test": {
             "description": "sauvegarde de test",
-            "monaies": {"triangles":0, "ronds":0, "hexagones":10},
+            "monnaies": {"triangles":10, "ronds":8, "hexagones":6},
             "niveauxCompletes": {"Niveau 1": true, "Niveau 2": false, "Niveau 3": false},
             "dateCreation": "2025-06-01",
             "dateDerniereSave": "2025-06-14",
