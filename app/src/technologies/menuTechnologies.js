@@ -4,10 +4,10 @@ import { Sauvegarde } from "../sauvegarde/sauvegarde.js";
 export class MenuTechnologies {
     constructor(nomSauvegarde) {
         this.noeuds = [
-            new Noeud("centre", 1, "triangles", this, ['vitesseAttaque', 'degats', 'orDeDepart', 'lvlUpTours']),
+            new Noeud("centre", 1, "triangles", this, ['vitesseAttaque', 'degats', 'goldsBonusDepart', 'lvlUpTours']),
             new Noeud("vitesseAttaque", 5, "triangles", this),
             new Noeud("degats", 5, "triangles", this, ['critRate', 'critDamage']),
-            new Noeud("orDeDepart", 7, "triangles", this),
+            new Noeud("goldsBonusDepart", 7, "triangles", this),
             new Noeud("lvlUpTours", 10, "triangles", this),
             new Noeud("critRate", 20, "triangles", this),
             new Noeud("critDamage", 20, "triangles", this)
@@ -52,18 +52,18 @@ export class MenuTechnologies {
         /* Récupération des monaies de la sauvegarde */
         this.noeuds[0].majMonnaies();
     }
-    async enregisterDeblocage(nomTechno, type, montant) {
+    async enregisterActionTechno(nomTechno, type, montant, actionTechno) {
         const url = "../serv/gestionSaves.php";
         try {
             // création de la requete pour accéder au php
             const response = await fetch(url, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                body: 'action=enregisterDeblocage'+'&typeMonnaie=' + type + '&montant=' + montant + '&nom=' + this.nomSauvegarde + '&nomTechno=' + nomTechno
+                body: 'action=enregisterActionTechno'+'&typeMonnaie=' + type + '&montant=' + montant + '&nom=' + this.nomSauvegarde + '&nomTechno=' + nomTechno + '&actionTechno='+actionTechno
             });
 
             const data = await response.text();
-            console.log('data = ', data);
+            //console.log(data);
             this.sauvegarde.monnaies[type] = parseInt(data, 10);
             return;
         } catch (error) {

@@ -3,7 +3,7 @@
         "test": {
             "description": "sauvegarde de test",
             "monnaies": {
-                "triangles": 18,
+                "triangles": 557,
                 "ronds": 8,
                 "hexagones": 6,
                 "-5": 0
@@ -40,7 +40,7 @@
                     "lvl3": false
                 },
                 "vitesseAttaque": {
-                    "lvl1": true,
+                    "lvl1": false,
                     "lvl2": false,
                     "lvl3": false
                 },
@@ -77,11 +77,14 @@
                     "lvl2": false,
                     "lvl3": false
                 },
-                "orDeDepart": {
-                    "lvl1": true
-                },
                 "lvlUpTours": {
-                    "lvl1": true
+                    "lvl1": false
+                },
+                "critRate": {
+                    "lvl1": false
+                },
+                "critDamage": {
+                    "lvl1": false
                 }
             }
         },

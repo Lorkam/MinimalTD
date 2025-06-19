@@ -4,6 +4,7 @@ export class Noeud {
         this.idHTML = idHTML;
         this.prix = prix;
         this.typePrix = typePrix;
+        this.debloque = false;
         this.menuTechonologies = menuTechonologies;
         this.divElementHTML = document.getElementById(idHTML);
         this.imgtechnoDebloquee = this.divElementHTML.querySelector('.debloquee');
@@ -16,8 +17,12 @@ export class Noeud {
         this.imgtechnoBloquee.addEventListener('mousedown', (e) => {
             if(e.button  === 0){
                 this.debloquer();
-            }else if(e.button  === 2){
+            }
+        });
+        this.imgtechnoDebloquee.addEventListener('mousedown', (e) => {
+            if(e.button  === 2){
                 console.log(`Clic droit sur le noeud ${this.idHTML}.`);
+                this.vendre();
             }
         });
         this.imgtechnoDebloquee.addEventListener('mouseenter', () => this.detectionMouseOver());
@@ -50,13 +55,15 @@ export class Noeud {
         this.imgtechnoBloquee.classList.add('apparition');
     }
     async debloquer(source = 'clic') {
+        this.debloque = true;
         if(source === 'clic'){
             // Vérification du prix
             const monnaies = this.menuTechonologies.sauvegarde.monnaies;
             //console.log(monnaies);
             if (monnaies[this.typePrix] >= this.prix) {
-                //monnaies[this.typePrix] -= this.prix;
-                await this.menuTechonologies.enregisterDeblocage(this.idHTML, this.typePrix, -1*this.prix);
+                // enregistrement de la technologie débloquée
+                await this.menuTechonologies.enregisterActionTechno(this.idHTML, this.typePrix, this.prix, 'achat');
+                // mise à jour des monnaies
                 this.majMonnaies();
             }else {
                 console.error(`Pas assez de ${this.typePrix} pour débloquer la technologie ${this.idHTML} (${monnaies[this.typePrix]}/${this.prix}).`);
@@ -77,11 +84,48 @@ export class Noeud {
                 enfantNoeud.decouvrir();
             }
         }
-        // déssin des liens vers les enfants
+        // dessin des liens vers les enfants
         this.menuTechonologies.dessinerLiensNoeuds();
-        // enregistrement de la technologie débloquée
-        //this.menuTechonologies...
     }
+    async vendre(n=0) {
+        console.log(`Vente du noeud ${this.idHTML} - n = ${n}`);
+        if(this.debloque) {
+            await this.menuTechonologies.enregisterActionTechno(this.idHTML, this.typePrix, this.prix, 'vente');
+            this.majMonnaies();
+            this.debloque = false;
+            this.imgtechnoDebloquee.classList.remove('deblocage');
+            this.imgtechnoDebloquee.classList.add('cachee');
+            this.imgtechnoBloquee.classList.remove('cachee');
+            this.imgtechnoBloquee.classList.add('apparition');
+        }
+        switch (n) {
+            case 0:
+                // On ne fait rien de plus, on a juste vendu le noeud
+                break;
+            case 1:
+                // On vend le noeud et on le remet en "hidden"
+                this.imgtechnoBloquee.classList.remove('apparition');
+                this.imgtechnoBloquee.classList.add('cachee');
+                this.imgtechnoHiden.classList.remove('cachee');
+                this.imgtechnoHiden.classList.add('apparition');
+                break;
+            default:
+                this.imgtechnoDebloquee.classList.remove('deblocage');
+                this.imgtechnoDebloquee.classList.add('cachee');
+                this.imgtechnoBloquee.classList.remove('apparition');
+                this.imgtechnoBloquee.classList.add('cachee');
+                this.imgtechnoHiden.classList.remove('apparition');
+                this.imgtechnoHiden.classList.add('cachee');
+        }
+        for(const enfantId of this.enfants) {
+            const noeud = this.menuTechonologies.noeuds.find(n => n.idHTML === enfantId);
+            await noeud.vendre(n+1); // On attend que tout soit bien vendu récursivement
+        }
+        // dessin des liens vers les enfants
+        this.menuTechonologies.dessinerLiensNoeuds();
+    }
+
+
 
     detectionMouseOver() {
         // Démarre un timer de 0.5s
