@@ -37,9 +37,9 @@ export class MenuTechnologies {
         this.sauvegarde = (await this.sauvegarde.lireSaves()).saves[this.sauvegarde.nom];
         const technos = this.sauvegarde.technologies;
         const technoDebloquees = [];
-        //console.log(technos);
+        //console.log('this.sauvegarde :', this.sauvegarde);
         for(const techno of Object.keys(technos)) {
-            if (technos[techno].lvl1 === true) {
+            if (technos[techno].lvl1.debloque === true) {
                 //console.log("Technologie " + techno + " OK");
                 technoDebloquees.push(techno);
             }

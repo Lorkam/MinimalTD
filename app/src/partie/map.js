@@ -1,6 +1,7 @@
 
 export const niveaux = {
   "Niveau 1": {
+    nom: "Niveau 1",
     chemin: [{ x: 400, y: 300 }, { x: 1000, y: 300 }],
     emplacementsTower: [
       { x: 560, y: 260 },
@@ -18,7 +19,7 @@ export const niveaux = {
       },
       {
         ennemis: [
-          { type: "classique", nb: 4, intervale: 1250 },
+          { type: "classique", nb: 4, intervale: 1500 }
         ],
         derniereVague: false
       },
@@ -43,6 +44,7 @@ export const niveaux = {
     ]
   },
   "Niveau 2": {
+    nom: "Niveau 2",
     chemin: [{ x: 300, y: 450 }, { x: 500, y: 450 }, { x: 500, y: 250 }, { x: 900, y: 250 }, { x: 900, y: 450 }],
     emplacementsTower: [
       { x: 460, y: 410 },
@@ -85,6 +87,7 @@ export const niveaux = {
     ]
   },
   "Niveau 3": {
+    nom: "Niveau 3",
     chemin: [{ x: 300, y: 300 }, { x: 800, y: 300 }, { x: 800, y: 450 }, { x: 500, y: 450 }, { x: 500, y: 150 }, { x: 950, y: 150 }, { x: 950, y: 450 }],
     emplacementsTower: [
       { x: 580, y: 375 },

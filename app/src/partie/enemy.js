@@ -12,7 +12,7 @@ export class Enemy {
         this.pvMax = 1;
         this.pv = this.pvMax;
         this.taille = 10; // pour la détection de souris
-        this.recompense = 0; // Récompense pour la destruction de l'ennemi
+        this.recompense = {'or':0, 'triangles':0, 'ronds':0, 'hexagones':0}; // Récompense pour la destruction de l'ennemi
     }
 
     /**
@@ -76,7 +76,10 @@ export class Enemy {
 
     mort(type){
         if (type=='tour') {
-            this.partie.golds += this.recompense + this.partie.modificateurs.economie.goldBonusParEnnemis; // Ajoute la récompense au joueur
+            this.partie.golds += this.recompense.or + this.partie.modificateurs.economie.goldBonusParEnnemis; // Ajoute la récompense au joueur
+            for(const monnaie of Object.keys(this.partie.monnaies)) {
+                this.partie.monnaies[monnaie] += this.recompense[monnaie] //+ this.partie.modificateurs.economie[`${monnaie}BonusParEnnemis`]; // Ajoute la récompense de chaque type de monnaie
+            }
         } // Ajoute la récompense au joueur
         // Si l'ennemi n'est plus en vie, on le retire de la liste
         this.partie.nbEnnemisMorts++;
@@ -94,7 +97,8 @@ export class EnemyClassique extends Enemy {
         this.pvMax = 20;
         this.pv = this.pvMax;
         this.taille = 10; // pour la détection de souris
-        this.recompense = 2;
+        this.recompense.or = 2;
+        this.recompense.triangles = 1;
     }
 }
 
@@ -106,7 +110,8 @@ export class EnemyTank extends Enemy {
         this.pv = this.pvMax;
         this.taille = 10; // pour la détection de souris
         this.speed = 0.5;
-        this.recompense = 4;
+        this.recompense.or = 4;
+        this.recompense.triangles = 2;
     }
 }
 
@@ -118,7 +123,8 @@ export class EnemyRapide extends Enemy {
         this.pv = this.pvMax;
         this.taille = 7; // pour la détection de souris
         this.speed = 3;
-        this.recompense = 1;
+        this.recompense.or = 1;
+        this.recompense.triangles = 1;
     }
 
     /**

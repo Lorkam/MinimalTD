@@ -7,6 +7,7 @@ import { Sauvegarde } from "../sauvegarde/sauvegarde.js";
 export class Partie {
     constructor(niveau, vague, nomSauvegarde) {
         this.sauvegarde = new Sauvegarde(nomSauvegarde); // Instance de la classe Sauvegarde
+        this.nomSauvegarde = nomSauvegarde;
         /* Chargement du niveau */
         this.niveau = JSON.parse(JSON.stringify(niveaux[niveau])); // Copie profonde du niveau pour éviter les modifications directes
         this.ennemies = []; // Liste des ennemis
@@ -32,7 +33,7 @@ export class Partie {
 
         this.vague = vague; // Compteur de vagues
         this.golds = 10; // Or du joueur
-        this.monaieTechno = {triangles:0, ronds:0, hexagones:0}; // Monnaie pour les technologies
+        this.monnaies = {'triangles':0, 'ronds':0, 'hexagones':0}; // Monnaie pour les technologies
     
         this.totalEnnemis = 0; // Nombre total d'ennemis à spawn dans la vague
         this.nbEnnemisMorts = 0; // Compteur d'ennemis morts
@@ -65,9 +66,9 @@ export class Partie {
 
     initialiserModificateurs() {
         this.modificateurs = this.sauvegarde.modificateurs; // Liste des modificateurs de la partie
-        this.golds += this.modificateurs.economie.goldBonusDepart; // Ajoute le bonus d'or de départ
+        this.golds += this.modificateurs.economie.goldsBonusDepart; // Ajoute le bonus d'or de départ
         this.heartPV += this.modificateurs.coeurBonus; // Ajoute le bonus de points de vie du coeur
-        console.log(this.sauvegarde);
+        //console.log(this.modificateurs);
     }
 
     /**
@@ -171,6 +172,29 @@ export class Partie {
         this.HTMLgolds.textContent = this.golds;
     }
 
+    async sauvegarder(reussite) {
+        // Sauvegarde le passage(ou pas) du niveau et les monnaies gagnées
+        const url = '../serv/gestionSaves.php';
+        
+        try {
+            // création de la requete pour accéder au php
+            const response = await fetch(url, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: 'action=sauvegarder' + '&nom=' + encodeURIComponent(this.nomSauvegarde) +
+                      '&niveau=' + encodeURIComponent(this.niveau.nom) + '&reussiteNiveau=' + encodeURIComponent(reussite) +
+                      '&monnaies=' + encodeURIComponent(JSON.stringify(this.monnaies))
+            });
+
+            const data = await response.text();
+            //console.log(data);
+            return ;
+        } catch (error) {
+            console.error('Erreur récupération données :', error);
+        }
+    }
+
+
     verifChangementVague() {
         const lancerVagueBtn = document.getElementById('lancerVagueBtn');
         if (this.nbEnnemisMorts == this.totalEnnemis && this.niveau.vagues[this.vague - 1].derniereVague==false) {
@@ -182,6 +206,8 @@ export class Partie {
         }else if(this.nbEnnemisMorts == this.totalEnnemis && this.niveau.vagues[this.vague - 1].derniereVague==true) {
             console.log("Fin de la dernière vague");
             console.log("Félicitations ! Vous avez terminé ce niveau !");
+            console.log(this.monnaies);
+            this.sauvegarder(true); // Sauvegarde l'état du jeu
             this.jeuDemarre = false; // Indique que le jeu n'est plus en cours
             this.jeuTermine = true; // Indique que le jeu est terminé
             lancerVagueBtn.disabled = false;
@@ -189,6 +215,8 @@ export class Partie {
             document.getElementById('divImgVictoire').style.display = 'flex'; // Affiche l'image de victoire
         }else if(this.heartPV <= 0) {
             console.log("Game Over ! Vous avez perdu !");
+            console.log(this.monnaies);
+            this.sauvegarder(false); // Sauvegarde l'état du jeu
             this.jeuDemarre = false; // Indique que le jeu n'est plus en cours
             this.jeuTermine = true; // Indique que le jeu est terminé
             lancerVagueBtn.disabled = false;
