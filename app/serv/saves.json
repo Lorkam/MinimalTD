@@ -8,7 +8,7 @@
                 "hexagones": 0
             },
             "niveauxCompletes": {
-                "Niveau 1": false,
+                "Niveau 1": true,
                 "Niveau 2": false,
                 "Niveau 3": false
             },

@@ -17,6 +17,7 @@ const divSauvegardes = document.querySelector('#divSauvegardes');
 const listeSauvegardes = divSauvegardes.querySelectorAll('div');
 const btnSauvegarder = document.querySelector('#btnSauvegarder');
 var nomSauvegarde = ''; 
+var niveauMaxReussi = 0;
 
 const endroitsClickable = [
     btnJouer, 
@@ -72,6 +73,18 @@ btnMenuSauvegarder.addEventListener('click', function() {
     if (menuMilieu.classList.contains("cachee")){
         affichermenuMilieu();
     }
+
+    console.log('nom de la save : ', document.querySelector('#nomSauvegarde').value);
+    for(const save of listeSauvegardes) {
+        const span = save.querySelector('span');
+        if(save.firstChild.nodeValue == document.querySelector('#nomSauvegarde').value) {
+            save.classList.add('sauvegardeSelectionnee'); // Ajoute la classe de sélection à la sauvegarde correspondante
+            span.textContent = '✅';
+        }else{
+            save.classList.remove('sauvegardeSelectionnee'); // Ajoute la classe de sélection à la sauvegarde correspondante
+            span.textContent = '';
+        }
+    }
     affichermenuJouer(false);
     affichermenuSauvegarder(true);
 });
@@ -95,11 +108,11 @@ document.querySelectorAll('.fleche img').forEach((fleche) => {
         e.stopPropagation(); // Empêche la propagation de l'événement click
         if (divParent.id === 'flecheGauche') {
             mettreAJourNiveauSelectionne('-');
-            console.log('changement de niveau : ', lvlActuellementSelectionne);
+            //console.log('changement de niveau : ', lvlActuellementSelectionne);
             
         } else if (divParent.id === 'flecheDroite') {
             mettreAJourNiveauSelectionne('+');
-            console.log('changement de niveau : ', lvlActuellementSelectionne);
+            //onsole.log('changement de niveau : ', lvlActuellementSelectionne);
         }
     });
 });
@@ -151,13 +164,20 @@ function mettreAJourNiveauSelectionne(action) {
             break;
     }
     inputNumNiveau.value = nomsNiveaux[lvlActuellementSelectionne-1];
+    if (lvlActuellementSelectionne <= niveauMaxReussi+1) {
+        btnLancerNiveau.disabled = false; // Active le bouton Lancer Niveau
+        btnLancerNiveau.classList.remove('disabled'); // Enlève la classe disabled
+    } else {
+        btnLancerNiveau.disabled = true; // Désactive le bouton Lancer Niveau
+        btnLancerNiveau.classList.add('disabled'); // Ajoute la classe disabled
+    }
 }
 
 /* Gestion des sauvegardes */
 async function afficherSauvegardes() {
     const listeSaves = await recupAllNomSaves();
     for(let i=0; i<listeSaves.length; i++){
-        listeSauvegardes[i].textContent = listeSaves[i];
+        listeSauvegardes[i].firstChild.nodeValue = listeSaves[i];
     }
 }
 afficherSauvegardes();
@@ -188,10 +208,11 @@ btnSauvegarder.addEventListener('click', async (e) => {
             await selectionnerSauvegarde(nomSauvegarde);
             const sauvegardeSelectionnee = document.querySelector('.sauvegardeSelectionnee');
             for(const save of listeSauvegardes) {
+                const span = save.querySelector('span');
                 if(save == sauvegardeSelectionnee) {
-                    save.childNodes[0].textContent = save.childNodes[0].textContent.replace('✅', '')+'✅'; // Enlève le ✅ de la sauvegarde sélectionnée
+                    span.textContent = '✅'; // met le ✅ sur la sauvegarde sélectionnée
                 }else {
-                    save.childNodes[0].textContent = save.childNodes[0].textContent.replace('✅', ''); // Enlève le ✅ des autres sauvegardes
+                    span.textContent = ''; // Enlève le ✅ des autres sauvegardes
                 }
             }
             btnJouer.disabled = false; // Active le bouton Jouer
@@ -199,6 +220,10 @@ btnSauvegarder.addEventListener('click', async (e) => {
             const btnTechnologies = document.querySelector("#btnTechnologies");
             btnTechnologies.disabled = false; // Active le bouton Jouer
             btnTechnologies.classList.remove('disabled'); // Enlève la classe disabled
+            document.querySelector('#nomSauvegarde').value = sauvegardeSelectionnee.firstChild.nodeValue.replace('✅', ''); // Met à jour le champ de saisie avec le nom de la sauvegarde sélectionnée
+            nomSauvegarde = document.querySelector('#nomSauvegarde').value; // Met à jour la variable nomSauvegarde
+            console.log(nomSauvegarde);
+            niveauMaxReussi = await getNiveauMaxReussi(nomSauvegarde);
 
         } catch (error) {
             console.error('Erreur lors de la sélection de la sauvegarde :', error);
@@ -207,3 +232,21 @@ btnSauvegarder.addEventListener('click', async (e) => {
         console.error("Aucune sauvegarde n'a été sélectionnée.");
     }
 });
+
+async function getNiveauMaxReussi(nomSauvegarde2) {
+    const url = '../serv/gestionSaves.php';
+    try {
+        // Création de la requête pour accéder au PHP
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: 'action=getNiveauMaxReussi' + '&nom=' + encodeURIComponent(nomSauvegarde2)
+        });
+
+        const data = await response.text();
+        console.log(nomSauvegarde2, ':', data);
+        return parseInt(data, 10);
+    } catch (error) {
+        console.error('Erreur récupération données :', error);
+    }
+}

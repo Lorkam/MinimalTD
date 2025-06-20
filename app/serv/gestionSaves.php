@@ -20,6 +20,9 @@ switch ($action){
     case 'sauvegarder':
         sauvegarder($saves, $nom);
         break;
+    case 'getNiveauMaxReussi':
+        getNiveauMaxReussi($saves, $nom);
+        break;
     default:
         echo 'action non reconnue';
         break;
@@ -65,4 +68,16 @@ function sauvegarder(&$saves, $nom){
 
     // Remplacement dans le fichier JSON
     file_put_contents('saves.json', json_encode($saves, JSON_PRETTY_PRINT));
+}
+
+function getNiveauMaxReussi(&$saves, $nom){
+    $niveauxCompletes = $saves['saves'][$nom]['niveauxCompletes'];
+    $niveauMax = 0;
+    foreach ($niveauxCompletes as $niveau => $reussi) {
+        if ($reussi) {
+            $niveauMax++;
+        }
+    }
+    echo json_encode($niveauMax);
+
 }

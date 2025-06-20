@@ -19,6 +19,7 @@ $sauvegarde = $_SESSION['nomSauvegarde']??null;
     </script>
 </head>
 <body>
+    <input type="hidden" id="nomSauvegarde" value="<?php echo $sauvegarde; ?>">
     <div id="menuGauche">
         <div class="flex-column" id="listeBtnPrincipaux">
             <h1>Mini Tower Defense</h1>
