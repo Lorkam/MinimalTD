@@ -1,4 +1,3 @@
-import { niveaux } from "./map.js";
 import { EnemyClassique, EnemyTank, EnemyRapide } from "./enemy.js";
 import { Emplacement } from "./emplacement.js";
 import { Sauvegarde } from "../sauvegarde/sauvegarde.js";
@@ -9,21 +8,19 @@ export class Partie {
         this.sauvegarde = new Sauvegarde(nomSauvegarde); // Instance de la classe Sauvegarde
         this.nomSauvegarde = nomSauvegarde;
         /* Chargement du niveau */
-        this.niveau = JSON.parse(JSON.stringify(niveaux[niveau])); // Copie profonde du niveau pour éviter les modifications directes
+        this.niveau = {};
+        this.nomNiveau = niveau; // Nom du niveau
         this.ennemies = []; // Liste des ennemis
         this.ennemiesASpawn = {}; // Liste des ennemis
         this.emplacements = []; // Liste des emplacements pour les tours
         this.towers = []; // Liste des tours
         this.projectiles = []; // Liste des projectiles
-        this.heartPos = this.niveau.heart;
         this.heartPV = 3; // Points de vie du coeur
         
         this.canvas = document.getElementById('gameCanvas');
         this.ctx = this.canvas.getContext('2d');
-        this.chemin = this.niveau.chemin;
         this.imageCoeur = new Image();
         this.imageCoeur.src = '../assets/img/heart.png';
-        this.chemin = this.niveau.chemin;
         this.jeuDemarre = false; // Indique si le jeu a démarré
         this.jeuTermine = false; // Indique si le jeu a démarré
         this.HTMLnumVague = document.getElementById('numVague');
@@ -42,6 +39,32 @@ export class Partie {
             e.preventDefault();
         });
 
+    }
+
+    async initialiserNiveau() {
+        const url = '../serv/gestionNiveaux.php';
+        try {
+            // Création de la requête pour accéder au PHP
+            const response = await fetch(url, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: 'action=chargerNiveau' + '&niveau=' + encodeURIComponent(this.nomNiveau)
+            });
+
+            const data = await response.json();
+            this.niveau = data; // Récupère le niveau depuis la réponse
+            this.chemin = this.niveau.chemin;
+            this.heartPos = this.niveau.heart;
+        } catch (error) {
+            console.error('Erreur récupération données :', error);
+        }
+    }
+    
+    initialiserModificateurs() {
+        this.modificateurs = this.sauvegarde.modificateurs; // Liste des modificateurs de la partie
+        this.golds += this.modificateurs.economie.goldsBonusDepart; // Ajoute le bonus d'or de départ
+        this.heartPV += this.modificateurs.coeurBonus; // Ajoute le bonus de points de vie du coeur
+        //console.log(this.modificateurs);
     }
 
     /**
@@ -64,12 +87,6 @@ export class Partie {
         }
     }
 
-    initialiserModificateurs() {
-        this.modificateurs = this.sauvegarde.modificateurs; // Liste des modificateurs de la partie
-        this.golds += this.modificateurs.economie.goldsBonusDepart; // Ajoute le bonus d'or de départ
-        this.heartPV += this.modificateurs.coeurBonus; // Ajoute le bonus de points de vie du coeur
-        //console.log(this.modificateurs);
-    }
 
     /**
      * Fait apparaître un nouvel ennemi si l'intervalle de spawn est écoulé et que le nombre maximum d'ennemis n'est pas atteint.
@@ -258,7 +275,8 @@ export class Partie {
     async play(){
         this.sauvegarde = (await this.sauvegarde.lireSaves()).saves[this.sauvegarde.nom]; // Récupère la sauvegarde actuelle
         this.initialiserModificateurs(); // Initialise les modificateurs de la partie
-
+        await this.initialiserNiveau(); // Initialise les modificateurs de la partie
+        console.log(this);
         for (const emplacement of this.niveau.emplacementsTower) {
             this.emplacements.push(new Emplacement(emplacement, this)); // Ajoute l'emplacement à la liste des emplacements
         }

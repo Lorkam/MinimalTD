@@ -3,7 +3,7 @@
         "test": {
             "description": "sauvegarde de test",
             "monnaies": {
-                "triangles": 81,
+                "triangles": 107,
                 "ronds": 0,
                 "hexagones": 0
             },
