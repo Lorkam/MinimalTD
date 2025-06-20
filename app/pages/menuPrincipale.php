@@ -44,7 +44,12 @@ $sauvegarde = $_SESSION['nomSauvegarde']??null;
         </div>
         <div id="divContainerSauvegarder" style="display: none;">
             <h2>Sauvegardes</h2>
-            <div class="flex-column" id="divSauvegardes"><div class="emplacementSauvegarde">Emplacement Vide<span></span></div><div class="emplacementSauvegarde">Emplacement Vide<span></span></div><div class="emplacementSauvegarde">Emplacement Vide<span></span></div><div class="emplacementSauvegarde">Emplacement Vide<span></span></div></div>
+            <div class="flex-column" id="divSauvegardes">
+                <div class="divEmplacementSauvegarde flex-row"><div class="emplacementSauvegarde">Emplacement Vide<span></span><span id="poubelle">🗑️</span></div></div>
+                <div class="divEmplacementSauvegarde flex-row"><div class="emplacementSauvegarde">Emplacement Vide<span></span><span id="poubelle">🗑️</span></div></div>
+                <div class="divEmplacementSauvegarde flex-row"><div class="emplacementSauvegarde">Emplacement Vide<span></span><span id="poubelle">🗑️</span></div></div>
+                <div class="divEmplacementSauvegarde flex-row"><div class="emplacementSauvegarde">Emplacement Vide<span></span><span id="poubelle">🗑️</span></div></div>
+            </div>
             <button id="btnSauvegarder" class="btnBasMenuMilieu">Sauvegarder</button>
         </div>
     </div>

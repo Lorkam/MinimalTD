@@ -14,7 +14,7 @@ var lvlActuellementSelectionne = 1;
 /* Menu Sauvegarder */
 const menuSauvegarder = document.querySelector('#divContainerSauvegarder');
 const divSauvegardes = document.querySelector('#divSauvegardes');
-const listeSauvegardes = divSauvegardes.querySelectorAll('div');
+const listeSauvegardes = divSauvegardes.querySelectorAll('.emplacementSauvegarde');
 const btnSauvegarder = document.querySelector('#btnSauvegarder');
 var nomSauvegarde = ''; 
 var niveauMaxReussi = 0;
@@ -78,10 +78,10 @@ btnMenuSauvegarder.addEventListener('click', function() {
     for(const save of listeSauvegardes) {
         const span = save.querySelector('span');
         if(save.firstChild.nodeValue == document.querySelector('#nomSauvegarde').value) {
-            save.classList.add('sauvegardeSelectionnee'); // Ajoute la classe de sélection à la sauvegarde correspondante
+            save.parentElement.classList.add('sauvegardeSelectionnee'); // Ajoute la classe de sélection à la sauvegarde correspondante
             span.textContent = '✅';
         }else{
-            save.classList.remove('sauvegardeSelectionnee'); // Ajoute la classe de sélection à la sauvegarde correspondante
+            save.parentElement.classList.remove('sauvegardeSelectionnee'); // Ajoute la classe de sélection à la sauvegarde correspondante
             span.textContent = '';
         }
     }
@@ -183,12 +183,12 @@ async function afficherSauvegardes() {
 afficherSauvegardes();
 
 function clicSauvegarde(cible){
-    if (!cible.classList.contains('sauvegardeSelectionnee')/* && cible.textContent !== 'Emplacement Vide'*/) { // à changer
-        cible.classList.add('sauvegardeSelectionnee');
-        nomSauvegarde = cible.textContent;
+    if (!cible.parentElement.classList.contains('sauvegardeSelectionnee')/* && cible.textContent !== 'Emplacement Vide'*/) { // à changer
+        cible.parentElement.classList.add('sauvegardeSelectionnee');
+        nomSauvegarde = cible.firstChild.nodeValue; // Met à jour la variable nomSauvegarde avec le nom de la sauvegarde sélectionnée
         for(const save of listeSauvegardes) {
             if (save !== cible) {
-                save.classList.remove('sauvegardeSelectionnee');
+                save.parentElement.classList.remove('sauvegardeSelectionnee');
             }
         }
     } else {
@@ -210,7 +210,7 @@ btnSauvegarder.addEventListener('click', async (e) => {
         }
         try {
             await selectionnerSauvegarde(nomSauvegarde);
-            const sauvegardeSelectionnee = document.querySelector('.sauvegardeSelectionnee');
+            const sauvegardeSelectionnee = document.querySelector('.sauvegardeSelectionnee').firstChild;
             for(const save of listeSauvegardes) {
                 const span = save.querySelector('span');
                 if(save == sauvegardeSelectionnee) {
@@ -225,7 +225,7 @@ btnSauvegarder.addEventListener('click', async (e) => {
             const btnTechnologies = document.querySelector("#btnTechnologies");
             btnTechnologies.disabled = false; // Active le bouton Jouer
             btnTechnologies.classList.remove('disabled'); // Enlève la classe disabled
-            document.querySelector('#nomSauvegarde').value = sauvegardeSelectionnee.firstChild.nodeValue.replace('✅', ''); // Met à jour le champ de saisie avec le nom de la sauvegarde sélectionnée
+            document.querySelector('#nomSauvegarde').value = sauvegardeSelectionnee.firstChild.nodeValue; // Met à jour le champ de saisie avec le nom de la sauvegarde sélectionnée
             nomSauvegarde = document.querySelector('#nomSauvegarde').value; // Met à jour la variable nomSauvegarde
             niveauMaxReussi = await getNiveauMaxReussi(nomSauvegarde);
 

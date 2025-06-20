@@ -244,7 +244,7 @@ h2{
 #divSauvegardes{
     gap: 20px;
 }
-.emplacementSauvegarde{
+.divEmplacementSauvegarde{
     width: 80%;
     height: min-content;
     padding: 10px;
@@ -255,7 +255,7 @@ h2{
     text-align: center;
     transition: all 0.3s ease-in-out;
 }
-.emplacementSauvegarde:hover{
+.divEmplacementSauvegarde:hover{
     background-color: #008cff3a;
     transform: scale(1.025);
     cursor: pointer;
@@ -268,4 +268,15 @@ h2{
 .disabled{
     border: 2px solid grey;
     pointer-events: none;
+}
+.emplacementSauvegarde{
+    position: relative;
+    width: 100%;
+    height: min-content;
+}
+span#poubelle{
+    position: absolute;
+    right: 5px;
+    top: 5px;
+    transform: translate(30%, -30%);
 }

@@ -24,6 +24,9 @@ switch ($action){
     case 'getNiveauMaxReussi':
         getNiveauMaxReussi($saves, $nom);
         break;
+    case 'suppressionSauvegarde':
+        suppressionSauvegarde($saves, $nom);
+        break;
     default:
         echo 'action non reconnue';
         break;
@@ -262,5 +265,10 @@ function creerSauvegarde(&$saves, $nom){
             ]
         ]
     ];
+    file_put_contents('saves.json', json_encode($saves, JSON_PRETTY_PRINT));
+}
+
+function suppressionSauvegarde(&$saves, $nom){
+    unset($saves['saves'][$nom]);
     file_put_contents('saves.json', json_encode($saves, JSON_PRETTY_PRINT));
 }
