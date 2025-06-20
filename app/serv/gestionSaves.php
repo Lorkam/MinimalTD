@@ -2,6 +2,7 @@
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
+
 session_start();
 $action = $_POST['action']??'enregisterActionTechno';
 $nom = $_POST['nom']?? 'test'; // Nom de la sauvegarde, par défaut 'test'
@@ -71,6 +72,7 @@ function sauvegarder(&$saves, $nom){
 }
 
 function getNiveauMaxReussi(&$saves, $nom){
+    if(@$saves['saves'][$nom]==null) creerSauvegarde($saves, $nom);
     $niveauxCompletes = $saves['saves'][$nom]['niveauxCompletes'];
     $niveauMax = 0;
     foreach ($niveauxCompletes as $niveau => $reussi) {
@@ -80,4 +82,185 @@ function getNiveauMaxReussi(&$saves, $nom){
     }
     echo json_encode($niveauMax);
 
+}
+
+function creerSauvegarde(&$saves, $nom){
+    $date = new DateTime();
+    $date = $date->format('Y-m-d');
+    $saves['saves'][$nom] = [
+        "description"=> "sauvegarde vide",
+        "monnaies"=> [
+            "triangles"=> 0,
+            "ronds"=> 0,
+            "hexagones"=> 0
+        ],
+        "niveauxCompletes"=> [
+            "Niveau 1"=> false,
+            "Niveau 2"=> false,
+            "Niveau 3"=> false
+        ],
+        "dateCreation"=> $date,
+        "dateDerniereSave"=> $date,
+        "modificateurs"=> [
+            "toursClassiques"=> [
+                "degats"=> 1,
+                "vitesseAttaque"=> 1,
+                "prix"=> 1,
+                "critRate"=> 0.1,
+                "critDamage"=> 1.2,
+                "portee"=> 1
+            ],
+            "economie"=> [
+                "goldBonusDepart"=> 0,
+                "goldBonusParEnnemis"=> 0
+            ],
+            "coeurBonus"=> 0,
+            "lvlUpTours"=> 1
+        ],
+        "technologies"=> [
+            "centre"=> [
+                "lvl1"=> [
+                    "debloque"=> false,
+                    "valeur"=> 1
+                ]
+            ],
+            "degats"=> [
+                "lvl1"=> [
+                    "debloque"=> false,
+                    "valeur"=> 1.2
+                ],
+                "lvl2"=> [
+                    "debloque"=> false,
+                    "valeur"=> 1.4
+                ],
+                "lvl3"=> [
+                    "debloque"=> false,
+                    "valeur"=> 1.6
+                ]
+            ],
+            "vitesseAttaque"=> [
+                "lvl1"=> [
+                    "debloque"=> false,
+                    "valeur"=> 1.2
+                ],
+                "lvl2"=> [
+                    "debloque"=> false,
+                    "valeur"=> 1.4
+                ],
+                "lvl3"=> [
+                    "debloque"=> false,
+                    "valeur"=> 1.6
+                ]
+            ],
+            "portee"=> [
+                "lvl1"=> [
+                    "debloque"=> false,
+                    "valeur"=> 1.2
+                ],
+                "lvl2"=> [
+                    "debloque"=> false,
+                    "valeur"=> 1.4
+                ],
+                "lvl3"=> [
+                    "debloque"=> false,
+                    "valeur"=> 1.6
+                ]
+            ],
+            "critRate"=> [
+                "lvl1"=> [
+                    "debloque"=> false,
+                    "valeur"=> 0.2
+                ],
+                "lvl2"=> [
+                    "debloque"=> false,
+                    "valeur"=> 0.3
+                ],
+                "lvl3"=> [
+                    "debloque"=> false,
+                    "valeur"=> 0.4
+                ],
+                "lvl4"=> [
+                    "debloque"=> false,
+                    "valeur"=> 0.5
+                ]
+            ],
+            "critDamage"=> [
+                "lvl1"=> [
+                    "debloque"=> false,
+                    "valeur"=> 1.4
+                ],
+                "lvl2"=> [
+                    "debloque"=> false,
+                    "valeur"=> 1.6
+                ],
+                "lvl3"=> [
+                    "debloque"=> false,
+                    "valeur"=> 1.8
+                ]
+            ],
+            "prix"=> [
+                "lvl1"=> [
+                    "debloque"=> false,
+                    "valeur"=> 0.9
+                ],
+                "lvl2"=> [
+                    "debloque"=> false,
+                    "valeur"=> 0.8
+                ],
+                "lvl3"=> [
+                    "debloque"=> false,
+                    "valeur"=> 0.7
+                ]
+            ],
+            "coeurBonus"=> [
+                "lvl1"=> [
+                    "debloque"=> false,
+                    "valeur"=> 1
+                ],
+                "lvl2"=> [
+                    "debloque"=> false,
+                    "valeur"=> 2
+                ],
+                "lvl3"=> [
+                    "debloque"=> false,
+                    "valeur"=> 3
+                ]
+            ],
+            "goldsBonusDepart"=> [
+                "lvl1"=> [
+                    "debloque"=> false,
+                    "valeur"=> 2
+                ],
+                "lvl2"=> [
+                    "debloque"=> false,
+                    "valeur"=> 5
+                ],
+                "lvl3"=> [
+                    "debloque"=> false,
+                    "valeur"=> 8
+                ]
+            ],
+            "goldsBonusParEnnemis"=> [
+                "lvl1"=> [
+                    "debloque"=> false,
+                    "valeur"=> 1
+                ],
+                "lvl2"=> [
+                    "debloque"=> false,
+                    "valeur"=> 2
+                ],
+                "lvl3"=> [
+                    "debloque"=> false,
+                    "valeur"=> 3
+                ]
+            ],
+            "lvlUpTours"=> [
+                "lvl1"=> [
+                    "debloque"=> false,
+                    "valeur"=> 1
+                ]
+            ]
+        ]
+    ];
+    file_put_contents('saves.json', json_encode($saves, JSON_PRETTY_PRINT));
 }

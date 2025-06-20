@@ -183,7 +183,7 @@ async function afficherSauvegardes() {
 afficherSauvegardes();
 
 function clicSauvegarde(cible){
-    if (!cible.classList.contains('sauvegardeSelectionnee') && cible.textContent !== 'Emplacement Vide') { // à changer
+    if (!cible.classList.contains('sauvegardeSelectionnee')/* && cible.textContent !== 'Emplacement Vide'*/) { // à changer
         cible.classList.add('sauvegardeSelectionnee');
         nomSauvegarde = cible.textContent;
         for(const save of listeSauvegardes) {
@@ -204,12 +204,17 @@ listeSauvegardes.forEach((sauvegarde) => {
 btnSauvegarder.addEventListener('click', async (e) => {
     e.stopPropagation(); // Empêche la propagation de l'événement click
     if (nomSauvegarde !== '') {
+        if( nomSauvegarde === 'Emplacement Vide') {
+            nomSauvegarde = prompt("Entrez le nouveau nom de la sauvegarde :");
+            nomSauvegarde = nomSauvegarde!=null? nomSauvegarde.trim() : 'Emplacement Vide';
+        }
         try {
             await selectionnerSauvegarde(nomSauvegarde);
             const sauvegardeSelectionnee = document.querySelector('.sauvegardeSelectionnee');
             for(const save of listeSauvegardes) {
                 const span = save.querySelector('span');
                 if(save == sauvegardeSelectionnee) {
+                    save.firstChild.nodeValue = nomSauvegarde; // Met à jour le nom de la sauvegarde sélectionnée
                     span.textContent = '✅'; // met le ✅ sur la sauvegarde sélectionnée
                 }else {
                     span.textContent = ''; // Enlève le ✅ des autres sauvegardes
@@ -222,7 +227,6 @@ btnSauvegarder.addEventListener('click', async (e) => {
             btnTechnologies.classList.remove('disabled'); // Enlève la classe disabled
             document.querySelector('#nomSauvegarde').value = sauvegardeSelectionnee.firstChild.nodeValue.replace('✅', ''); // Met à jour le champ de saisie avec le nom de la sauvegarde sélectionnée
             nomSauvegarde = document.querySelector('#nomSauvegarde').value; // Met à jour la variable nomSauvegarde
-            console.log(nomSauvegarde);
             niveauMaxReussi = await getNiveauMaxReussi(nomSauvegarde);
 
         } catch (error) {
@@ -244,7 +248,7 @@ async function getNiveauMaxReussi(nomSauvegarde2) {
         });
 
         const data = await response.text();
-        console.log(nomSauvegarde2, ':', data);
+        //console.log(nomSauvegarde2, ':', data);
         return parseInt(data, 10);
     } catch (error) {
         console.error('Erreur récupération données :', error);

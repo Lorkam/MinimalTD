@@ -171,22 +171,38 @@ h2{
 }
 .fleche{
     position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
     bottom: 55px;
     width: min-content;
     height: min-content;
-    background-color: #00000000;
+    background-color: #ffffff00;
     border: none;
     font-size: 30px;
+    border-radius: 50%;
+    transition: all 0.3s ease-in-out;
     img{
         width: 30px;
         height: 30px;
     }
 }
+.fleche:hover{
+    background-color: #d3d3d3;
+    cursor: pointer;
+}
 #flecheGauche{
     left: 10px;
+    img{
+        transform: translateX(-2px);
+    }
 }
 #flecheDroite{
     right: 10px;
+    img{
+        transform: translateX(+2px);
+    }
 }
 .btnBasMenuMilieu{
     position: absolute;
