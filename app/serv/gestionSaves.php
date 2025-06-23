@@ -5,7 +5,7 @@ error_reporting(E_ALL);
 
 session_start();
 $action = $_POST['action']??'enregisterActionTechno';
-$nom = $_POST['nom']?? 'test'; // Nom de la sauvegarde, par défaut 'test'
+$nom = $_POST['nom']??'test'; // Nom de la sauvegarde, par défaut 'test'
 $saves = json_decode(file_get_contents('saves.json'), true);
 
 switch ($action){
@@ -24,14 +24,36 @@ switch ($action){
     case 'getNiveauMaxReussi':
         getNiveauMaxReussi($saves, $nom);
         break;
-    case 'suppressionSauvegarde':
-        suppressionSauvegarde($saves, $nom);
+    case 'supprimerSauvegarde':
+        supprimerSauvegarde($saves, $nom);
         break;
     default:
         echo 'action non reconnue';
         break;
 }
 
+/**
+ * Enregistre une action liée à une technologie (achat ou vente) pour une sauvegarde donnée.
+ *
+ * Cette fonction met à jour le montant de la monnaie du joueur en fonction de l'action
+ * (achat ou vente) et applique les effets de la technologie correspondante en appelant
+ * une fonction dynamique définie dans 'effetsTechno.php'. Elle met également à jour
+ * les technologies et modificateurs associés à la sauvegarde, puis enregistre les
+ * modifications dans le fichier JSON des sauvegardes.
+ *
+ * @param array  &$saves Tableau de toutes les sauvegardes (passé par référence).
+ * @param string $nom    Nom de la sauvegarde à modifier.
+ *
+ * Données attendues dans $_POST :
+ * - 'typeMonnaie' : Type de monnaie à modifier.
+ * - 'montant' : Montant à ajouter ou retirer.
+ * - 'nomTechno' : Nom de la technologie concernée.
+ * - 'actionTechno' : Action à effectuer ('achat' ou 'vente').
+ *
+ * Effets de bord :
+ * - Met à jour le fichier 'saves.json' avec les nouvelles données.
+ * - Affiche le nouveau montant de la monnaie modifiée au format JSON.
+ */
 function enregisterActionTechno(&$saves, $nom){
     $typeMonnaie = $_POST['typeMonnaie'];
     $nouveauMontant = (int) $_POST['montant'];
@@ -63,6 +85,19 @@ function enregisterActionTechno(&$saves, $nom){
     echo json_encode($saves['saves'][$nom]['monnaies'][$typeMonnaie]);
 }
 
+/**
+ * Sauvegarde les données de progression d'un joueur dans le tableau des sauvegardes et met à jour le fichier JSON.
+ *
+ * @param array  $saves Référence au tableau contenant toutes les sauvegardes.
+ * @param string $nom   Nom de la sauvegarde à mettre à jour.
+ *
+ * Cette fonction effectue les opérations suivantes :
+ * - Met à jour l'état de complétion du niveau courant si celui-ci n'a pas encore été complété.
+ * - Ajoute les monnaies (triangles, ronds, hexagones) obtenues lors du niveau aux monnaies existantes.
+ * - Enregistre les modifications dans le fichier 'saves.json' au format JSON.
+ *
+ * Les données du niveau et des monnaies sont récupérées depuis la superglobale $_POST.
+ */
 function sauvegarder(&$saves, $nom){
     if($saves['saves'][$nom]['niveauxCompletes'][$_POST['niveau']]==false) $saves['saves'][$nom]['niveauxCompletes'][$_POST['niveau']] = $_POST['reussiteNiveau']=='true' ? true : false;
     $monnaies = json_decode($_POST['monnaies'], true);
@@ -74,8 +109,19 @@ function sauvegarder(&$saves, $nom){
     file_put_contents('saves.json', json_encode($saves, JSON_PRETTY_PRINT));
 }
 
+/**
+ * Retourne le nombre maximal de niveaux réussis par un utilisateur et l'affiche au format JSON.
+ *
+ * Si la sauvegarde de l'utilisateur n'existe pas, elle est créée.
+ * Parcourt le tableau 'niveauxCompletes' pour l'utilisateur donné et compte le nombre de niveaux marqués comme réussis.
+ *
+ * @param array $saves Référence au tableau des sauvegardes contenant toutes les sauvegardes utilisateurs.
+ * @param string $nom Le nom de l'utilisateur dont on veut déterminer le niveau maximal réussi.
+ *
+ * @return void Affiche le nombre maximal de niveaux réussis au format JSON.
+ */
 function getNiveauMaxReussi(&$saves, $nom){
-    if(@$saves['saves'][$nom]==null) creerSauvegarde($saves, $nom);
+    if(@$saves['saves'][$nom]==null) {echo json_encode(0); return;}
     $niveauxCompletes = $saves['saves'][$nom]['niveauxCompletes'];
     $niveauMax = 0;
     foreach ($niveauxCompletes as $niveau => $reussi) {
@@ -87,6 +133,23 @@ function getNiveauMaxReussi(&$saves, $nom){
 
 }
 
+/**
+ * Crée une nouvelle sauvegarde de jeu avec des valeurs par défaut et l'ajoute au tableau des sauvegardes.
+ *
+ * @param array &$saves Référence au tableau contenant toutes les sauvegardes existantes. La nouvelle sauvegarde sera ajoutée à ce tableau sous la clé 'saves' avec le nom donné.
+ * @param string $nom Le nom de la nouvelle sauvegarde à créer.
+ *
+ * La sauvegarde créée contient les informations suivantes :
+ * - description : Description de la sauvegarde (par défaut "sauvegarde vide").
+ * - monnaies : Tableau des monnaies du jeu (triangles, ronds, hexagones), initialisées à 0.
+ * - niveauxCompletes : Statut de complétion des niveaux (Niveau 1, 2, 3), initialisés à false.
+ * - dateCreation : Date de création de la sauvegarde (format 'Y-m-d').
+ * - dateDerniereSave : Date de la dernière sauvegarde (format 'Y-m-d').
+ * - modificateurs : Modificateurs de jeu (toursClassiques, economie, coeurBonus, lvlUpTours) avec leurs valeurs par défaut.
+ * - technologies : Tableau des technologies et leurs niveaux, chaque niveau ayant un statut de déblocage (debloque) et une valeur associée.
+ *
+ * La fonction sauvegarde le tableau complet des sauvegardes dans le fichier 'saves.json' au format JSON.
+ */
 function creerSauvegarde(&$saves, $nom){
     $date = new DateTime();
     $date = $date->format('Y-m-d');
@@ -268,7 +331,16 @@ function creerSauvegarde(&$saves, $nom){
     file_put_contents('saves.json', json_encode($saves, JSON_PRETTY_PRINT));
 }
 
-function suppressionSauvegarde(&$saves, $nom){
+/**
+ * Supprime une sauvegarde spécifique du tableau des sauvegardes et met à jour le fichier 'saves.json'.
+ *
+ * @param array  $saves Référence au tableau contenant toutes les sauvegardes.
+ * @param string $nom   Le nom de la sauvegarde à supprimer.
+ *
+ * @return void
+ */
+function supprimerSauvegarde(&$saves, $nom){
     unset($saves['saves'][$nom]);
+    unset($_SESSION['nomSauvegarde']);
     file_put_contents('saves.json', json_encode($saves, JSON_PRETTY_PRINT));
 }

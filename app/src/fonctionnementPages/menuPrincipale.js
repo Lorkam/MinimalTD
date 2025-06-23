@@ -14,9 +14,11 @@ var lvlActuellementSelectionne = 1;
 /* Menu Sauvegarder */
 const menuSauvegarder = document.querySelector('#divContainerSauvegarder');
 const divSauvegardes = document.querySelector('#divSauvegardes');
+const listeDivSauvegardes = divSauvegardes.querySelectorAll('.divEmplacementSauvegarde');
 const listeSauvegardes = divSauvegardes.querySelectorAll('.emplacementSauvegarde');
+const listeBtnPoubelles = divSauvegardes.querySelectorAll('.poubelle');
 const btnSauvegarder = document.querySelector('#btnSauvegarder');
-var nomSauvegarde = ''; 
+var nomSauvegarde = document.querySelector('#nomSauvegarde').value; // Nom de la sauvegarde sélectionnée
 var niveauMaxReussi = 0;
 
 const endroitsClickable = [
@@ -32,6 +34,7 @@ const endroitsClickable = [
     ...document.querySelectorAll('h2'),
     menuSauvegarder,
     divSauvegardes,
+    ...listeDivSauvegardes,
     ...listeSauvegardes,
     btnMenuSauvegarder,
     btnSauvegarder,
@@ -46,12 +49,13 @@ function affichermenuMilieu(){
     }, 500); // Durée de l'animation d'apparition
 }
 
-function affichermenuJouer(affichage){
+async function affichermenuJouer(affichage){
     if(affichage == true){
         menuJouer.style.display = 'block';
     } else {
         menuJouer.style.display = 'none';
     }
+    niveauMaxReussi = await getNiveauMaxReussi(nomSauvegarde);
 }
 
 function affichermenuSauvegarder(affichage){
@@ -173,7 +177,7 @@ function mettreAJourNiveauSelectionne(action) {
     }
 }
 
-/* Gestion des sauvegardes */
+/**  Gestion des sauvegardes **/
 async function afficherSauvegardes() {
     const listeSaves = await recupAllNomSaves();
     for(let i=0; i<listeSaves.length; i++){
@@ -192,13 +196,13 @@ function clicSauvegarde(cible){
             }
         }
     } else {
-        console.error("L'élément cliqué n'est pas une sauvegarde valide.");
+        console.warn("L'élément cliqué n'est pas une sauvegarde valide.");
     }
 }
-listeSauvegardes.forEach((sauvegarde) => {
-    sauvegarde.addEventListener('click', (e) => {
+listeDivSauvegardes.forEach((divSauvegarde) => {
+    divSauvegarde.addEventListener('click', (e) => {
         e.stopPropagation(); // Empêche la propagation de l'événement click
-        clicSauvegarde(sauvegarde);
+        clicSauvegarde(divSauvegarde.querySelector('.emplacementSauvegarde'));
     });
 });
 btnSauvegarder.addEventListener('click', async (e) => {
@@ -254,3 +258,44 @@ async function getNiveauMaxReussi(nomSauvegarde2) {
         console.error('Erreur récupération données :', error);
     }
 }
+
+/* Gestion de la suppression des sauvegardes */
+async function suppressionSauvegarde(poubelle){
+    const divSauvegardeSupr = poubelle.parentElement.parentElement;
+    const nomSauvegardeSupr = divSauvegardeSupr.firstChild.nodeValue;
+    //console.log(divSauvegardeSupr);
+    if (nomSauvegardeSupr !== 'Emplacement Vide') {
+        try{
+            const url = '../serv/gestionSaves.php';
+            const response = await fetch(url, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: 'action=supprimerSauvegarde' + '&nom=' + encodeURIComponent(nomSauvegardeSupr)
+            });
+            const data = await response.text();
+            //console.log(data);
+        } catch (error) {
+            console.error('Erreur lors de la suppression de la sauvegarde :', error);
+        }
+    }
+    if(divSauvegardeSupr.parentElement.classList.contains('sauvegardeSelectionnee')) {
+        divSauvegardeSupr.parentElement.classList.remove('sauvegardeSelectionnee'); //
+        divSauvegardeSupr.querySelector('span').textContent = ''; // Enlève le ✅
+        nomSauvegarde = ''; // Réinitialise la variable nomSauvegarde
+        btnJouer.disabled = true; // Désactive le bouton Jouer
+        btnJouer.classList.add('disabled'); // Ajoute la classe disabled
+        const btnTechnologies = document.querySelector("#btnTechnologies");
+        btnTechnologies.disabled = true; // Désactive le bouton Technologies
+        btnTechnologies.classList.add('disabled'); // Ajoute la classe disabled
+    }
+    divSauvegardeSupr.firstChild.nodeValue = 'Emplacement Vide'; // Réinitialise le nom de la sauvegarde
+}
+listeBtnPoubelles.forEach((poubelle) => {
+    poubelle.addEventListener('click', (e) => {
+        e.stopPropagation(); // Empêche la propagation de l'événement click
+        if( !confirm("Êtes-vous sûr de vouloir supprimer cette sauvegarde ?")) {
+            return; // Si l'utilisateur annule, on ne fait rien
+        }
+        suppressionSauvegarde(poubelle);
+    });
+});

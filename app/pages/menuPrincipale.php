@@ -45,10 +45,10 @@ $sauvegarde = $_SESSION['nomSauvegarde']??null;
         <div id="divContainerSauvegarder" style="display: none;">
             <h2>Sauvegardes</h2>
             <div class="flex-column" id="divSauvegardes">
-                <div class="divEmplacementSauvegarde flex-row"><div class="emplacementSauvegarde">Emplacement Vide<span></span><span id="poubelle">🗑️</span></div></div>
-                <div class="divEmplacementSauvegarde flex-row"><div class="emplacementSauvegarde">Emplacement Vide<span></span><span id="poubelle">🗑️</span></div></div>
-                <div class="divEmplacementSauvegarde flex-row"><div class="emplacementSauvegarde">Emplacement Vide<span></span><span id="poubelle">🗑️</span></div></div>
-                <div class="divEmplacementSauvegarde flex-row"><div class="emplacementSauvegarde">Emplacement Vide<span></span><span id="poubelle">🗑️</span></div></div>
+                <div class="divEmplacementSauvegarde flex-row"><div class="emplacementSauvegarde">Emplacement Vide<span></span><div class="posRelative"><span class="poubelle">🗑️</span></div></div></div>
+                <div class="divEmplacementSauvegarde flex-row"><div class="emplacementSauvegarde">Emplacement Vide<span></span><div class="posRelative"><span class="poubelle">🗑️</span></div></div></div>
+                <div class="divEmplacementSauvegarde flex-row"><div class="emplacementSauvegarde">Emplacement Vide<span></span><div class="posRelative"><span class="poubelle">🗑️</span></div></div></div>
+                <div class="divEmplacementSauvegarde flex-row"><div class="emplacementSauvegarde">Emplacement Vide<span></span><div class="posRelative"><span class="poubelle">🗑️</span></div></div></div>
             </div>
             <button id="btnSauvegarder" class="btnBasMenuMilieu">Sauvegarder</button>
         </div>
