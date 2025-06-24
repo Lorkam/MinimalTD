@@ -1,12 +1,33 @@
 body{
-    width: 100vw;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: rgb(165, 165, 165);
+    display: flex;
+    justify-content: center;
+    align-items: center;
     height: 100vh;
+    width: 100vw;
+}
+#divBordureJeu{
+    position: relative;
+    width: min-content;
+    height: min-content;
+    border: 10px solid #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+}
+#divContainerJeu{
+    margin: 0;
+    padding: 0;
+    width: 1550px;
+    height: 710px;
     overflow: hidden;
 }
 
 .imgArbreTechno{
-    width: 60px;
-    height: 60px;
+    width: 40px;
+    height: 40px;
 }
 .noeud{
     position: absolute;

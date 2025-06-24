@@ -1,11 +1,14 @@
 
 export class Noeud {
-    constructor(idHTML, description, top, left, prix, typePrix, menuTechonologies, enfants) {
+    constructor(idHTML, description, top, left, prix, typePrix, menuTechonologies, enfants, nbLvl) {
         this.idHTML = idHTML;
         this.description = description;
         this.prix = prix;
         this.typePrix = typePrix;
         this.debloque = false;
+        this.etat = 'cache'; // possibilités : 'cache' | 'inconnu' | 'bloque' | 'lvlMin' | 'lvlMax'
+        this.lvl = 0;
+        this.nbLvl = nbLvl; // Nombre de niveaux possibles pour cette technologie
         this.menuTechonologies = menuTechonologies;
         this.divElementHTML = document.getElementById(idHTML);
         this.divElementHTML.style.top = top + 'px';
@@ -47,6 +50,7 @@ export class Noeud {
     decouvrir() {
         this.imgtechnoHiden.classList.remove('cachee');
         this.imgtechnoHiden.classList.add('apparition');
+        this.etat = 'inconnu';
     }
     decouvrirMieux() {
         // Disparition de l'image "hidden"
@@ -55,9 +59,12 @@ export class Noeud {
         // Apparition de l'image "bloquée"
         this.imgtechnoBloquee.classList.remove('cachee');
         this.imgtechnoBloquee.classList.add('apparition');
+        this.etat = 'bloque';
     }
     async debloquer(source = 'clic') {
         this.debloque = true;
+        this.lvl=1;
+        this.etat = this.lvl==this.nbLvl ? 'lvlMax' : 'lvlMin';
         if(source === 'clic'){
             // Vérification du prix
             const monnaies = this.menuTechonologies.sauvegarde.monnaies;
@@ -95,6 +102,8 @@ export class Noeud {
             await this.menuTechonologies.enregisterActionTechno(this.idHTML, this.typePrix, this.prix, 'vente');
             this.majMonnaies();
             this.debloque = false;
+            this.lvl=0;
+            this.etat = 'bloque';
             this.imgtechnoDebloquee.classList.remove('deblocage');
             this.imgtechnoDebloquee.classList.add('cachee');
             this.imgtechnoBloquee.classList.remove('cachee');
@@ -106,12 +115,14 @@ export class Noeud {
                 break;
             case 1:
                 // On vend le noeud et on le remet en "hidden"
+                this.etat = 'inconnu';
                 this.imgtechnoBloquee.classList.remove('apparition');
                 this.imgtechnoBloquee.classList.add('cachee');
                 this.imgtechnoHiden.classList.remove('cachee');
                 this.imgtechnoHiden.classList.add('apparition');
                 break;
             default:
+                this.etat = 'cache';
                 this.imgtechnoDebloquee.classList.remove('deblocage');
                 this.imgtechnoDebloquee.classList.add('cachee');
                 this.imgtechnoBloquee.classList.remove('apparition');

@@ -17,12 +17,6 @@ export class MenuTechnologies {
         document.addEventListener('contextmenu', function (e) {
             e.preventDefault();
         });
-        // Ajustement de la taille du canvas
-        window.addEventListener('resize', () => {
-            this.canvas.width = window.innerWidth;
-            this.canvas.height = window.innerHeight;
-            this.dessinerLiensNoeuds();
-        });
     }
 
     async initialiserSauvegarde(){
@@ -63,13 +57,13 @@ export class MenuTechnologies {
             elementHTML.classList.add('noeud');
             // Image hiden
             const imgTechnoHiden = document.createElement('img');
-            imgTechnoHiden.src = "../assets/img/technoHiden.png";
+            imgTechnoHiden.src = "../assets/img/pointInterrogation.png";
             imgTechnoHiden.classList.add('imgArbreTechno', 'hiden', 'cachee');
             if(data[noeud].etatParDefaut=="inconnu") imgTechnoHiden.classList.remove('cachee');
             elementHTML.appendChild(imgTechnoHiden);
             // Image bloquée
             const imgTechnoBloquee = document.createElement('img');
-            imgTechnoBloquee.src = data[noeud].lienImage2;
+            imgTechnoBloquee.src = data[noeud].lienImage1;
             imgTechnoBloquee.classList.add('imgArbreTechno', 'bloquee', 'cachee');
             if(data[noeud].etatParDefaut=="visible") imgTechnoBloquee.classList.remove('cachee');
             elementHTML.appendChild(imgTechnoBloquee);
@@ -78,11 +72,19 @@ export class MenuTechnologies {
             imgTechnoDebloquee.src = data[noeud].lienImage1;
             imgTechnoDebloquee.classList.add('imgArbreTechno', 'debloquee', 'cachee');
             elementHTML.appendChild(imgTechnoDebloquee);
-
+            // Ajout des div dans la page
             this.divContainerNoeuds.appendChild(elementHTML);
-            
-            
-            this.noeuds.push(new Noeud(data[noeud].nom, data[noeud].description, data[noeud].position.y, data[noeud].position.x, data[noeud].prix.quantite, data[noeud].prix.type, this, data[noeud].technologiesFille));
+            // Ajout des noeuds dans le tableau
+            this.noeuds.push(new Noeud(data[noeud].nom, 
+                data[noeud].description, 
+                data[noeud].position.y, 
+                data[noeud].position.x, 
+                data[noeud].prix.quantite, 
+                data[noeud].prix.type, 
+                this, 
+                data[noeud].technologiesFille, 
+                data[noeud].nbLvl
+            ));
         }
     }
 
@@ -134,7 +136,33 @@ export class MenuTechnologies {
                 this.ctx.arc(posNoeudX, posNoeudY-2, 30, 0, Math.PI * 2);
                 this.ctx.fillStyle = '#ffffff';
                 this.ctx.fill();
+                if (noeud.etat=='inconnu'||noeud.etat=='bloque') {
+                    this.ctx.beginPath();
+                    this.ctx.setLineDash([5, 5]);
+                    this.ctx.arc(posNoeudX, posNoeudY - 2, 30, 0, Math.PI * 2);
+                    this.ctx.strokeStyle = '#000000';
+                    this.ctx.lineWidth = 2;
+                    this.ctx.stroke();
+                    this.ctx.setLineDash([]);
+                }else if(noeud.etat == "lvlMin") {
+                    this.ctx.beginPath();
+                    this.ctx.setLineDash([5*(noeud.nbLvl - noeud.lvl), 5*(noeud.nbLvl - noeud.lvl)]);
+                    this.ctx.arc(posNoeudX, posNoeudY - 2, 30, 0, Math.PI * 2);
+                    this.ctx.strokeStyle = '#ff7300';
+                    this.ctx.lineWidth = 2;
+                    this.ctx.stroke();
+                    this.ctx.setLineDash([]);
+                }else if(noeud.etat == "lvlMax") {
+                    this.ctx.beginPath();
+                    this.ctx.setLineDash([5, 0]); // 5px trait, 0px espace
+                    this.ctx.arc(posNoeudX, posNoeudY - 2, 30, 0, Math.PI * 2);
+                    this.ctx.strokeStyle = '#00b9d1';
+                    this.ctx.lineWidth = 2;
+                    this.ctx.stroke();
+                    this.ctx.setLineDash([]); // Réinitialise le style pour les dessins suivants
+                }
             }
+            console.log(noeud);
         }
     }
 }
