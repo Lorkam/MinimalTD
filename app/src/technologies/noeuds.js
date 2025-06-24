@@ -1,7 +1,8 @@
 
 export class Noeud {
-    constructor(idHTML, prix, typePrix, menuTechonologies, enfants = []) {
+    constructor(idHTML, description, prix, typePrix, menuTechonologies, enfants = []) {
         this.idHTML = idHTML;
+        this.description = description;
         this.prix = prix;
         this.typePrix = typePrix;
         this.debloque = false;
@@ -20,7 +21,7 @@ export class Noeud {
             }
         });
         this.imgtechnoDebloquee.addEventListener('mousedown', (e) => {
-            if(e.button  === 2){
+            if(e.button === 2){
                 console.log(`Clic droit sur le noeud ${this.idHTML}.`);
                 this.vendre();
             }
@@ -144,6 +145,7 @@ export class Noeud {
         this.divInfoNoeud.style.left = `${this.divElementHTML.offsetLeft - (this.divInfoNoeud.offsetWidth/2)}px`;
         this.divInfoNoeud.classList.remove('cachee');
         this.divInfoNoeud.classList.add('apparition');
+        this.divInfoNoeud.firstChild.nodeValue = this.description;
     }
     cacherInfo() {
         this.divInfoNoeud.classList.remove('apparition');

@@ -1,0 +1,57 @@
+{
+    "centre":{
+        "nom": "centre",
+        "description": "Point de départ de l'arbre technologique",
+        "position":{"x": 777, "y": 666},
+        "prix":{"type": "triangles", "quantite": 1},
+        "technologiesFille":["degats", "vitesseAttaque", "lvlUpTours", "goldsBonusDepart"],
+        "lienImage":"../assets/img/"
+    },
+    "vitesseAttaque":{
+        "nom": "vitesseAttaque",
+        "description": "Augmente la vitesse d'attaque de vos tours",
+        "position":{"x": 777, "y": 666},
+        "prix":{"type": "triangles", "quantite": 5},
+        "technologiesFille":[],
+        "lienImage":"../assets/img/"
+    },
+    "degats":{
+        "nom": "degats",
+        "description": "Augmente les dégâts de vos tours",
+        "position":{"x": 777, "y": 666},
+        "prix":{"type": "triangles", "quantite": 5},
+        "technologiesFille":["critRate", "critDamage"],
+        "lienImage":"../assets/img/"
+    },
+    "goldsBonusDepart":{
+        "nom": "goldsBonusDepart",
+        "description": "Augmente les golds de départ",
+        "position":{"x": 777, "y": 666},
+        "prix":{"type": "triangles", "quantite": 7},
+        "technologiesFille":[],
+        "lienImage":"../assets/img/"
+    },
+    "lvlUpTours":{
+        "nom": "lvlUpTours",
+        "description": "Augmente le niveau max de vos tours",
+        "position":{"x": 777, "y": 666},
+        "prix":{"type": "triangles", "quantite": 10},
+        "technologiesFille":[],
+        "lienImage":"../assets/img/"
+    },
+    "critRate":{
+        "nom": "critRate",
+        "description": "Augmente le taux de critique de vos tours",
+        "position":{"x": 777, "y": 666},
+        "prix":{"type": "triangles", "quantite": 20},
+        "technologiesFille":[],
+        "lienImage":"../assets/img/"
+    },
+    "critDamage":{
+        "nom": "critDamage",
+        "description": "Augmente les dégâts critiques de vos tours",
+        "position":{"x": 777, "y": 666},
+        "prix":{"type": "triangles", "quantite": 20},
+        "technologiesFille":[]
+    }
+}

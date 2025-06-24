@@ -3,15 +3,7 @@ import { Sauvegarde } from "../sauvegarde/sauvegarde.js";
 
 export class MenuTechnologies {
     constructor(nomSauvegarde) {
-        this.noeuds = [
-            new Noeud("centre", 1, "triangles", this, ['vitesseAttaque', 'degats', 'goldsBonusDepart', 'lvlUpTours']),
-            new Noeud("vitesseAttaque", 5, "triangles", this),
-            new Noeud("degats", 5, "triangles", this, ['critRate', 'critDamage']),
-            new Noeud("goldsBonusDepart", 7, "triangles", this),
-            new Noeud("lvlUpTours", 10, "triangles", this),
-            new Noeud("critRate", 20, "triangles", this),
-            new Noeud("critDamage", 20, "triangles", this)
-        ];
+        this.noeuds = [];
 
         this.canvas = document.querySelector('#canvasTechno');
         this.ctx = this.canvas.getContext('2d');
@@ -52,6 +44,22 @@ export class MenuTechnologies {
         /* Récupération des monaies de la sauvegarde */
         this.noeuds[0].majMonnaies();
     }
+
+    async chargerNoeuds(){
+        const url = '../serv/gestionTechno.php'
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: 'action=chargerNoeud'
+        });
+        const data = await response.json();
+        //console.log(data);
+        for(const noeud of Object.keys(data)) {
+            this.noeuds.push(new Noeud(data[noeud].nom, data[noeud].description, data[noeud].prix.quantite, data[noeud].prix.type, this, data[noeud].technologiesFille));
+        }
+        //console.log(this.noeuds);
+    }
+
     async enregisterActionTechno(nomTechno, type, montant, actionTechno) {
         const url = "../serv/gestionSaves.php";
         try {

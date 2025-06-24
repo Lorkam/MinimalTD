@@ -114,6 +114,7 @@ canvas{
     display: flex;
     justify-content: center;
     align-items: center;
+    text-align: center;
     pointer-events: none; /* pour que les clics passent à travers */
     z-index: 11; /* pour que le divInfoNoeud soit au-dessus des noeuds */
 }
