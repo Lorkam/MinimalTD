@@ -6,7 +6,8 @@
         "prix":{"type": "triangles", "quantite": 1},
         "technologiesFille":["degats", "vitesseAttaque", "lvlUpTours", "goldsBonusDepart"],
         "lienImage1":"../assets/img/technoDebloquee.png",
-        "lienImage2":"../assets/img/technoBloquee.png"
+        "lienImage2":"../assets/img/technoBloquee.png",
+        "etatParDefaut": "visible"
     },
     "vitesseAttaque":{
         "nom": "vitesseAttaque",
@@ -15,7 +16,8 @@
         "prix":{"type": "triangles", "quantite": 5},
         "technologiesFille":[],
         "lienImage1":"../assets/img/vitesseAttaqueDebloquee.png",
-        "lienImage2":"../assets/img/vitesseAttaqueBloquee.png"
+        "lienImage2":"../assets/img/vitesseAttaqueBloquee.png",
+        "etatParDefaut": "inconnu"
     },
     "degats":{
         "nom": "degats",
@@ -24,7 +26,8 @@
         "prix":{"type": "triangles", "quantite": 5},
         "technologiesFille":["critRate", "critDamage"],
         "lienImage1":"../assets/img/augmDegatsDebloquee.png",
-        "lienImage2":"../assets/img/augmDegatsBloquee.png"
+        "lienImage2":"../assets/img/augmDegatsBloquee.png",
+        "etatParDefaut": "inconnu"
     },
     "goldsBonusDepart":{
         "nom": "goldsBonusDepart",
@@ -33,7 +36,8 @@
         "prix":{"type": "triangles", "quantite": 7},
         "technologiesFille":[],
         "lienImage1":"../assets/img/orDepartDebloquee.png",
-        "lienImage2":"../assets/img/orDepartBloquee.png"
+        "lienImage2":"../assets/img/orDepartBloquee.png",
+        "etatParDefaut": "inconnu"
     },
     "lvlUpTours":{
         "nom": "lvlUpTours",
@@ -42,7 +46,8 @@
         "prix":{"type": "triangles", "quantite": 10},
         "technologiesFille":[],
         "lienImage1":"../assets/img/lvlUpDebloquee.png",
-        "lienImage2":"../assets/img/lvlUpBloquee.png"
+        "lienImage2":"../assets/img/lvlUpBloquee.png",
+        "etatParDefaut": "inconnu"
     },
     "critRate":{
         "nom": "critRate",
@@ -51,7 +56,8 @@
         "prix":{"type": "triangles", "quantite": 20},
         "technologiesFille":[],
         "lienImage1":"../assets/img/critRateDebloquee.png",
-        "lienImage2":"../assets/img/critRateBloquee.png"
+        "lienImage2":"../assets/img/critRateBloquee.png",
+        "etatParDefaut": "cache"
     },
     "critDamage":{
         "nom": "critDamage",
@@ -60,6 +66,7 @@
         "prix":{"type": "triangles", "quantite": 20},
         "technologiesFille":[],
         "lienImage1":"../assets/img/critDmgDebloquee.png",
-        "lienImage2":"../assets/img/critDmgBloquee.png"
+        "lienImage2":"../assets/img/critDmgBloquee.png",
+        "etatParDefaut": "cache"
     }
 }

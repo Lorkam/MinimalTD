@@ -10,6 +10,7 @@ export class MenuTechnologies {
 
         this.sauvegarde = new Sauvegarde(nomSauvegarde);
         this.nomSauvegarde = nomSauvegarde;
+        this.divContainerNoeuds = document.querySelector('#divContainerNoeuds');
 
 
         // Désactivation du menu contextuel de google Chrome
@@ -46,6 +47,7 @@ export class MenuTechnologies {
     }
 
     async chargerNoeuds(){
+        console.log('test', this.divContainerNoeuds);
         const url = '../serv/gestionTechno.php'
         const response = await fetch(url, {
             method: 'POST',
@@ -55,9 +57,33 @@ export class MenuTechnologies {
         const data = await response.json();
         //console.log(data);
         for(const noeud of Object.keys(data)) {
+            // Création de l'élément HTML pour le noeud
+            const elementHTML = document.createElement('div');
+            elementHTML.id = data[noeud].nom;
+            elementHTML.classList.add('noeud');
+            // Image hiden
+            const imgTechnoHiden = document.createElement('img');
+            imgTechnoHiden.src = "../assets/img/technoHiden.png";
+            imgTechnoHiden.classList.add('imgArbreTechno', 'hiden', 'cachee');
+            if(data[noeud].etatParDefaut=="inconnu") imgTechnoHiden.classList.remove('cachee');
+            elementHTML.appendChild(imgTechnoHiden);
+            // Image bloquée
+            const imgTechnoBloquee = document.createElement('img');
+            imgTechnoBloquee.src = data[noeud].lienImage2;
+            imgTechnoBloquee.classList.add('imgArbreTechno', 'bloquee', 'cachee');
+            if(data[noeud].etatParDefaut=="visible") imgTechnoBloquee.classList.remove('cachee');
+            elementHTML.appendChild(imgTechnoBloquee);
+            // Image débloquée
+            const imgTechnoDebloquee = document.createElement('img');
+            imgTechnoDebloquee.src = data[noeud].lienImage1;
+            imgTechnoDebloquee.classList.add('imgArbreTechno', 'debloquee', 'cachee');
+            elementHTML.appendChild(imgTechnoDebloquee);
+
+            this.divContainerNoeuds.appendChild(elementHTML);
+            
+            
             this.noeuds.push(new Noeud(data[noeud].nom, data[noeud].description, data[noeud].position.y, data[noeud].position.x, data[noeud].prix.quantite, data[noeud].prix.type, this, data[noeud].technologiesFille));
         }
-        //console.log(this.noeuds);
     }
 
     async enregisterActionTechno(nomTechno, type, montant, actionTechno) {

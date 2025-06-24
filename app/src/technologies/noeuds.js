@@ -1,6 +1,6 @@
 
 export class Noeud {
-    constructor(idHTML, description, top, left, prix, typePrix, menuTechonologies, enfants = []) {
+    constructor(idHTML, description, top, left, prix, typePrix, menuTechonologies, enfants) {
         this.idHTML = idHTML;
         this.description = description;
         this.prix = prix;
@@ -15,7 +15,6 @@ export class Noeud {
         this.imgtechnoHiden = this.divElementHTML.querySelector('.hiden');
         this.enfants = enfants; // Enfants du noeud, s'il y en a
         this.divInfoNoeud = document.querySelector('#divInfoNoeud');
-
 
         this.imgtechnoBloquee.addEventListener('mousedown', (e) => {
             if(e.button  === 0){
