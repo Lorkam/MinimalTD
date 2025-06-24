@@ -74,3 +74,18 @@ export async function selectionnerSauvegarde(nomSauvegarde) {
         console.error('Erreur récupération données :', error);
     }
 }
+
+export async function creerSauvegarde(nomSauvegarde) {
+    const url = '../serv/gestionSaves.php';
+    try {
+        // création de la requete pour accéder au php
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: 'action=creerSauvegarde' + '&nom=' + encodeURIComponent(nomSauvegarde)
+        });
+        return await response.text();
+    } catch (error) {
+        console.error('Erreur récupération données :', error);
+    }
+}

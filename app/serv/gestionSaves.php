@@ -27,6 +27,9 @@ switch ($action){
     case 'supprimerSauvegarde':
         supprimerSauvegarde($saves, $nom);
         break;
+    case 'creerSauvegarde':
+        creerSauvegarde($saves, $nom);
+        break;
     default:
         echo 'action non reconnue';
         break;

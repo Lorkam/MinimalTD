@@ -1,4 +1,4 @@
-import { recupAllNomSaves, selectionnerSauvegarde } from '../sauvegarde/sauvegarde.js';
+import { recupAllNomSaves, selectionnerSauvegarde, creerSauvegarde } from '../sauvegarde/sauvegarde.js';
 
 const btnJouer = document.querySelector('#btnJouer');
 const btnMenuSauvegarder = document.querySelector('#btnMenuSauvegarder');
@@ -210,7 +210,14 @@ btnSauvegarder.addEventListener('click', async (e) => {
     if (nomSauvegarde !== '') {
         if( nomSauvegarde === 'Emplacement Vide') {
             nomSauvegarde = prompt("Entrez le nouveau nom de la sauvegarde :");
-            nomSauvegarde = nomSauvegarde!=null? nomSauvegarde.trim() : 'Emplacement Vide';
+            if(nomSauvegarde!=null) {
+                nomSauvegarde = nomSauvegarde.trim();
+                await creerSauvegarde(nomSauvegarde);
+            }else {
+                console.warn("Aucun nom de sauvegarde n'a été entré.");
+                nomSauvegarde = ''; // Réinitialise la variable nomSauvegarde
+                return; // Si l'utilisateur annule, on ne fait rien
+            }
         }
         try {
             await selectionnerSauvegarde(nomSauvegarde);
