@@ -341,6 +341,6 @@ function creerSauvegarde(&$saves, $nom){
  */
 function supprimerSauvegarde(&$saves, $nom){
     unset($saves['saves'][$nom]);
-    unset($_SESSION['nomSauvegarde']);
+    if(isset($_SESSION['nomSauvegarde']) && $_SESSION['nomSauvegarde'] == $nom) unset($_SESSION['nomSauvegarde']);
     file_put_contents('saves.json', json_encode($saves, JSON_PRETTY_PRINT));
 }

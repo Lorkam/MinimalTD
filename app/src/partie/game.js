@@ -62,7 +62,7 @@ export class Partie {
     
     initialiserModificateurs() {
         this.modificateurs = this.sauvegarde.modificateurs; // Liste des modificateurs de la partie
-        this.golds += this.modificateurs.economie.goldsBonusDepart; // Ajoute le bonus d'or de départ
+        this.golds += this.modificateurs.economie.goldBonusDepart; // Ajoute le bonus d'or de départ
         this.heartPV += this.modificateurs.coeurBonus; // Ajoute le bonus de points de vie du coeur
         //console.log(this.modificateurs);
     }
@@ -276,7 +276,6 @@ export class Partie {
         this.sauvegarde = (await this.sauvegarde.lireSaves()).saves[this.sauvegarde.nom]; // Récupère la sauvegarde actuelle
         this.initialiserModificateurs(); // Initialise les modificateurs de la partie
         await this.initialiserNiveau(); // Initialise les modificateurs de la partie
-        console.log(this);
         for (const emplacement of this.niveau.emplacementsTower) {
             this.emplacements.push(new Emplacement(emplacement, this)); // Ajoute l'emplacement à la liste des emplacements
         }
