@@ -3,17 +3,38 @@ body{
     margin: 0;
     padding: 0;
     overflow: hidden;
+    background-color: rgb(165, 165, 165);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    width: 100vw;
+}
+#divBordureJeu{
+    position: relative;
+    width: min-content;
+    height: min-content;
+    border: 10px solid #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+}
+#divContainerJeu{
+    margin: 0;
+    padding: 0;
+    width: 1550px;
+    height: 710px;
+    overflow: hidden;
 }
 canvas {
-  background: #cfcfcf;
-  display: block;
-  margin: 0;
-  z-index: 2;
+    background: #cfcfcf;
+    display: block;
+    margin: 0;
+    z-index: 2;
 }
 #divRetourMenuPrincipale{
     position: absolute;
-    top: 10px;
-    left: 10px;
+    top: 20px;
+    left: 20px;
     width: min-content;
     height: min-content;
     padding: 10px;
@@ -24,6 +45,7 @@ canvas {
     justify-content: center;
     align-items: center;
     pointer-events: auto; /* pour que les clics soient captés */
+    z-index: 1;
     img{
         width: 30px;
         height: 30px;
@@ -46,8 +68,8 @@ canvas {
     background-color: #fcfcfc;
     border: 2px solid #000000;
     border-radius: 10px;
-    top: 80px; 
-    left: 10px;
+    top: 90px; 
+    left: 20px;
     p{
       margin: 0;
       padding: 0;

@@ -20,38 +20,42 @@ $sauvegarde = $_SESSION['nomSauvegarde'];
 <body>
     <input type="hidden" id="nomSauvegarde" value="<?php echo $sauvegarde; ?>">
     <input type="hidden" id="niveauChoisi" value="<?php echo $_POST['numNiveau']; ?>">
-    <div id="divRetourMenuPrincipale" onclick="window.location.href='menuPrincipale.php'"><img src="../assets/img/maison.png"></div>
-    <canvas id="gameCanvas" width="1550" height="710"></canvas>
+    <div id="divBordureJeu">
+    <div id="divContainerJeu">
+        <canvas id="gameCanvas" width="1550" height="710"></canvas>
+        <div id="divRetourMenuPrincipale" onclick="window.location.href='menuPrincipale.php'"><img src="../assets/img/maison.png"></div>
 
 
-    <div class="" id="divInfoVague">
-      <p>Vague actuelle : <span id="numVague">1</span></p>
-      <p>Ennemis restants : <span id="nbEnnemisRestants">0</span></p>
-      <p>Ennemis tués : <span id="nbEnnemisMorts">0</span></p>
-    </div>
-    <div id="divGolds">
-      <span id="golds">0</span><img id="imgGolds" src="../assets/img/euro.png" alt="gold">
-    </div>
-    
-    <div id="divEcranSombre" style="display: none;"></div>
-    <div id="divImgVictoire" style="display: none;">
-        <img src="../assets/img/victoire.png" alt="victoire">
-        <div class="flex-row">
-            <button id="btnRejouerVictoire">Rejouer</button>
-            <button class="btnMainMenu" onclick="window.location.href='menuPrincipale.php'">Revenir au menu principale</button>
+        <div class="" id="divInfoVague">
+          <p>Vague actuelle : <span id="numVague">1</span></p>
+          <p>Ennemis restants : <span id="nbEnnemisRestants">0</span></p>
+          <p>Ennemis tués : <span id="nbEnnemisMorts">0</span></p>
         </div>
-    </div>
-    <div id="divImgDefaite" style="display: none;">
-        <img src="../assets/img/defaite.png" alt="defaite">
-        <div class="flex-row">
-            <button id="btnRejouerDefaite">Réessayer</button>
-            <button class="btnMainMenu" onclick="window.location.href='menuPrincipale.php'">Revenir au menu principale</button>
+        <div id="divGolds">
+          <span id="golds">0</span><img id="imgGolds" src="../assets/img/euro.png" alt="gold">
         </div>
+
+        <div id="divEcranSombre" style="display: none;"></div>
+        <div id="divImgVictoire" style="display: none;">
+            <img src="../assets/img/victoire.png" alt="victoire">
+            <div class="flex-row">
+                <button id="btnRejouerVictoire">Rejouer</button>
+                <button class="btnMainMenu" onclick="window.location.href='menuPrincipale.php'">Revenir au menu principale</button>
+            </div>
+        </div>
+        <div id="divImgDefaite" style="display: none;">
+            <img src="../assets/img/defaite.png" alt="defaite">
+            <div class="flex-row">
+                <button id="btnRejouerDefaite">Réessayer</button>
+                <button class="btnMainMenu" onclick="window.location.href='menuPrincipale.php'">Revenir au menu principale</button>
+            </div>
+        </div>
+
+
+
+        <button id="lancerVagueBtn">Lancer la Prochaine Vague</button>
     </div>
-
-
-    
-    <button id="lancerVagueBtn">Lancer la Prochaine Vague</button>
+    </div>
 
 
 
