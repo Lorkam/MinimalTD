@@ -55,7 +55,7 @@ export class MenuTechnologies {
         const data = await response.json();
         //console.log(data);
         for(const noeud of Object.keys(data)) {
-            this.noeuds.push(new Noeud(data[noeud].nom, data[noeud].description, data[noeud].prix.quantite, data[noeud].prix.type, this, data[noeud].technologiesFille));
+            this.noeuds.push(new Noeud(data[noeud].nom, data[noeud].description, data[noeud].position.y, data[noeud].position.x, data[noeud].prix.quantite, data[noeud].prix.type, this, data[noeud].technologiesFille));
         }
         //console.log(this.noeuds);
     }

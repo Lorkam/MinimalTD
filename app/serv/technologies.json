@@ -2,56 +2,64 @@
     "centre":{
         "nom": "centre",
         "description": "Point de départ de l'arbre technologique",
-        "position":{"x": 777, "y": 666},
+        "position":{"x": 775, "y": 355},
         "prix":{"type": "triangles", "quantite": 1},
         "technologiesFille":["degats", "vitesseAttaque", "lvlUpTours", "goldsBonusDepart"],
-        "lienImage":"../assets/img/"
+        "lienImage1":"../assets/img/technoDebloquee.png",
+        "lienImage2":"../assets/img/technoBloquee.png"
     },
     "vitesseAttaque":{
         "nom": "vitesseAttaque",
         "description": "Augmente la vitesse d'attaque de vos tours",
-        "position":{"x": 777, "y": 666},
+        "position":{"x": 620, "y": 461},
         "prix":{"type": "triangles", "quantite": 5},
         "technologiesFille":[],
-        "lienImage":"../assets/img/"
+        "lienImage1":"../assets/img/vitesseAttaqueDebloquee.png",
+        "lienImage2":"../assets/img/vitesseAttaqueBloquee.png"
     },
     "degats":{
         "nom": "degats",
         "description": "Augmente les dégâts de vos tours",
-        "position":{"x": 777, "y": 666},
+        "position":{"x": 620, "y": 248},
         "prix":{"type": "triangles", "quantite": 5},
         "technologiesFille":["critRate", "critDamage"],
-        "lienImage":"../assets/img/"
+        "lienImage1":"../assets/img/augmDegatsDebloquee.png",
+        "lienImage2":"../assets/img/augmDegatsBloquee.png"
     },
     "goldsBonusDepart":{
         "nom": "goldsBonusDepart",
         "description": "Augmente les golds de départ",
-        "position":{"x": 777, "y": 666},
+        "position":{"x": 930, "y": 248},
         "prix":{"type": "triangles", "quantite": 7},
         "technologiesFille":[],
-        "lienImage":"../assets/img/"
+        "lienImage1":"../assets/img/orDepartDebloquee.png",
+        "lienImage2":"../assets/img/orDepartBloquee.png"
     },
     "lvlUpTours":{
         "nom": "lvlUpTours",
         "description": "Augmente le niveau max de vos tours",
-        "position":{"x": 777, "y": 666},
+        "position":{"x": 930, "y": 461},
         "prix":{"type": "triangles", "quantite": 10},
         "technologiesFille":[],
-        "lienImage":"../assets/img/"
+        "lienImage1":"../assets/img/lvlUpDebloquee.png",
+        "lienImage2":"../assets/img/lvlUpBloquee.png"
     },
     "critRate":{
         "nom": "critRate",
         "description": "Augmente le taux de critique de vos tours",
-        "position":{"x": 777, "y": 666},
+        "position":{"x": 600, "y": 100},
         "prix":{"type": "triangles", "quantite": 20},
         "technologiesFille":[],
-        "lienImage":"../assets/img/"
+        "lienImage1":"../assets/img/critRateDebloquee.png",
+        "lienImage2":"../assets/img/critRateBloquee.png"
     },
     "critDamage":{
         "nom": "critDamage",
         "description": "Augmente les dégâts critiques de vos tours",
-        "position":{"x": 777, "y": 666},
+        "position":{"x": 480, "y": 130},
         "prix":{"type": "triangles", "quantite": 20},
-        "technologiesFille":[]
+        "technologiesFille":[],
+        "lienImage1":"../assets/img/critDmgDebloquee.png",
+        "lienImage2":"../assets/img/critDmgBloquee.png"
     }
 }

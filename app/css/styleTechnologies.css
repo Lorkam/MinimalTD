@@ -9,9 +9,11 @@ body{
     height: 60px;
 }
 .noeud{
+    position: absolute;
     width: min-content;
     height: min-content;
     z-index: 10;
+    transform: translate(-50%, -50%);
 }
 canvas{
     background: #cfcfcf;
@@ -19,50 +21,6 @@ canvas{
     top: 0;
     left: 0;
     z-index: -1; /* pour que le canvas soit derrière les noeuds */
-}
-
-/* positionnement des noeuds */
-#centre{
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-}
-#vitesseAttaque{
-    position: absolute;
-    top: 65%;
-    left: 40%;
-    transform: translate(-50%, -50%);
-}
-#degats{
-    position: absolute;
-    top: 35%;
-    left: 40%;
-    transform: translate(-50%, -50%);
-}
-#goldsBonusDepart{
-    position: absolute;
-    top: 35%;
-    left: 60%;
-    transform: translate(-50%, -50%);
-}
-#lvlUpTours{
-    position: absolute;
-    top: 65%;
-    left: 60%;
-    transform: translate(-50%, -50%);
-}
-#critRate{
-    position: absolute;
-    top: 20%;
-    left: 35%;
-    transform: translate(-50%, -50%);
-}
-#critDamage{
-    position: absolute;
-    top: 20%;
-    left: 45%;
-    transform: translate(-50%, -50%);
 }
 
 .cachee{

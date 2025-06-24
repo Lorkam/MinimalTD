@@ -3,7 +3,7 @@
         "test": {
             "description": "sauvegarde de test",
             "monnaies": {
-                "triangles": 175,
+                "triangles": 169,
                 "ronds": 0,
                 "hexagones": 0
             },
@@ -16,7 +16,7 @@
             "dateDerniereSave": "2025-06-14",
             "modificateurs": {
                 "toursClassiques": {
-                    "degats": 1,
+                    "degats": 1.2,
                     "vitesseAttaque": 1,
                     "prix": 1,
                     "critRate": 0.1,
@@ -33,13 +33,13 @@
             "technologies": {
                 "centre": {
                     "lvl1": {
-                        "debloque": false,
+                        "debloque": true,
                         "valeur": 1
                     }
                 },
                 "degats": {
                     "lvl1": {
-                        "debloque": false,
+                        "debloque": true,
                         "valeur": 1.2
                     },
                     "lvl2": {

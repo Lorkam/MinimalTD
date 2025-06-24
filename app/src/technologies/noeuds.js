@@ -1,6 +1,6 @@
 
 export class Noeud {
-    constructor(idHTML, description, prix, typePrix, menuTechonologies, enfants = []) {
+    constructor(idHTML, description, top, left, prix, typePrix, menuTechonologies, enfants = []) {
         this.idHTML = idHTML;
         this.description = description;
         this.prix = prix;
@@ -8,6 +8,8 @@ export class Noeud {
         this.debloque = false;
         this.menuTechonologies = menuTechonologies;
         this.divElementHTML = document.getElementById(idHTML);
+        this.divElementHTML.style.top = top + 'px';
+        this.divElementHTML.style.left = left + 'px';
         this.imgtechnoDebloquee = this.divElementHTML.querySelector('.debloquee');
         this.imgtechnoBloquee = this.divElementHTML.querySelector('.bloquee');
         this.imgtechnoHiden = this.divElementHTML.querySelector('.hiden');
