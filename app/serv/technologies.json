@@ -1,0 +1,72 @@
+{
+    "centre":{
+        "nom": "centre",
+        "description": "Point de départ de l'arbre technologique",
+        "position":{"x": 775, "y": 355},
+        "prix":{"type": "triangles", "quantite": 1},
+        "technologiesFille":["degats", "vitesseAttaque", "lvlUpTours", "goldsBonusDepart"],
+        "lienImage1":"../assets/img/ampoule.png",
+        "etatParDefaut": "visible",
+        "nbLvl": 1
+    },
+    "vitesseAttaque":{
+        "nom": "vitesseAttaque",
+        "description": "Augmente la vitesse d'attaque de vos tours",
+        "position":{"x": 620, "y": 461},
+        "prix":{"type": "triangles", "quantite": 5},
+        "technologiesFille":[],
+        "lienImage1":"../assets/img/arc.png",
+        "etatParDefaut": "inconnu",
+        "nbLvl": 3
+    },
+    "degats":{
+        "nom": "degats",
+        "description": "Augmente les dégâts de vos tours",
+        "position":{"x": 620, "y": 248},
+        "prix":{"type": "triangles", "quantite": 5},
+        "technologiesFille":["critRate", "critDamage"],
+        "lienImage1":"../assets/img/sabre.png",
+        "etatParDefaut": "inconnu",
+        "nbLvl": 3
+    },
+    "goldsBonusDepart":{
+        "nom": "goldsBonusDepart",
+        "description": "Augmente les golds de départ",
+        "position":{"x": 930, "y": 248},
+        "prix":{"type": "triangles", "quantite": 7},
+        "technologiesFille":[],
+        "lienImage1":"../assets/img/euro.png",
+        "etatParDefaut": "inconnu",
+        "nbLvl": 3
+    },
+    "lvlUpTours":{
+        "nom": "lvlUpTours",
+        "description": "Augmente le niveau max de vos tours",
+        "position":{"x": 930, "y": 461},
+        "prix":{"type": "triangles", "quantite": 10},
+        "technologiesFille":[],
+        "lienImage1":"../assets/img/flecheVerte.png",
+        "etatParDefaut": "inconnu",
+        "nbLvl": 1
+    },
+    "critRate":{
+        "nom": "critRate",
+        "description": "Augmente le taux de critique de vos tours",
+        "position":{"x": 600, "y": 100},
+        "prix":{"type": "triangles", "quantite": 20},
+        "technologiesFille":[],
+        "lienImage1":"../assets/img/critRate.png",
+        "etatParDefaut": "cache",
+        "nbLvl": 4
+    },
+    "critDamage":{
+        "nom": "critDamage",
+        "description": "Augmente les dégâts critiques de vos tours",
+        "position":{"x": 480, "y": 130},
+        "prix":{"type": "triangles", "quantite": 20},
+        "technologiesFille":[],
+        "lienImage1":"../assets/img/dagger.png",
+        "etatParDefaut": "cache",
+        "nbLvl": 3
+    }
+}

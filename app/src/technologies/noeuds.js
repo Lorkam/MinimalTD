@@ -1,35 +1,34 @@
 
 export class Noeud {
-    constructor(idHTML, prix, typePrix, menuTechonologies, enfants = []) {
+    constructor(idHTML, description, top, left, prix, typePrix, menuTechonologies, enfants, nbLvl, etat = 'cache') {
         this.idHTML = idHTML;
+        this.description = description;
         this.prix = prix;
         this.typePrix = typePrix;
         this.debloque = false;
+        this.etat = etat; // possibilités : 'cache' | 'inconnu' | 'bloque' | 'lvlMin' | 'lvlMax'
+        this.lvl = 0;
+        this.nbLvl = nbLvl; // Nombre de niveaux possibles pour cette technologie
         this.menuTechonologies = menuTechonologies;
         this.divElementHTML = document.getElementById(idHTML);
-        this.imgtechnoDebloquee = this.divElementHTML.querySelector('.debloquee');
-        this.imgtechnoBloquee = this.divElementHTML.querySelector('.bloquee');
+        this.divElementHTML.style.top = top + 'px';
+        this.divElementHTML.style.left = left + 'px';
+        this.imgtechno = this.divElementHTML.querySelector('.debloquee');
         this.imgtechnoHiden = this.divElementHTML.querySelector('.hiden');
         this.enfants = enfants; // Enfants du noeud, s'il y en a
         this.divInfoNoeud = document.querySelector('#divInfoNoeud');
 
-
-        this.imgtechnoBloquee.addEventListener('mousedown', (e) => {
-            if(e.button  === 0){
+        this.imgtechno.addEventListener('mousedown', (e) => {
+            if(e.button === 2){
+                console.log(`Clic droit sur le noeud ${this.idHTML}.`);
+                this.vendre();
+            }else if(e.button === 0){
                 this.debloquer();
             }
         });
-        this.imgtechnoDebloquee.addEventListener('mousedown', (e) => {
-            if(e.button  === 2){
-                console.log(`Clic droit sur le noeud ${this.idHTML}.`);
-                this.vendre();
-            }
-        });
-        this.imgtechnoDebloquee.addEventListener('mouseenter', () => this.detectionMouseOver());
-        this.imgtechnoDebloquee.addEventListener('mouseleave', () => this.detectionMouseLeave());
+        this.imgtechno.addEventListener('mouseenter', () => this.detectionMouseOver());
+        this.imgtechno.addEventListener('mouseleave', () => this.detectionMouseLeave());
         
-        this.imgtechnoBloquee.addEventListener('mouseenter', () => this.detectionMouseOver());
-        this.imgtechnoBloquee.addEventListener('mouseleave', () => this.detectionMouseLeave());
     }
 
     getPosition(){
@@ -39,23 +38,27 @@ export class Noeud {
         };
     }
     estCache() {
-        return (this.imgtechnoDebloquee.classList.contains('cachee') && this.imgtechnoBloquee.classList.contains('cachee') && this.imgtechnoHiden.classList.contains('cachee'));
+        return (this.imgtechno.classList.contains('cachee') && this.imgtechnoHiden.classList.contains('cachee'));
     }
 
     decouvrir() {
+        // Disparition de l'image "inconnu"
         this.imgtechnoHiden.classList.remove('cachee');
         this.imgtechnoHiden.classList.add('apparition');
+        this.etat = 'inconnu';
     }
     decouvrirMieux() {
-        // Disparition de l'image "hidden"
+        // Disparition de l'image "inconnu"
         this.imgtechnoHiden.classList.add('cachee');
-
-        // Apparition de l'image "bloquée"
-        this.imgtechnoBloquee.classList.remove('cachee');
-        this.imgtechnoBloquee.classList.add('apparition');
+        // Apparition de l'icone de la technologie
+        this.imgtechno.classList.remove('cachee');
+        this.imgtechno.classList.add('deblocage');
+        this.etat = 'bloque';
     }
     async debloquer(source = 'clic') {
         this.debloque = true;
+        this.lvl=1;
+        this.etat = this.lvl==this.nbLvl ? 'lvlMax' : 'lvlMin';
         if(source === 'clic'){
             // Vérification du prix
             const monnaies = this.menuTechonologies.sauvegarde.monnaies;
@@ -71,10 +74,8 @@ export class Noeud {
             }
         }
         // animation de déblocage
-        this.imgtechnoBloquee.classList.remove('apparition');
-        this.imgtechnoBloquee.classList.add('cachee');
-        this.imgtechnoDebloquee.classList.remove('cachee');
-        this.imgtechnoDebloquee.classList.add('deblocage');
+        this.imgtechno.classList.remove('cachee');
+        this.imgtechno.classList.add('deblocage');
         // Decouverte des enfans
         for(const enfantId of this.enfants){
             const noeud = this.menuTechonologies.noeuds.find(n => n.idHTML === enfantId);
@@ -93,10 +94,8 @@ export class Noeud {
             await this.menuTechonologies.enregisterActionTechno(this.idHTML, this.typePrix, this.prix, 'vente');
             this.majMonnaies();
             this.debloque = false;
-            this.imgtechnoDebloquee.classList.remove('deblocage');
-            this.imgtechnoDebloquee.classList.add('cachee');
-            this.imgtechnoBloquee.classList.remove('cachee');
-            this.imgtechnoBloquee.classList.add('apparition');
+            this.lvl=0;
+            this.etat = 'bloque';
         }
         switch (n) {
             case 0:
@@ -104,16 +103,16 @@ export class Noeud {
                 break;
             case 1:
                 // On vend le noeud et on le remet en "hidden"
-                this.imgtechnoBloquee.classList.remove('apparition');
-                this.imgtechnoBloquee.classList.add('cachee');
+                this.etat = 'inconnu';
+                this.imgtechno.classList.remove('deblocage');
+                this.imgtechno.classList.add('cachee');
                 this.imgtechnoHiden.classList.remove('cachee');
                 this.imgtechnoHiden.classList.add('apparition');
                 break;
             default:
-                this.imgtechnoDebloquee.classList.remove('deblocage');
-                this.imgtechnoDebloquee.classList.add('cachee');
-                this.imgtechnoBloquee.classList.remove('apparition');
-                this.imgtechnoBloquee.classList.add('cachee');
+                this.etat = 'cache';
+                this.imgtechno.classList.remove('deblocage');
+                this.imgtechno.classList.add('cachee');
                 this.imgtechnoHiden.classList.remove('apparition');
                 this.imgtechnoHiden.classList.add('cachee');
         }
@@ -144,6 +143,7 @@ export class Noeud {
         this.divInfoNoeud.style.left = `${this.divElementHTML.offsetLeft - (this.divInfoNoeud.offsetWidth/2)}px`;
         this.divInfoNoeud.classList.remove('cachee');
         this.divInfoNoeud.classList.add('apparition');
+        this.divInfoNoeud.firstChild.nodeValue = this.description;
     }
     cacherInfo() {
         this.divInfoNoeud.classList.remove('apparition');

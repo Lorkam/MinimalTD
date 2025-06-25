@@ -18,27 +18,22 @@ $sauvegarde = $_SESSION['nomSauvegarde'];
     </script>
 </head>
 <body>
-    <input type="hidden" id="nomSauvegarde" value="<?php echo $sauvegarde; ?>">
-    <canvas id="canvasTechno" width="1550px" height="710px"></canvas>
-    <div class="arbre">
-        <div class="noeud" id="centre"><img class="imgArbreTechno debloquee cachee" src="../assets/img/technoDebloquee.png"><img class="imgArbreTechno bloquee" src="../assets/img/technoBloquee.png"></div>
-        <div class="noeud" id="vitesseAttaque"><img class="imgArbreTechno debloquee cachee" src="../assets/img/vitesseAttaqueDebloquee.png"><img class="imgArbreTechno bloquee cachee" src="../assets/img/vitesseAttaqueBloquee.png"><img class="imgArbreTechno hiden" src="../assets/img/technoHiden.png"></div>
-        <div class="noeud" id="degats"><img class="imgArbreTechno debloquee cachee" src="../assets/img/augmDegatsDebloquee.png"><img class="imgArbreTechno bloquee cachee" src="../assets/img/augmDegatsBloquee.png"><img class="imgArbreTechno hiden" src="../assets/img/technoHiden.png"></div>
-        <div class="noeud" id="goldsBonusDepart"><img class="imgArbreTechno debloquee cachee" src="../assets/img/orDepartDebloquee.png"><img class="imgArbreTechno bloquee cachee" src="../assets/img/orDepartBloquee.png"><img class="imgArbreTechno hiden" src="../assets/img/technoHiden.png"></div>
-        <div class="noeud" id="lvlUpTours"><img class="imgArbreTechno debloquee cachee" src="../assets/img/lvlUpDebloquee.png"><img class="imgArbreTechno bloquee cachee" src="../assets/img/lvlUpBloquee.png"><img class="imgArbreTechno hiden" src="../assets/img/technoHiden.png"></div>
-        <div class="noeud" id="critRate"><img class="imgArbreTechno debloquee cachee" src="../assets/img/critRateDebloquee.png"><img class="imgArbreTechno bloquee cachee" src="../assets/img/critRateBloquee.png"><img class="imgArbreTechno hiden cachee" src="../assets/img/technoHiden.png"></div>
-        <div class="noeud" id="critDamage"><img class="imgArbreTechno debloquee cachee" src="../assets/img/critDmgDebloquee.png"><img class="imgArbreTechno bloquee cachee" src="../assets/img/critDmgBloquee.png"><img class="imgArbreTechno hiden cachee" src="../assets/img/technoHiden.png"></div>
-    </div>
+    <div id="divBordureJeu"><div id="divContainerJeu">
+        <input type="hidden" id="nomSauvegarde" value="<?php echo $sauvegarde; ?>">
+        <canvas id="canvasTechno" width="1550px" height="710px"></canvas>
+        <div id="divContainerNoeuds">
+            <!-- Les noeuds s'ajoutent automatiquement ici -->
+        </div>
+    
+        <div id="divRetourMenuPrincipale" onclick="window.location.href='menuPrincipale.php'"><img src="../assets/img/maison.png"></div>
+        <div id="divMonaies" class="flex-column">
+            <div id="divTriangles" class="flex-row"><span>0</span><img src="../assets/img/triangle.png"></div>
+            <div id="divRonds" class="flex-row"><span>0</span><img src="../assets/img/rond.png"></div>
+            <div id="divHexagones" class="flex-row"><span>0</span><img src="../assets/img/hexagone.png"></div>
+        </div>
+        <div id="divInfoNoeud" class="cachee">coucou</div>
 
-    <div id="divRetourMenuPrincipale" onclick="window.location.href='menuPrincipale.php'"><img src="../assets/img/maison.png"></div>
-    <div id="divMonaies" class="flex-column">
-        <div id="divTriangles" class="flex-row"><span>0</span><img src="../assets/img/triangle.png"></div>
-        <div id="divRonds" class="flex-row"><span>0</span><img src="../assets/img/rond.png"></div>
-        <div id="divHexagones" class="flex-row"><span>0</span><img src="../assets/img/hexagone.png"></div>
-    </div>
-    <div id="divInfoNoeud" class="cachee">coucou</div>
-
-
+    </div></div>
 
     <div id="script-container"></div>
     <script>

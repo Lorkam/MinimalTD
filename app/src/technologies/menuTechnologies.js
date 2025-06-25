@@ -3,32 +3,19 @@ import { Sauvegarde } from "../sauvegarde/sauvegarde.js";
 
 export class MenuTechnologies {
     constructor(nomSauvegarde) {
-        this.noeuds = [
-            new Noeud("centre", 1, "triangles", this, ['vitesseAttaque', 'degats', 'goldsBonusDepart', 'lvlUpTours']),
-            new Noeud("vitesseAttaque", 5, "triangles", this),
-            new Noeud("degats", 5, "triangles", this, ['critRate', 'critDamage']),
-            new Noeud("goldsBonusDepart", 7, "triangles", this),
-            new Noeud("lvlUpTours", 10, "triangles", this),
-            new Noeud("critRate", 20, "triangles", this),
-            new Noeud("critDamage", 20, "triangles", this)
-        ];
+        this.noeuds = [];
 
         this.canvas = document.querySelector('#canvasTechno');
         this.ctx = this.canvas.getContext('2d');
 
         this.sauvegarde = new Sauvegarde(nomSauvegarde);
         this.nomSauvegarde = nomSauvegarde;
+        this.divContainerNoeuds = document.querySelector('#divContainerNoeuds');
 
 
         // Désactivation du menu contextuel de google Chrome
         document.addEventListener('contextmenu', function (e) {
             e.preventDefault();
-        });
-        // Ajustement de la taille du canvas
-        window.addEventListener('resize', () => {
-            this.canvas.width = window.innerWidth;
-            this.canvas.height = window.innerHeight;
-            this.dessinerLiensNoeuds();
         });
     }
 
@@ -52,6 +39,52 @@ export class MenuTechnologies {
         /* Récupération des monaies de la sauvegarde */
         this.noeuds[0].majMonnaies();
     }
+
+    async chargerNoeuds(){
+        //console.log('test', this.divContainerNoeuds);
+        const url = '../serv/gestionTechno.php'
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: 'action=chargerNoeud'
+        });
+        const data = await response.json();
+        //console.log(data);
+        for(const noeud of Object.keys(data)) {
+            // Création de l'élément HTML pour le noeud
+            const elementHTML = document.createElement('div');
+            elementHTML.id = data[noeud].nom;
+            elementHTML.classList.add('noeud');
+            // Image hiden
+            const imgTechnoHiden = document.createElement('img');
+            imgTechnoHiden.src = "../assets/img/pointInterrogation.png";
+            imgTechnoHiden.classList.add('imgArbreTechno', 'hiden', 'cachee');
+            if(data[noeud].etatParDefaut=="inconnu") imgTechnoHiden.classList.remove('cachee');
+            elementHTML.appendChild(imgTechnoHiden);
+            // Icone technologie
+            const imgTechno = document.createElement('img');
+            imgTechno.src = data[noeud].lienImage1;
+            imgTechno.classList.add('imgArbreTechno', 'debloquee', 'cachee');
+            if(data[noeud].etatParDefaut=="visible") imgTechno.classList.remove('cachee');
+            elementHTML.appendChild(imgTechno);
+            // Ajout des div dans la page
+            this.divContainerNoeuds.appendChild(elementHTML);
+            const etat = data[noeud].nom=='centre' ? 'bloque' : 'inconnu';
+            // Ajout des noeuds dans le tableau
+            this.noeuds.push(new Noeud(data[noeud].nom, 
+                data[noeud].description, 
+                data[noeud].position.y, 
+                data[noeud].position.x, 
+                data[noeud].prix.quantite, 
+                data[noeud].prix.type, 
+                this, 
+                data[noeud].technologiesFille, 
+                data[noeud].nbLvl,
+                etat
+            ));
+        }
+    }
+
     async enregisterActionTechno(nomTechno, type, montant, actionTechno) {
         const url = "../serv/gestionSaves.php";
         try {
@@ -100,7 +133,33 @@ export class MenuTechnologies {
                 this.ctx.arc(posNoeudX, posNoeudY-2, 30, 0, Math.PI * 2);
                 this.ctx.fillStyle = '#ffffff';
                 this.ctx.fill();
+                if (noeud.etat=='inconnu'||noeud.etat=='bloque') {
+                    this.ctx.beginPath();
+                    this.ctx.setLineDash([5, 5]);
+                    this.ctx.arc(posNoeudX, posNoeudY - 2, 30, 0, Math.PI * 2);
+                    this.ctx.strokeStyle = '#000000';
+                    this.ctx.lineWidth = 2;
+                    this.ctx.stroke();
+                    this.ctx.setLineDash([]);
+                }else if(noeud.etat == "lvlMin") {
+                    this.ctx.beginPath();
+                    this.ctx.setLineDash([5*(noeud.nbLvl - noeud.lvl), 5*(noeud.nbLvl - noeud.lvl)]);
+                    this.ctx.arc(posNoeudX, posNoeudY - 2, 30, 0, Math.PI * 2);
+                    this.ctx.strokeStyle = '#ff7300';
+                    this.ctx.lineWidth = 2;
+                    this.ctx.stroke();
+                    this.ctx.setLineDash([]);
+                }else if(noeud.etat == "lvlMax") {
+                    this.ctx.beginPath();
+                    this.ctx.setLineDash([5, 0]); // 5px trait, 0px espace
+                    this.ctx.arc(posNoeudX, posNoeudY - 2, 30, 0, Math.PI * 2);
+                    this.ctx.strokeStyle = '#00b9d1';
+                    this.ctx.lineWidth = 2;
+                    this.ctx.stroke();
+                    this.ctx.setLineDash([]); // Réinitialise le style pour les dessins suivants
+                }
             }
+            //console.log(noeud);
         }
     }
 }
