@@ -116,7 +116,7 @@ document.querySelectorAll('.fleche img').forEach((fleche) => {
             
         } else if (divParent.id === 'flecheDroite') {
             mettreAJourNiveauSelectionne('+');
-            //onsole.log('changement de niveau : ', lvlActuellementSelectionne);
+            //console.log('changement de niveau : ', lvlActuellementSelectionne);
         }
     });
 });

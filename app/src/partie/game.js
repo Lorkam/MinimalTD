@@ -43,6 +43,7 @@ export class Partie {
 
     async initialiserNiveau() {
         const url = '../serv/gestionNiveaux.php';
+        console.log(this.nomNiveau);
         try {
             // Création de la requête pour accéder au PHP
             const response = await fetch(url, {
@@ -52,6 +53,7 @@ export class Partie {
             });
 
             const data = await response.json();
+            console.log(data);
             this.niveau = data; // Récupère le niveau depuis la réponse
             this.chemin = this.niveau.chemin;
             this.heartPos = this.niveau.heart;
@@ -62,7 +64,7 @@ export class Partie {
     
     initialiserModificateurs() {
         this.modificateurs = this.sauvegarde.modificateurs; // Liste des modificateurs de la partie
-        this.golds += this.modificateurs.economie.goldBonusDepart; // Ajoute le bonus d'or de départ
+        this.golds += this.modificateurs.economie.goldsBonusDepart; // Ajoute le bonus d'or de départ
         this.heartPV += this.modificateurs.coeurBonus; // Ajoute le bonus de points de vie du coeur
         //console.log(this.modificateurs);
     }
@@ -323,6 +325,7 @@ export class Partie {
         });
         this.initialisationVague(); // Initialise les ennemis de la vague
         this.spawnEnnemis(); // Lance le spawn des ennemis
+        console.log(this);
         this.boucleDeJeu();
     }
 

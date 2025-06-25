@@ -4,7 +4,7 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 session_start();
 $action = $_POST['action'];
-$nomNiveau = $_POST['nomNiveau']?? 'Niveau 1'; // nom du niveau, par défaut : 'Niveau 1'
+$nomNiveau = $_POST['niveau']?? 'Niveau 1'; // nom du niveau, par défaut : 'Niveau 1'
 $niveaux = json_decode(file_get_contents('niveaux.json'), true);
 
 switch ($action){

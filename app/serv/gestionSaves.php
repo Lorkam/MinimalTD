@@ -68,7 +68,7 @@ function enregisterActionTechno(&$saves, $nom){
     $nouveauMontant = (int) $_POST['montant'];
     $nomTechno = $_POST['nomTechno']; // Nom de la technologie, par défaut 'centre'
     $action = $_POST['actionTechno']; // Action à effectuer, par défaut 'achat'
-    $lvl = $_POST['lvl'] ?? 1; // Niveau de la technologie, par défaut 1
+    $lvl = $_POST['lvl'] ?? 'lvl1'; // Niveau de la technologie, par défaut 1
     $technos = $saves['saves'][$nom]['technologies'];
     $modificateurs = $saves['saves'][$nom]['modificateurs'];
     require_once 'effetsTechno.php';
@@ -77,12 +77,12 @@ function enregisterActionTechno(&$saves, $nom){
     if($action == 'achat'){
         $saves['saves'][$nom]['monnaies'][$typeMonnaie] -= $nouveauMontant;
         if(function_exists($nomTechno)) {
-            $nomTechno($action, $technos, $modificateurs);
+            $nomTechno($action, $technos,'lvl1', $modificateurs);
         }
     } elseif ($action == 'vente') {
         $saves['saves'][$nom]['monnaies'][$typeMonnaie] += $nouveauMontant;
         if(function_exists($nomTechno)) {
-            $nomTechno($action, $technos, $modificateurs);
+            $nomTechno($action, $technos, 'lvl0', $modificateurs);
         }
     }
     $saves['saves'][$nom]['technologies'] = $technos;
@@ -380,20 +380,27 @@ function ameliorerTechno(&$saves, $nom){
     $direction = $_POST['direction'];
     $niveau = $_POST['lvl'];
     $nivCible = $direction == 'up' ? 'lvl'.($niveau+1) : 'lvl'.($niveau-1);
+
+    $technos = $saves['saves'][$nom]['technologies'];
+    $modificateurs = $saves['saves'][$nom]['modificateurs'];
+    require_once 'effetsTechno.php';
+
     if($direction == 'up'){
         if($saves['saves'][$nom]['monnaies'][$typeMonnaie]< $montant){
             echo json_encode(['resultat' => 'echec', 'message' => 'Pas assez de monnaie']);
             return;
         }
         $saves['saves'][$nom]['monnaies'][$typeMonnaie] -= $montant;
-        $saves['saves'][$nom]['technologies'][$nomTechno][$nivCible]['debloque'] = true;
+
+        $nomTechno('achat', $technos, $nivCible, $modificateurs); // Appel de la fonction correspondante à la techno améliorée pour modifier les bons modificateurs
         echo json_encode(['resultat' => 'succes', 'message' => 'Technologie améliorée avec succès']);
-        return;
     }else{
-        $saves['saves'][$nom]['technologies'][$nomTechno]['lvl'.$niveau]['debloque'] = false;
         $saves['saves'][$nom]['monnaies'][$typeMonnaie] += $montant;
+
+        $nomTechno('vente', $technos, 'lvl'.($niveau-1), $modificateurs); // Appel de la fonction correspondante à la techno améliorée pour modifier les bons modificateurs
         echo json_encode(['resultat' => 'succes', 'message' => 'Technologie vendue avec succès']);
-        return;
     }
+    $saves['saves'][$nom]['technologies'] = $technos;
+    $saves['saves'][$nom]['modificateurs'] = $modificateurs;
     file_put_contents('saves.json', json_encode($saves, JSON_PRETTY_PRINT));
 }

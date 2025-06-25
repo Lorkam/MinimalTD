@@ -70,8 +70,8 @@ export class TourClassique extends Tower {
         this.attaqueSpeed = 1000/toursClassiques.vitesseAttaque; // Temps de recharge en millisecondes
         this.derniereAttaque = Date.now();
         this.afficherPortee = false; // Indique si la portée de la tour doit être affichée
-        this.tauxCrit = toursClassiques.tauxCrit; // Taux de critique de la tour
-        this.multiplicateurCrit = toursClassiques.multiplicateurCrit; // Taux de critique de la tour
+        this.tauxCrit = toursClassiques.critRate; // Taux de critique de la tour
+        this.multiplicateurCrit = toursClassiques.critDamage; // Taux de critique de la tour
     }
 
     dessiner() {

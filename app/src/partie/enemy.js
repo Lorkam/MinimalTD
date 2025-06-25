@@ -76,7 +76,7 @@ export class Enemy {
 
     mort(type){
         if (type=='tour') {
-            this.partie.golds += this.recompense.or + this.partie.modificateurs.economie.goldBonusParEnnemis; // Ajoute la récompense au joueur
+            this.partie.golds += this.recompense.or + this.partie.modificateurs.economie.goldsBonusParEnnemis; // Ajoute la récompense au joueur
             for(const monnaie of Object.keys(this.partie.monnaies)) {
                 this.partie.monnaies[monnaie] += this.recompense[monnaie] //+ this.partie.modificateurs.economie[`${monnaie}BonusParEnnemis`]; // Ajoute la récompense de chaque type de monnaie
             }

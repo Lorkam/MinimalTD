@@ -1,70 +1,74 @@
 <?php
 
-function centre($action, &$technos, &$modificateurs){
+function centre($action, &$technos, $lvl, &$modificateurs){
     if($action == 'achat'){
-        $technos['centre']['lvl1']['debloque'] = true;
+        $technos['centre'][$lvl]['debloque'] = true;
     }elseif($action == 'vente'){
-        $technos['centre']['lvl1']['debloque'] = false;
+        $technos['centre'][$lvl]['debloque'] = false;
         $modificateurs = $modificateurs;
     }
     return;
 }
-function vitesseAttaque($action, &$technos, &$modificateurs){
+function vitesseAttaque($action, &$technos, $lvl, &$modificateurs){
     if($action == 'achat'){
-        $technos['vitesseAttaque']['lvl1']['debloque'] = true;
-        $modificateurs['toursClassiques']['vitesseAttaque'] = $technos['vitesseAttaque']['lvl1']['valeur']; // 10% de vitesse d'attaque
+        $technos['vitesseAttaque'][$lvl]['debloque'] = true;
     }elseif($action == 'vente'){
-        $technos['vitesseAttaque']['lvl1']['debloque'] = false;
-        $modificateurs['toursClassiques']['vitesseAttaque'] = 1;
+        $technos['vitesseAttaque'][$lvl]['debloque'] = false;
     }
+    $modificateurs['toursClassiques']['vitesseAttaque'] = $lvl=='lvl0' ? 1 : $technos['vitesseAttaque'][$lvl]['valeur']; // 10% de vitesse d'attaque
     return;
 }
-function degats($action, &$technos, &$modificateurs) {
+function degats($action, &$technos, $lvl, &$modificateurs) {
     if($action == 'achat') {
-        $technos['degats']['lvl1']['debloque'] = true;
-        $modificateurs['toursClassiques']['degats'] = $technos['degats']['lvl1']['valeur'];
+        $technos['degats'][$lvl]['debloque'] = true;
     } elseif($action == 'vente') {
-        $technos['degats']['lvl1']['debloque'] = false;
-        $modificateurs['toursClassiques']['degats'] = 1;
+        $technos['degats'][$lvl]['debloque'] = false;
     }
-}
-function goldsBonusDepart($action, &$technos, &$modificateurs){
-    if($action == 'achat'){
-        $technos['goldsBonusDepart']['lvl1']['debloque'] = true;
-        $modificateurs['economie']['goldsBonusDepart'] = $technos['goldsBonusDepart']['lvl1']['valeur']; // 10% de vitesse d'attaque
-    }elseif($action == 'vente'){
-        $technos['goldsBonusDepart']['lvl1']['debloque'] = false;
-        $modificateurs['economie']['goldsBonusDepart'] = 0;
-    }
+    $modificateurs['toursClassiques']['degats'] = $lvl=='lvl0' ? 1 : $technos['degats'][$lvl]['valeur'];
     return;
 }
-function lvlUpTours($action, &$technos, &$modificateurs){
+function goldsBonusDepart($action, &$technos, $lvl, &$modificateurs){
     if($action == 'achat'){
-        $technos['lvlUpTours']['lvl1']['debloque'] = true;
-        $modificateurs['lvlUpTours'] = $technos['lvlUpTours']['lvl1']['valeur']; // 10% de vitesse d'attaque
+        $technos['goldsBonusDepart'][$lvl]['debloque'] = true;
     }elseif($action == 'vente'){
-        $technos['lvlUpTours']['lvl1']['debloque'] = false;
-        $modificateurs['toursClassiques']['critDamage'] = 0;
+        $technos['goldsBonusDepart'][$lvl]['debloque'] = false;
     }
+    $modificateurs['economie']['goldsBonusDepart'] = $lvl=='lvl0' ? 0 : $technos['goldsBonusDepart'][$lvl]['valeur'];
     return;
 }
-function critRate($action, &$technos, &$modificateurs){
+function goldsBonusParEnnemis($action, &$technos, $lvl, &$modificateurs){
     if($action == 'achat'){
-        $technos['critRate']['lvl1']['debloque'] = true;
-        $modificateurs['toursClassiques']['critRate'] = $technos['critRate']['lvl1']['valeur']; // 10% de vitesse d'attaque
+        $technos['goldsBonusParEnnemis'][$lvl]['debloque'] = true;
     }elseif($action == 'vente'){
-        $technos['critRate']['lvl1']['debloque'] = false;
-        $modificateurs['toursClassiques']['critRate'] = 0.1;
+        $technos['goldsBonusParEnnemis'][$lvl]['debloque'] = false;
     }
+    $modificateurs['economie']['goldsBonusParEnnemis'] = $lvl=='lvl0' ? 0 : $technos['goldsBonusParEnnemis'][$lvl]['valeur'];
     return;
 }
-function critDamage($action, &$technos, &$modificateurs){
+function lvlUpTours($action, &$technos, $lvl, &$modificateurs){
     if($action == 'achat'){
-        $technos['critDamage']['lvl1']['debloque'] = true;
-        $modificateurs['toursClassiques']['critDamage'] = $technos['critDamage']['lvl1']['valeur']; // 10% de vitesse d'attaque
+        $technos['lvlUpTours'][$lvl]['debloque'] = true;
     }elseif($action == 'vente'){
-        $technos['critDamage']['lvl1']['debloque'] = false;
-        $modificateurs['toursClassiques']['critDamage'] = 1.2;
+        $technos['lvlUpTours'][$lvl]['debloque'] = false;
     }
+    $modificateurs['lvlUpTours'] = $lvl=='lvl0' ? 0 : $technos['lvlUpTours'][$lvl]['valeur'];
+    return;
+}
+function critRate($action, &$technos, $lvl, &$modificateurs){
+    if($action == 'achat'){
+        $technos['critRate'][$lvl]['debloque'] = true;
+    }elseif($action == 'vente'){
+        $technos['critRate'][$lvl]['debloque'] = false;
+    }
+    $modificateurs['toursClassiques']['critRate'] = $lvl=='lvl0' ? 0.1 : $technos['critRate'][$lvl]['valeur'];
+    return;
+}
+function critDamage($action, &$technos, $lvl, &$modificateurs){
+    if($action == 'achat'){
+        $technos['critDamage'][$lvl]['debloque'] = true;
+    }elseif($action == 'vente'){
+        $technos['critDamage'][$lvl]['debloque'] = false;
+    }
+    $modificateurs['toursClassiques']['critDamage'] = $lvl=='lvl0' ? 1.2 : $technos['critDamage'][$lvl]['valeur'];
     return;
 }
