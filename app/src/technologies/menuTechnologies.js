@@ -41,7 +41,7 @@ export class MenuTechnologies {
     }
 
     async chargerNoeuds(){
-        console.log('test', this.divContainerNoeuds);
+        //console.log('test', this.divContainerNoeuds);
         const url = '../serv/gestionTechno.php'
         const response = await fetch(url, {
             method: 'POST',
@@ -61,19 +61,15 @@ export class MenuTechnologies {
             imgTechnoHiden.classList.add('imgArbreTechno', 'hiden', 'cachee');
             if(data[noeud].etatParDefaut=="inconnu") imgTechnoHiden.classList.remove('cachee');
             elementHTML.appendChild(imgTechnoHiden);
-            // Image bloquée
-            const imgTechnoBloquee = document.createElement('img');
-            imgTechnoBloquee.src = data[noeud].lienImage1;
-            imgTechnoBloquee.classList.add('imgArbreTechno', 'bloquee', 'cachee');
-            if(data[noeud].etatParDefaut=="visible") imgTechnoBloquee.classList.remove('cachee');
-            elementHTML.appendChild(imgTechnoBloquee);
-            // Image débloquée
-            const imgTechnoDebloquee = document.createElement('img');
-            imgTechnoDebloquee.src = data[noeud].lienImage1;
-            imgTechnoDebloquee.classList.add('imgArbreTechno', 'debloquee', 'cachee');
-            elementHTML.appendChild(imgTechnoDebloquee);
+            // Icone technologie
+            const imgTechno = document.createElement('img');
+            imgTechno.src = data[noeud].lienImage1;
+            imgTechno.classList.add('imgArbreTechno', 'debloquee', 'cachee');
+            if(data[noeud].etatParDefaut=="visible") imgTechno.classList.remove('cachee');
+            elementHTML.appendChild(imgTechno);
             // Ajout des div dans la page
             this.divContainerNoeuds.appendChild(elementHTML);
+            const etat = data[noeud].nom=='centre' ? 'bloque' : 'inconnu';
             // Ajout des noeuds dans le tableau
             this.noeuds.push(new Noeud(data[noeud].nom, 
                 data[noeud].description, 
@@ -83,7 +79,8 @@ export class MenuTechnologies {
                 data[noeud].prix.type, 
                 this, 
                 data[noeud].technologiesFille, 
-                data[noeud].nbLvl
+                data[noeud].nbLvl,
+                etat
             ));
         }
     }
@@ -162,7 +159,7 @@ export class MenuTechnologies {
                     this.ctx.setLineDash([]); // Réinitialise le style pour les dessins suivants
                 }
             }
-            console.log(noeud);
+            //console.log(noeud);
         }
     }
 }
