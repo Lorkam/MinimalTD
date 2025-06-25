@@ -6,4 +6,5 @@ const menuTechnologies = new MenuTechnologies(nomSauvegarde);
 
 await menuTechnologies.chargerNoeuds();
 await menuTechnologies.initialiserSauvegarde();
+menuTechnologies.chargerEtatNoeuds();
 menuTechnologies.dessinerLiensNoeuds();

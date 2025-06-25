@@ -3,8 +3,9 @@ export class Noeud {
     constructor(idHTML, description, top, left, prix, typePrix, menuTechonologies, enfants, nbLvl, etat = 'cache') {
         this.idHTML = idHTML;
         this.description = description;
-        this.prix = prix;
         this.typePrix = typePrix;
+        this.prix = prix;
+        this.prixAmelioration = this.prix*2; // Prix de l'amélioration, initialisé à 0
         this.debloque = false;
         this.etat = etat; // possibilités : 'cache' | 'inconnu' | 'bloque' | 'lvlMin' | 'lvlMax'
         this.lvl = 0;
@@ -20,10 +21,17 @@ export class Noeud {
 
         this.imgtechno.addEventListener('mousedown', (e) => {
             if(e.button === 2){
-                console.log(`Clic droit sur le noeud ${this.idHTML}.`);
-                this.vendre();
+                if(this.lvl > 1) {
+                    this.vendreAmeliorationNoeud();
+                }else{
+                    this.vendre();
+                }
             }else if(e.button === 0){
-                this.debloquer();
+                if(this.debloque) {
+                    this.ameliorerNoeud();
+                }else {
+                    this.debloquer();
+                }
             }
         });
         this.imgtechno.addEventListener('mouseenter', () => this.detectionMouseOver());
@@ -58,6 +66,7 @@ export class Noeud {
     async debloquer(source = 'clic') {
         this.debloque = true;
         this.lvl=1;
+        this.prixAmelioration = this.prix * (this.lvl + 1); // Augmentation du prix pour l'amélioration
         this.etat = this.lvl==this.nbLvl ? 'lvlMax' : 'lvlMin';
         if(source === 'clic'){
             // Vérification du prix
@@ -89,8 +98,12 @@ export class Noeud {
         this.menuTechonologies.dessinerLiensNoeuds();
     }
     async vendre(n=0) {
-        console.log(`Vente du noeud ${this.idHTML} - n = ${n}`);
+        //console.log(`Vente du noeud ${this.idHTML} - n = ${n}`);
         if(this.debloque) {
+            while(this.lvl > 1) {
+                // On vend les améliorations avant de vendre le noeud
+                this.vendreAmeliorationNoeud();
+            }
             await this.menuTechonologies.enregisterActionTechno(this.idHTML, this.typePrix, this.prix, 'vente');
             this.majMonnaies();
             this.debloque = false;
@@ -122,6 +135,61 @@ export class Noeud {
         }
         // dessin des liens vers les enfants
         this.menuTechonologies.dessinerLiensNoeuds();
+    }
+
+    ameliorerNoeud() {
+        if(this.lvl < this.nbLvl) {
+            if(this.menuTechonologies.sauvegarde.monnaies[this.typePrix] < this.prixAmelioration) {
+                console.warn(`Pas assez de ${this.typePrix} pour améliorer le noeud ${this.idHTML} (${this.menuTechonologies.sauvegarde.monnaies[this.typePrix]}/${this.prixAmelioration}).`);
+                return;
+            }
+            if (!this.changerNivNoeud('+')) return;
+            this.menuTechonologies.sauvegarde.monnaies[this.typePrix] -= this.prixAmelioration;
+            this.majMonnaies();
+            const lvlCible = this.lvl + 1;
+            this.lvl = lvlCible;
+            this.prixAmelioration = this.prix * ((lvlCible+1)>this.nbLvl ? lvlCible : lvlCible+1); // Augmentation du prix pour l'amélioration
+            this.etat = this.lvl == this.nbLvl ? 'lvlMax' : 'lvlMin';
+            // Mise à jour de l'image
+            this.menuTechonologies.dessinerLiensNoeuds();
+        }else {
+            console.warn(`La technologie '${this.idHTML}' est déjà au niveau maximum : ${this.nbLvl}`);
+        }
+    }
+    vendreAmeliorationNoeud() {
+        if(this.lvl > 1) {
+            const montantRemboursement = this.prixAmelioration; // Remboursement du prix d'amélioration
+            if(!this.changerNivNoeud('-')) return;
+            this.menuTechonologies.sauvegarde.monnaies[this.typePrix] += montantRemboursement;
+            this.majMonnaies();
+            const lvlCible = this.lvl - 1;
+            this.lvl = lvlCible;
+            this.prixAmelioration = this.prix * lvlCible; // Réduction du prix pour l'amélioration
+            this.etat = 'lvlMin'; // Mise à jour de l'état
+            // Mise à jour de l'image
+            this.menuTechonologies.dessinerLiensNoeuds();
+        }
+    }
+
+    async changerNivNoeud(direction) {
+        const lvlCible = direction == '+' ? this.lvl + 1 : this.lvl - 1;
+        //console.log(`Changement de niveau du noeud ${this.idHTML} : ${this.lvl} -> ${lvlCible}`);
+        const url = "../serv/gestionSaves.php";
+        try {
+            // création de la requete pour accéder au php
+            const response = await fetch(url, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: 'action=ameliorerTechno'+'&typeMonnaie=' + this.typePrix + '&montant=' + this.prixAmelioration + 
+                      '&nom=' + this.menuTechonologies.nomSauvegarde + '&nomTechno=' + this.idHTML + '&direction=' + (direction=='+'?'up':'down') + '&lvl=' + this.lvl
+            });
+
+            const data = await response.json();
+            //console.log(data);
+            return data.resultat === 'succes';
+        } catch (error) {
+            console.error('Erreur récupération données :', error);
+        }
     }
 
 

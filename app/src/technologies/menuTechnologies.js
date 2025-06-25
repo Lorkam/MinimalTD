@@ -19,6 +19,17 @@ export class MenuTechnologies {
         });
     }
 
+    /**
+     * Initialise le menu des technologies en fonction de l'état de la sauvegarde.
+     * 
+     * - Charge les données sauvegardées pour l'utilisateur/profil courant.
+     * - Débloque les technologies marquées comme débloquées dans la sauvegarde.
+     * - Met à jour les nœuds de l'UI pour refléter les technologies débloquées.
+     * - Met à jour l'affichage des monnaies à partir de la sauvegarde.
+     * 
+     * @async
+     * @returns {Promise<void>} Résout lorsque l'initialisation est terminée.
+     */
     async initialiserSauvegarde(){
         /* Déblocage des technologies en fonction de la sauvegarde */
         this.sauvegarde = (await this.sauvegarde.lireSaves()).saves[this.sauvegarde.nom];
@@ -26,7 +37,7 @@ export class MenuTechnologies {
         const technoDebloquees = [];
         //console.log('this.sauvegarde :', this.sauvegarde);
         for(const techno of Object.keys(technos)) {
-            if (technos[techno].lvl1.debloque === true) {
+            if (technos[techno]['lvl1'].debloque === true) {
                 //console.log("Technologie " + techno + " OK");
                 technoDebloquees.push(techno);
             }
@@ -40,6 +51,17 @@ export class MenuTechnologies {
         this.noeuds[0].majMonnaies();
     }
 
+    /**
+     * Charge de façon asynchrone les nœuds de technologies depuis le serveur et crée leurs éléments HTML associés.
+     * Récupère les données des nœuds via une requête POST, puis pour chaque nœud :
+     * - Crée une div conteneur avec les classes et IDs appropriés.
+     * - Ajoute une image cachée ou visible représentant l'état de la technologie.
+     * - Ajoute l'élément du nœud au conteneur dans le DOM.
+     * - Instancie et stocke un objet Noeud avec les propriétés du nœud.
+     *
+     * @async
+     * @returns {Promise<void>} Résout lorsque tous les nœuds sont chargés et affichés.
+     */
     async chargerNoeuds(){
         //console.log('test', this.divContainerNoeuds);
         const url = '../serv/gestionTechno.php'
@@ -85,6 +107,56 @@ export class MenuTechnologies {
         }
     }
 
+    /**
+     * Met à jour **l'état** (`etat`) et le niveau (`lvl`) de chaque noeud de technologie (`noeud`) en fonction des données de sauvegarde.
+     * 
+     * Pour chaque noeud :
+     * - Compte le nombre de niveaux débloqués (`debloque`).
+     * - Définit `noeud.lvl` au nombre de niveaux débloqués.
+     * - Définit `noeud.etat` à "lvlMax" si tous les niveaux sont débloqués, ou à "lvlMin" si seul le premier niveau est débloqué.
+     *
+     * Suppose que chaque noeud possède une propriété `idHTML` pour correspondre avec les technologies sauvegardées,
+     * et que chaque technologie contient des objets de niveau avec une propriété booléenne `debloque`.
+     */
+    chargerEtatNoeuds() {
+        const technologies = this.sauvegarde.technologies;
+        for (const noeud of this.noeuds) {
+            const tech = technologies[noeud.idHTML];
+            if (!tech) continue;
+            
+            const niveaux = Object.values(tech);
+            //console.log(noeud.idHTML, niveaux);
+            var nblvlDebloque = 0;
+            for (const niveau of niveaux) {
+                if (niveau.debloque === true) {
+                    nblvlDebloque++;
+                }
+            }
+            noeud.lvl = nblvlDebloque;
+            noeud.prixAmelioration = noeud.prix*(noeud.lvl+1);
+
+            const tousDebloques = nblvlDebloque == niveaux.length;
+            const lvl1Debloque = tech.lvl1?.debloque === true;
+            //console.log(noeud, 'tousDebloques:', tousDebloques, 'lvl1Debloque:', lvl1Debloque);
+
+            if (tousDebloques) {
+                noeud.etat = "lvlMax";
+            } else if (lvl1Debloque) {
+                noeud.etat = "lvlMin";
+            }
+        }
+    }
+
+    /**
+     * Enregistre une action technologique en envoyant une requête POST à un script PHP.
+     *
+     * @async
+     * @param {string} nomTechno - Le nom de la technologie concernée par l'action.
+     * @param {string} type - Le type de monnaie utilisé pour l'action.
+     * @param {number} montant - Le montant de monnaie dépensé ou utilisé.
+     * @param {string} actionTechno - Le type d'action technologique à enregistrer.
+     * @returns {Promise<void>} Une promesse qui se résout lorsque l'action est enregistrée.
+     */
     async enregisterActionTechno(nomTechno, type, montant, actionTechno) {
         const url = "../serv/gestionSaves.php";
         try {
@@ -104,6 +176,19 @@ export class MenuTechnologies {
         }
     }
 
+    /**
+     * Dessine les liens entre les nœuds et les nœuds eux-mêmes sur le canvas.
+     * 
+     * - Efface le canvas avant de dessiner.
+     * - Pour chaque nœud, dessine les liens vers ses enfants visibles.
+     * - Dessine un cercle pour chaque nœud visible, avec un style différent selon son état :
+     *   - 'inconnu' ou 'bloque' : cercle en pointillés noirs.
+     *   - 'lvlMin' : cercle en pointillés orange, la longueur des pointillés dépend du niveau.
+     *   - 'lvlMax' : cercle en trait continu bleu.
+     * 
+     * Prend en compte la position et la taille des éléments HTML associés aux nœuds pour le placement.
+     * Ignore les nœuds enfants cachés.
+     */
     dessinerLiensNoeuds() {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
         for(const noeud of this.noeuds) {

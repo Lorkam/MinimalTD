@@ -30,6 +30,12 @@ switch ($action){
     case 'creerSauvegarde':
         creerSauvegarde($saves, $nom);
         break;
+    case 'ameliorerTechno':
+        ameliorerTechno($saves, $nom);
+        break;
+    case 'vendreAmeliorationTechno':
+        vendreAmeliorationTechno($saves, $nom);
+        break;
     default:
         echo 'action non reconnue';
         break;
@@ -62,6 +68,7 @@ function enregisterActionTechno(&$saves, $nom){
     $nouveauMontant = (int) $_POST['montant'];
     $nomTechno = $_POST['nomTechno']; // Nom de la technologie, par défaut 'centre'
     $action = $_POST['actionTechno']; // Action à effectuer, par défaut 'achat'
+    $lvl = $_POST['lvl'] ?? 1; // Niveau de la technologie, par défaut 1
     $technos = $saves['saves'][$nom]['technologies'];
     $modificateurs = $saves['saves'][$nom]['modificateurs'];
     require_once 'effetsTechno.php';
@@ -180,8 +187,8 @@ function creerSauvegarde(&$saves, $nom){
                 "portee"=> 1
             ],
             "economie"=> [
-                "goldBonusDepart"=> 0,
-                "goldBonusParEnnemis"=> 0
+                "goldsBonusDepart"=> 0,
+                "goldsBonusParEnnemis"=> 0
             ],
             "coeurBonus"=> 0,
             "lvlUpTours"=> 1
@@ -345,5 +352,48 @@ function creerSauvegarde(&$saves, $nom){
 function supprimerSauvegarde(&$saves, $nom){
     unset($saves['saves'][$nom]);
     if(isset($_SESSION['nomSauvegarde']) && $_SESSION['nomSauvegarde'] == $nom) unset($_SESSION['nomSauvegarde']);
+    file_put_contents('saves.json', json_encode($saves, JSON_PRETTY_PRINT));
+}
+
+/**
+ * Améliore une technologie pour un utilisateur donné en mettant à jour son niveau et en débloquant le niveau cible.
+ *
+ * Cette fonction modifie le tableau des sauvegardes en :
+ * - Déduisant le montant de la monnaie spécifiée de l'utilisateur.
+ * - Débloquant le niveau cible de la technologie spécifiée.
+ * - Enregistrant les modifications dans le fichier 'saves.json'.
+ *
+ * @param array  $saves Référence au tableau contenant toutes les sauvegardes des utilisateurs.
+ * @param string $nom   Nom de l'utilisateur dont la technologie doit être améliorée.
+ *
+ * Les données suivantes doivent être présentes dans $_POST :
+ * - 'nomTechno'   : string, nom de la technologie à améliorer.
+ * - 'typeMonnaie' : string, type de monnaie à utiliser pour l'amélioration.
+ * - 'montant'     : int, montant de monnaie à déduire.
+ * - 'direction'   : string, 'up' pour augmenter le niveau, autre pour diminuer.
+ * - 'lvl'         : int, niveau actuel de la technologie.
+ */
+function ameliorerTechno(&$saves, $nom){
+    $nomTechno = $_POST['nomTechno'];
+    $typeMonnaie = $_POST['typeMonnaie'];
+    $montant = $_POST['montant'];
+    $direction = $_POST['direction'];
+    $niveau = $_POST['lvl'];
+    $nivCible = $direction == 'up' ? 'lvl'.($niveau+1) : 'lvl'.($niveau-1);
+    if($direction == 'up'){
+        if($saves['saves'][$nom]['monnaies'][$typeMonnaie]< $montant){
+            echo json_encode(['resultat' => 'echec', 'message' => 'Pas assez de monnaie']);
+            return;
+        }
+        $saves['saves'][$nom]['monnaies'][$typeMonnaie] -= $montant;
+        $saves['saves'][$nom]['technologies'][$nomTechno][$nivCible]['debloque'] = true;
+        echo json_encode(['resultat' => 'succes', 'message' => 'Technologie améliorée avec succès']);
+        return;
+    }else{
+        $saves['saves'][$nom]['technologies'][$nomTechno]['lvl'.$niveau]['debloque'] = false;
+        $saves['saves'][$nom]['monnaies'][$typeMonnaie] += $montant;
+        echo json_encode(['resultat' => 'succes', 'message' => 'Technologie vendue avec succès']);
+        return;
+    }
     file_put_contents('saves.json', json_encode($saves, JSON_PRETTY_PRINT));
 }

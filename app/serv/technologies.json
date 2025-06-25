@@ -34,9 +34,19 @@
         "description": "Augmente les golds de départ",
         "position":{"x": 930, "y": 248},
         "prix":{"type": "triangles", "quantite": 7},
-        "technologiesFille":[],
+        "technologiesFille":["goldsBonusParEnnemis"],
         "lienImage1":"../assets/img/euro.png",
         "etatParDefaut": "inconnu",
+        "nbLvl": 3
+    },
+    "goldsBonusParEnnemis":{
+        "nom": "goldsBonusParEnnemis",
+        "description": "Augmente les golds obtenus par ennemi",
+        "position":{"x": 1130, "y": 200},
+        "prix":{"type": "triangles", "quantite": 7},
+        "technologiesFille":[],
+        "lienImage1":"../assets/img/euro.png",
+        "etatParDefaut": "cache",
         "nbLvl": 3
     },
     "lvlUpTours":{

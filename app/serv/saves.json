@@ -3,7 +3,7 @@
         "test": {
             "description": "sauvegarde de test",
             "monnaies": {
-                "triangles": 107,
+                "triangles": 100,
                 "ronds": 0,
                 "hexagones": 0
             },
@@ -24,7 +24,7 @@
                     "portee": 1
                 },
                 "economie": {
-                    "goldBonusParEnnemis": 0,
+                    "goldsBonusParEnnemis": 0,
                     "goldsBonusDepart": 2
                 },
                 "coeurBonus": 0,
@@ -199,8 +199,8 @@
                     "portee": 1
                 },
                 "economie": {
-                    "goldBonusDepart": 0,
-                    "goldBonusParEnnemis": 0
+                    "goldsBonusDepart": 0,
+                    "goldsBonusParEnnemis": 0
                 },
                 "coeurBonus": 0,
                 "lvlUpTours": 1
@@ -353,7 +353,7 @@
         "coucou": {
             "description": "sauvegarde vide",
             "monnaies": {
-                "triangles": 56,
+                "triangles": 295,
                 "ronds": 0,
                 "hexagones": 0
             },
@@ -366,16 +366,16 @@
             "dateDerniereSave": "2025-06-24",
             "modificateurs": {
                 "toursClassiques": {
-                    "degats": 1,
+                    "degats": 1.2,
                     "vitesseAttaque": 1,
                     "prix": 1,
                     "critRate": 0.1,
-                    "critDamage": 1.2,
+                    "critDamage": 0,
                     "portee": 1
                 },
                 "economie": {
-                    "goldBonusDepart": 0,
-                    "goldBonusParEnnemis": 0
+                    "goldsBonusDepart": 0,
+                    "goldsBonusParEnnemis": 0
                 },
                 "coeurBonus": 0,
                 "lvlUpTours": 1
@@ -389,7 +389,7 @@
                 },
                 "degats": {
                     "lvl1": {
-                        "debloque": false,
+                        "debloque": true,
                         "valeur": 1.2
                     },
                     "lvl2": {
@@ -435,15 +435,15 @@
                         "valeur": 0.2
                     },
                     "lvl2": {
-                        "debloque": false,
+                        "debloque": true,
                         "valeur": 0.3
                     },
                     "lvl3": {
-                        "debloque": false,
+                        "debloque": true,
                         "valeur": 0.4
                     },
                     "lvl4": {
-                        "debloque": false,
+                        "debloque": true,
                         "valeur": 0.5
                     }
                 },
@@ -453,11 +453,11 @@
                         "valeur": 1.4
                     },
                     "lvl2": {
-                        "debloque": false,
+                        "debloque": true,
                         "valeur": 1.6
                     },
                     "lvl3": {
-                        "debloque": false,
+                        "debloque": true,
                         "valeur": 1.8
                     }
                 },
