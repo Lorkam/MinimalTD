@@ -1,0 +1,10 @@
+{
+    "TourClassique":{
+        "nom":"TourClassique",
+        "description":"Tour classique de base",
+        "prix":10,
+        "degats":10,
+        "attaqueSpeed":1000,
+        "portee":100
+    }
+}
