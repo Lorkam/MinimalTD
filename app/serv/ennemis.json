@@ -1,0 +1,38 @@
+{
+    "EnnemiClassique":{
+        "nom":"EnnemiClassique",
+        "description":"Ennemi de base",
+        "vitesse":1,
+        "couleur":"red",
+        "pvMax":20,
+        "taille":10,
+        "or":2,
+        "triangles":1,
+        "ronds":0,
+        "hexagones":0
+    },
+    "EnnemiTank":{
+        "nom":"EnnemiTank",
+        "description":"Ennemi avec beaucoup de vie mais lent",
+        "vitesse":0.5,
+        "couleur":"rgb(15, 89, 0)",
+        "pvMax":100,
+        "taille":14,
+        "or":4,
+        "triangles":2,
+        "ronds":0,
+        "hexagones":0
+    },
+    "EnnemiRapide":{
+        "nom":"EnnemiRapide",
+        "description":"Ennemi rapide mais fragile",
+        "vitesse":3,
+        "couleur":"rgb(184, 197, 0)",
+        "pvMax":15,
+        "taille":7,
+        "or":1,
+        "triangles":1,
+        "ronds":0,
+        "hexagones":0
+    }
+}

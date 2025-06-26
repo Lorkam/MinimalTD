@@ -2,10 +2,10 @@ import { Enemy } from "./enemy.js";
 import { Projectile } from "./projectiles.js";
 
 export class Tower {
-    constructor(type, portee, position, partie) {
+    constructor(type, position, partie) {
         this.partie = partie; // Référence à la partie à laquelle appartient la tour
         this.type = type;
-        this.portee = portee;
+        this.portee = 100;
         this.position = position;
         this.listeBalles = []; // Liste des projectiles tirés par la tour
         this.prix = 1; // Prix de la tour
@@ -63,15 +63,20 @@ export class Tower {
 
 export class TourClassique extends Tower {
     constructor(position, partie) {
-        const toursClassiques = partie.modificateurs.toursClassiques;
-        super('Classique', 100*toursClassiques.portee, position, partie);
-        this.prix = 10*toursClassiques.prix; // Prix de la tour
-        this.degats = 10*toursClassiques.degats; // Dégâts infligés par la tour
-        this.attaqueSpeed = 1000/toursClassiques.vitesseAttaque; // Temps de recharge en millisecondes
+        const modificateursToursClassiques = partie.modificateurs.toursClassiques;
+        const statToursClassiques = partie.statTours.TourClassique;
+        console.log(statToursClassiques);
+        super('Classique', position, partie);
+        this.lvl = 1; // Niveau de la tour
+        this.prix = statToursClassiques.prix * modificateursToursClassiques.prix; // Prix de la tour
+        this.prixAmelioration = this.prix * this.lvl;
+        this.degats = statToursClassiques.degats * modificateursToursClassiques.degats; // Dégâts infligés par la tour
+        this.attaqueSpeed = statToursClassiques.attaqueSpeed / modificateursToursClassiques.vitesseAttaque; // Temps de recharge en millisecondes
+        this.portee = statToursClassiques.portee + modificateursToursClassiques.portee
         this.derniereAttaque = Date.now();
         this.afficherPortee = false; // Indique si la portée de la tour doit être affichée
-        this.tauxCrit = toursClassiques.critRate; // Taux de critique de la tour
-        this.multiplicateurCrit = toursClassiques.critDamage; // Taux de critique de la tour
+        this.tauxCrit = modificateursToursClassiques.critRate; // Taux de critique de la tour
+        this.multiplicateurCrit = modificateursToursClassiques.critDamage; // Taux de critique de la tour
     }
 
     dessiner() {
@@ -114,5 +119,33 @@ export class TourClassique extends Tower {
             this.partie.ctx.lineWidth = 2;
             this.partie.ctx.stroke();
         }
+    }
+
+    ameliorer(){
+        const lvlCible = this.lvl + 1; // Niveau cible de l'amélioration
+        switch (lvlCible) {
+            case 1:
+                this.degats *= 1.5;
+                this.attaqueSpeed *= 0.9;
+                this.portee *= 1.2;
+                break;
+            case 2:
+                this.degats *= 2;
+                this.attaqueSpeed *= 0.8;
+                this.portee *= 1.3;
+                break;
+            case 3:
+                this.degats *= 2.5;
+                this.attaqueSpeed *= 0.7;
+                this.portee *= 1.4;
+                break;
+            default:
+                console.error("Cette tour ne peut pas être améliorée au-delà du niveau 3.");
+                return 0;
+        }
+        this.lvl++; // Incrémente le niveau de la tour
+        const cout = this.prixAmelioration; // Coût de l'amélioration
+        this.prixAmelioration = this.prix * this.lvl * this.lvl; // Met à jour le prix de l'amélioration
+        return -cout; // Retourne le coût de l'amélioration
     }
 }

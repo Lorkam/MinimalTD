@@ -21,7 +21,7 @@
                     "prix": 1,
                     "critRate": 0.2,
                     "critDamage": 1.4,
-                    "portee": 1
+                    "portee": 0
                 },
                 "economie": {
                     "goldsBonusParEnnemis": 0,
@@ -68,15 +68,15 @@
                 "portee": {
                     "lvl1": {
                         "debloque": false,
-                        "valeur": 1.2
+                        "valeur": 30
                     },
                     "lvl2": {
                         "debloque": false,
-                        "valeur": 1.4
+                        "valeur": 60
                     },
                     "lvl3": {
                         "debloque": false,
-                        "valeur": 1.6
+                        "valeur": 90
                     }
                 },
                 "critRate": {
@@ -196,7 +196,7 @@
                     "prix": 1,
                     "critRate": 0.1,
                     "critDamage": 1.2,
-                    "portee": 1
+                    "portee": 0
                 },
                 "economie": {
                     "goldsBonusDepart": 0,
@@ -243,15 +243,15 @@
                 "portee": {
                     "lvl1": {
                         "debloque": false,
-                        "valeur": 1.2
+                        "valeur": 30
                     },
                     "lvl2": {
                         "debloque": false,
-                        "valeur": 1.4
+                        "valeur": 60
                     },
                     "lvl3": {
                         "debloque": false,
-                        "valeur": 1.6
+                        "valeur": 90
                     }
                 },
                 "critRate": {
@@ -353,7 +353,7 @@
         "vraiGame1": {
             "description": "sauvegarde vide",
             "monnaies": {
-                "triangles": 231,
+                "triangles": 564,
                 "ronds": 0,
                 "hexagones": 0
             },
@@ -367,11 +367,11 @@
             "modificateurs": {
                 "toursClassiques": {
                     "degats": 1.4,
-                    "vitesseAttaque": 1.6,
+                    "vitesseAttaque": 1,
                     "prix": 1,
                     "critRate": 0.2,
-                    "critDamage": 1.2,
-                    "portee": 1
+                    "critDamage": 1.4,
+                    "portee": 0
                 },
                 "economie": {
                     "goldsBonusDepart": 2,
@@ -383,55 +383,61 @@
             "technologies": {
                 "centre": {
                     "lvl1": {
-                        "debloque": true,
+                        "debloque": false,
                         "valeur": 1
+                    },
+                    "lvl0": {
+                        "debloque": false
                     }
                 },
                 "degats": {
                     "lvl1": {
-                        "debloque": true,
+                        "debloque": false,
                         "valeur": 1.2
                     },
                     "lvl2": {
-                        "debloque": true,
+                        "debloque": false,
                         "valeur": 1.4
                     },
                     "lvl3": {
                         "debloque": false,
                         "valeur": 1.6
+                    },
+                    "lvl0": {
+                        "debloque": false
                     }
                 },
                 "vitesseAttaque": {
                     "lvl1": {
-                        "debloque": true,
+                        "debloque": false,
                         "valeur": 1.2
                     },
                     "lvl2": {
-                        "debloque": true,
+                        "debloque": false,
                         "valeur": 1.4
                     },
                     "lvl3": {
-                        "debloque": true,
+                        "debloque": false,
                         "valeur": 1.6
                     }
                 },
                 "portee": {
                     "lvl1": {
                         "debloque": false,
-                        "valeur": 1.2
+                        "valeur": 30
                     },
                     "lvl2": {
                         "debloque": false,
-                        "valeur": 1.4
+                        "valeur": 60
                     },
                     "lvl3": {
                         "debloque": false,
-                        "valeur": 1.6
+                        "valeur": 90
                     }
                 },
                 "critRate": {
                     "lvl1": {
-                        "debloque": true,
+                        "debloque": false,
                         "valeur": 0.2
                     },
                     "lvl2": {
@@ -445,11 +451,14 @@
                     "lvl4": {
                         "debloque": false,
                         "valeur": 0.5
+                    },
+                    "lvl0": {
+                        "debloque": false
                     }
                 },
                 "critDamage": {
                     "lvl1": {
-                        "debloque": true,
+                        "debloque": false,
                         "valeur": 1.4
                     },
                     "lvl2": {
@@ -494,7 +503,7 @@
                 },
                 "goldsBonusDepart": {
                     "lvl1": {
-                        "debloque": true,
+                        "debloque": false,
                         "valeur": 2
                     },
                     "lvl2": {
@@ -508,7 +517,7 @@
                 },
                 "goldsBonusParEnnemis": {
                     "lvl1": {
-                        "debloque": true,
+                        "debloque": false,
                         "valeur": 1
                     },
                     "lvl2": {
@@ -518,12 +527,18 @@
                     "lvl3": {
                         "debloque": false,
                         "valeur": 3
+                    },
+                    "lvl0": {
+                        "debloque": false
                     }
                 },
                 "lvlUpTours": {
                     "lvl1": {
                         "debloque": false,
                         "valeur": 1
+                    },
+                    "lvl0": {
+                        "debloque": false
                     }
                 }
             }

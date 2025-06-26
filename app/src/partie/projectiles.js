@@ -22,7 +22,6 @@ export class Projectile {
         this.couleur = "yellow"; // Couleur du projectile
         this.speed = 10;
         var degatsInfliges;
-        console.log(this.tour);
         if(Math.random(100) < this.tour.tauxCrit){
             degatsInfliges = this.tour.degats * this.tour.multiplicateurCrit; // Dégâts infligés en cas de critique
             this.couleur = "red"; // Change la couleur du projectile en rouge pour indiquer un coup critique

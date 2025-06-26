@@ -15,7 +15,7 @@ function vitesseAttaque($action, &$technos, $lvl, &$modificateurs){
     }elseif($action == 'vente'){
         $technos['vitesseAttaque'][$lvl]['debloque'] = false;
     }
-    $modificateurs['toursClassiques']['vitesseAttaque'] = $lvl=='lvl0' ? 1 : $technos['vitesseAttaque'][$lvl]['valeur']; // 10% de vitesse d'attaque
+    $modificateurs['toursClassiques']['vitesseAttaque'] = ($lvl=='lvl1'&&$action=='vente') ? 1 : $technos['vitesseAttaque'][$lvl]['valeur']; // 10% de vitesse d'attaque
     return;
 }
 function degats($action, &$technos, $lvl, &$modificateurs) {

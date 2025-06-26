@@ -51,11 +51,15 @@ export class Emplacement {
         }
     }
 
-    clicEmplacement(){
+    clicEmplacement(mouseEvent){
         // Vérifie si une tour est déjà placée sur cet emplacement
         if (this.tour) {
-            console.log("clic sur une tour.");
-            return 0; // Retourne l'or sans rien faire si une tour est déjà placée
+            if(mouseEvent.which == 3) { // Clic droit
+                return this.tour.ameliorer(); // Améliore la tour si clic droit (et renvoie le coût de l'amélioration)
+            } else {
+                console.log(this.tour);
+                return 0; // Retourne l'or sans rien faire si une tour est déjà placée
+            }
         } else {
             return this.ajouterTour('classique'); // Ajoute une tour classique si l'emplacement est libre
         }

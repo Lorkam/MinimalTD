@@ -93,38 +93,39 @@ export class Enemy {
 export class EnemyClassique extends Enemy {
     constructor( partie) {
         super(partie);
-        this.couleur = 'red';
-        this.pvMax = 20;
+        this.couleur = this.partie.statEnnemis.EnnemiClassique.couleur;
+        this.pvMax = this.partie.statEnnemis.EnnemiClassique.pvMax;
         this.pv = this.pvMax;
-        this.taille = 10; // pour la détection de souris
-        this.recompense.or = 2;
-        this.recompense.triangles = 1;
+        this.speed = this.partie.statEnnemis.EnnemiClassique.vitesse;
+        this.taille = this.partie.statEnnemis.EnnemiClassique.taille;
+        this.recompense.or = this.partie.statEnnemis.EnnemiClassique.or;
+        this.recompense.triangles = this.partie.statEnnemis.EnnemiClassique.triangles;
     }
 }
 
 export class EnemyTank extends Enemy {
     constructor(partie) {
         super(partie);
-        this.couleur = 'rgb(15, 89, 0)';
-        this.pvMax = 100;
+        this.couleur = this.partie.statEnnemis.EnnemiTank.couleur;
+        this.pvMax = this.partie.statEnnemis.EnnemiTank.pvMax;
         this.pv = this.pvMax;
-        this.taille = 10; // pour la détection de souris
-        this.speed = 0.5;
-        this.recompense.or = 4;
-        this.recompense.triangles = 2;
+        this.taille = this.partie.statEnnemis.EnnemiTank.taille;
+        this.speed = this.partie.statEnnemis.EnnemiTank.vitesse;
+        this.recompense.or = this.partie.statEnnemis.EnnemiTank.or;
+        this.recompense.triangles = this.partie.statEnnemis.EnnemiTank.triangles;
     }
 }
 
 export class EnemyRapide extends Enemy {
     constructor(partie) {
         super(partie);
-        this.couleur = 'rgb(184, 197, 0)';
-        this.pvMax = 15;
+        this.couleur = this.partie.statEnnemis.EnnemiRapide.couleur;
+        this.pvMax = this.partie.statEnnemis.EnnemiRapide.pvMax;
         this.pv = this.pvMax;
-        this.taille = 7; // pour la détection de souris
-        this.speed = 3;
-        this.recompense.or = 1;
-        this.recompense.triangles = 1;
+        this.taille = this.partie.statEnnemis.EnnemiRapide.taille;
+        this.speed = this.partie.statEnnemis.EnnemiRapide.vitesse;
+        this.recompense.or = this.partie.statEnnemis.EnnemiRapide.or;
+        this.recompense.triangles = this.partie.statEnnemis.EnnemiRapide.triangles;
     }
 
     /**

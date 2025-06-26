@@ -82,7 +82,7 @@ function enregisterActionTechno(&$saves, $nom){
     } elseif ($action == 'vente') {
         $saves['saves'][$nom]['monnaies'][$typeMonnaie] += $nouveauMontant;
         if(function_exists($nomTechno)) {
-            $nomTechno($action, $technos, 'lvl0', $modificateurs);
+            $nomTechno($action, $technos, 'lvl1', $modificateurs);
         }
     }
     $saves['saves'][$nom]['technologies'] = $technos;
@@ -397,7 +397,7 @@ function ameliorerTechno(&$saves, $nom){
     }else{
         $saves['saves'][$nom]['monnaies'][$typeMonnaie] += $montant;
 
-        $nomTechno('vente', $technos, 'lvl'.($niveau-1), $modificateurs); // Appel de la fonction correspondante à la techno améliorée pour modifier les bons modificateurs
+        $nomTechno('vente', $technos, 'lvl'.$niveau, $modificateurs); // Appel de la fonction correspondante à la techno améliorée pour modifier les bons modificateurs
         echo json_encode(['resultat' => 'succes', 'message' => 'Technologie vendue avec succès']);
     }
     $saves['saves'][$nom]['technologies'] = $technos;

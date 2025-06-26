@@ -9,6 +9,8 @@ export class Partie {
         this.nomSauvegarde = nomSauvegarde;
         /* Chargement du niveau */
         this.niveau = {};
+        this.statTours = {}; // Statistiques des tours
+        this.statEnnemis = {}; // Statistiques des ennemis
         this.nomNiveau = niveau; // Nom du niveau
         this.ennemies = []; // Liste des ennemis
         this.ennemiesASpawn = {}; // Liste des ennemis
@@ -53,7 +55,7 @@ export class Partie {
             });
 
             const data = await response.json();
-            console.log(data);
+            //console.log(data);
             this.niveau = data; // Récupère le niveau depuis la réponse
             this.chemin = this.niveau.chemin;
             this.heartPos = this.niveau.heart;
@@ -61,14 +63,46 @@ export class Partie {
             console.error('Erreur récupération données :', error);
         }
     }
-    
+    async chargerStatTours() {
+        const url = '../serv/gestionTours&Ennemis.php';
+        try {
+            // Création de la requête pour accéder au PHP
+            const response = await fetch(url, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: 'action=chargerStatTours'
+            });
+
+            const data = await response.json();
+            //console.log(data);
+            this.statTours = data; // Récupère les statistiques des tours depuis la réponse
+        } catch (error) {
+            console.error('Erreur récupération données :', error);
+        }
+    }
+    async chargerStatEnnemis() {
+        const url = '../serv/gestionTours&Ennemis.php';
+        try {
+            // Création de la requête pour accéder au PHP
+            const response = await fetch(url, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: 'action=chargerStatEnnemis'
+            });
+
+            const data = await response.json();
+            //console.log(data);
+            this.statEnnemis = data; // Récupère les statistiques des ennemis depuis la réponse
+        } catch (error) {
+            console.error('Erreur récupération données :', error);
+        }
+    }
     initialiserModificateurs() {
         this.modificateurs = this.sauvegarde.modificateurs; // Liste des modificateurs de la partie
         this.golds += this.modificateurs.economie.goldsBonusDepart; // Ajoute le bonus d'or de départ
         this.heartPV += this.modificateurs.coeurBonus; // Ajoute le bonus de points de vie du coeur
         //console.log(this.modificateurs);
     }
-
     /**
      * Initialise la vague actuelle d'ennemis en configurant le nombre et l'intervalle de spawn
      * pour chaque type d'ennemi selon la configuration de la vague en cours.
@@ -275,6 +309,8 @@ export class Partie {
      * - Lance la boucle principale du jeu via `boucleDeJeu`.
      */
     async play(){
+        await this.chargerStatTours();
+        await this.chargerStatEnnemis();
         this.sauvegarde = (await this.sauvegarde.lireSaves()).saves[this.sauvegarde.nom]; // Récupère la sauvegarde actuelle
         this.initialiserModificateurs(); // Initialise les modificateurs de la partie
         await this.initialiserNiveau(); // Initialise les modificateurs de la partie
@@ -299,7 +335,7 @@ export class Partie {
             }
         });
 
-        this.canvas.addEventListener("click", (e) => {
+        this.canvas.addEventListener("mousedown", (e) => {
             const rect = this.canvas.getBoundingClientRect();
             const mouseX = e.clientX - rect.left;
             const mouseY = e.clientY - rect.top;
@@ -310,7 +346,7 @@ export class Partie {
                 const distance = Math.sqrt(dx * dx + dy * dy);
 
                 if (distance <= emplacement.taille / 2) {
-                    this.golds += emplacement.clicEmplacement(); // Gère le clic sur l'emplacement
+                    this.golds += emplacement.clicEmplacement(e); // Gère le clic sur l'emplacement
                 }
             }
         });
@@ -324,8 +360,8 @@ export class Partie {
             }
         });
         this.initialisationVague(); // Initialise les ennemis de la vague
-        this.spawnEnnemis(); // Lance le spawn des ennemis
         console.log(this);
+        this.spawnEnnemis(); // Lance le spawn des ennemis
         this.boucleDeJeu();
     }
 
