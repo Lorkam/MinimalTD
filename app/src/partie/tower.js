@@ -121,31 +121,38 @@ export class TourClassique extends Tower {
         }
     }
 
+    /**
+     * Améliore la tour en augmentant ses statistiques (dégâts, vitesse d'attaque, portée)
+     * selon le niveau cible. Le coût d'amélioration est mis à jour à chaque niveau.
+     * Ne permet pas d'améliorer au-delà du niveau 3.
+     *
+     * @returns {number} Le coût négatif de l'amélioration si réussie, ou 0 si le niveau maximum est atteint.
+     */
     ameliorer(){
-        const lvlCible = this.lvl + 1; // Niveau cible de l'amélioration
+        const lvlCible = this.lvl + 1;
         switch (lvlCible) {
             case 1:
                 this.degats *= 1.5;
                 this.attaqueSpeed *= 0.9;
-                this.portee *= 1.2;
+                this.portee *= 1.1;
                 break;
             case 2:
                 this.degats *= 2;
                 this.attaqueSpeed *= 0.8;
-                this.portee *= 1.3;
+                this.portee *= 1.2;
                 break;
             case 3:
                 this.degats *= 2.5;
                 this.attaqueSpeed *= 0.7;
-                this.portee *= 1.4;
+                this.portee *= 1.3;
                 break;
             default:
                 console.error("Cette tour ne peut pas être améliorée au-delà du niveau 3.");
                 return 0;
         }
-        this.lvl++; // Incrémente le niveau de la tour
-        const cout = this.prixAmelioration; // Coût de l'amélioration
-        this.prixAmelioration = this.prix * this.lvl * this.lvl; // Met à jour le prix de l'amélioration
-        return -cout; // Retourne le coût de l'amélioration
+        this.lvl++;
+        const cout = this.prixAmelioration;
+        this.prixAmelioration = this.prix * this.lvl * this.lvl;
+        return -cout;
     }
 }
