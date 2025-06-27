@@ -1,4 +1,4 @@
-import { EnemyClassique, EnemyTank, EnemyRapide } from "./enemy.js";
+import { EnnemiClassique, EnnemiTank, EnnemiRapide, EnnemiReplicateur, EnnemiReplique, BossInvocateur } from "./enemy.js";
 import { Emplacement } from "./emplacement.js";
 import { Sauvegarde } from "../sauvegarde/sauvegarde.js";
 
@@ -145,13 +145,13 @@ export class Partie {
         console.log("Initialisation de la vague :" + this.vague);
         this.nbEnnemisMorts = 0; // Réinitialise le compteur d'ennemis morts
         this.totalEnnemis = 0; // Réinitialise le nombre total d'ennemis à spawn
-        for( const typeEnemy of this.niveau.vagues[this.vague-1].ennemis) {
-            //console.log(typeEnemy);
-            this.ennemiesASpawn[typeEnemy.type] = {
-                nb: typeEnemy.nb, // Nombre d'ennemis à spawn
-                intervale: typeEnemy.intervale // Intervalle de spawn en millisecondes
+        for( const typeEnnemi of this.niveau.vagues[this.vague-1].ennemis) {
+            //console.log(typeEnnemi);
+            this.ennemiesASpawn[typeEnnemi.type] = {
+                nb: typeEnnemi.nb, // Nombre d'ennemis à spawn
+                intervale: typeEnnemi.intervale // Intervalle de spawn en millisecondes
             };
-            this.totalEnnemis += typeEnemy.nb; // Ajoute le nombre d'ennemis à spawn au total
+            this.totalEnnemis += typeEnnemi.nb; // Ajoute le nombre d'ennemis à spawn au total
         }
     }
 
@@ -177,13 +177,25 @@ export class Partie {
                 let ennemi;
                 switch (type) {
                     case "classique":
-                        ennemi = new EnemyClassique(this); // Tu peux faire évoluer ça selon le type
+                        ennemi = new EnnemiClassique(this); // Tu peux faire évoluer ça selon le type
                         break;
                     case "tank":
-                        ennemi = new EnemyTank(this); // Tu peux faire évoluer ça selon le type
+                        ennemi = new EnnemiTank(this); // Tu peux faire évoluer ça selon le type
                         break;
                     case "rapide":
-                        ennemi = new EnemyRapide(this); // Tu peux faire évoluer ça selon le type
+                        ennemi = new EnnemiRapide(this); // Tu peux faire évoluer ça selon le type
+                        break;
+                    case "EnnemiReplicateur":
+                        ennemi = new EnnemiReplicateur(this); // Tu peux faire évoluer ça selon le type
+                        console.log('Spawn d\'un ennemi replicateur');
+                        break;
+                    case "EnnemiReplique":
+                        ennemi = new EnnemiReplique(this); // Tu peux faire évoluer ça selon le type
+                        console.log('Spawn d\'un ennemi réplique');
+                        break;
+                    case "BossInvocateur":
+                        ennemi = new BossInvocateur(this); // Tu peux faire évoluer ça selon le type
+                        console.log('Spawn d\'un boss invocateur');
                         break;
                     default:
                         console.warn("Type d'ennemi inconnu :", type);
@@ -205,9 +217,9 @@ export class Partie {
      * Sinon, l'ennemi est dessiné sur le contexte du canvas.
      */
     majEnnemis() {
-        for (const enemy of this.ennemies) {
-            if (enemy.update()) {
-                enemy.draw(this.ctx);
+        for (const ennemi of this.ennemies) {
+            if (ennemi.update()) {
+                ennemi.draw(this.ctx);
             }
         }
     }

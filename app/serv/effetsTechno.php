@@ -46,7 +46,6 @@ function goldsBonusParEnnemis($action, &$technos, $lvl, &$modificateurs){
     return;
 }
 function lvlUpTours($action, &$technos, $lvl, &$modificateurs){
-    echo "lvlUpTours: $action, $lvl\n";
     if($action == 'achat'){
         $technos['lvlUpTours'][$lvl]['debloque'] = true;
     }elseif($action == 'vente'){

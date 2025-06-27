@@ -1,4 +1,4 @@
-import { Enemy } from "./enemy.js";
+import { Ennemi } from "./enemy.js";
 import { Tower } from "./tower.js";
 
 
@@ -6,9 +6,9 @@ export class Projectile {
     /**
      * Crée une nouvelle instance de Projectile.
      * @param {Tower} tower - L'objet tour qui tire le projectile.
-     * @param {Enemy} cible - La cible visée par le projectile.
+     * @param {Ennemi} cible - La cible visée par le projectile.
      * @property {Tower} tower - Référence à la tour qui a tiré le projectile.
-     * @property {Enemy} cible - La cible du projectile.
+     * @property {Ennemi} cible - La cible du projectile.
      * @property {number} x - Coordonnée x de la position de départ du projectile.
      * @property {number} y - Coordonnée y de la position de départ du projectile.
      * @property {number} speed - Vitesse à laquelle le projectile se déplace.

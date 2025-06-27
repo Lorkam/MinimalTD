@@ -1,4 +1,4 @@
-import { Enemy } from "./enemy.js";
+import { Ennemi } from "./enemy.js";
 import { Projectile } from "./projectiles.js";
 
 export class Tower {
@@ -20,8 +20,8 @@ export class Tower {
      * Cherche l'ennemi le plus proche du coeur (ayant la plus grande distanceParcourue)
      * qui est à portée de la tour.
      *
-     * @param {Array<Enemy>} listeEnnemis - Liste des ennemis à vérifier.
-     * @returns {Enemy|undefined} L'ennemi le plus avancé dans la portée, ou undefined si aucun.
+     * @param {Array<Ennemi>} listeEnnemis - Liste des ennemis à vérifier.
+     * @returns {Ennemi|undefined} L'ennemi le plus avancé dans la portée, ou undefined si aucun.
      */
     chercherEnnemi() {
         let cible = undefined;
@@ -39,11 +39,11 @@ export class Tower {
         return cible;
     }
 
-    tirer(enemy) {
+    tirer(ennemi) {
         if (Date.now() - this.derniereAttaque < this.attaqueSpeed) {
             return; // Ne tire pas si le temps de recharge n'est pas écoulé
         }
-        this.listeBalles.push(new Projectile(this, enemy));
+        this.listeBalles.push(new Projectile(this, ennemi));
         this.derniereAttaque = Date.now(); // Met à jour le temps de la dernière attaque
     }
 
@@ -80,7 +80,8 @@ export class TourClassique extends Tower {
         super('Classique', position, partie);
         this.lvl = 1; // Niveau de la tour
         this.prix = statToursClassiques.prix * modificateursToursClassiques.prix; // Prix de la tour
-        this.prixAmelioration = this.prix * this.lvl;
+        this.liqtePrixAmelioration = [this.prix, 30, 90, 'Max']; // Prix d'amélioration de la tour
+        this.prixAmelioration = this.liqtePrixAmelioration[this.lvl]; // Prix d'amélioration de la tour
         this.valeur = this.prix;
         this.degats = statToursClassiques.degats * modificateursToursClassiques.degats; // Dégâts infligés par la tour
         this.attaqueSpeed = statToursClassiques.attaqueSpeed / modificateursToursClassiques.vitesseAttaque; // Temps de recharge en millisecondes
@@ -169,7 +170,7 @@ export class TourClassique extends Tower {
         this.lvl++;
         const cout = this.prixAmelioration;
         this.valeur += cout; // Augmente la valeur de la tour
-        this.prixAmelioration = this.prix * this.lvl * this.lvl;
+        this.prixAmelioration = this.liqtePrixAmelioration[this.lvl];
         return -cout;
     }
 

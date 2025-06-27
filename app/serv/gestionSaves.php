@@ -191,7 +191,7 @@ function creerSauvegarde(&$saves, $nom){
                 "goldsBonusParEnnemis"=> 0
             ],
             "coeurBonus"=> 0,
-            "lvlUpTours"=> 1
+            "lvlUpTours"=> 0
         ],
         "technologies"=> [
             "centre"=> [

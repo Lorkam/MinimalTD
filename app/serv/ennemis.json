@@ -34,5 +34,41 @@
         "triangles":1,
         "ronds":0,
         "hexagones":0
+    },
+    "EnnemiReplicateur":{
+        "nom":"EnnemiReplicateur",
+        "description":"Ennemi résistant qui se divise en trois à sa mort.",
+        "vitesse":1,
+        "couleur":"#0077FF",
+        "pvMax":100,
+        "taille":12,
+        "or":2,
+        "triangles":3,
+        "ronds":0,
+        "hexagones":0
+    },
+    "EnnemiReplique":{
+        "nom":"EnnemiReplique",
+        "description":"Ennemi apparaissant lors de la destruction d'un ennemi réplicateur. Ils sont fragiles mais rapides.",
+        "vitesse":3,
+        "couleur":"#7AB9FF",
+        "pvMax":15,
+        "taille":7,
+        "or":1,
+        "triangles":1,
+        "ronds":0,
+        "hexagones":0
+    },
+    "BossInvocateur":{
+        "nom":"BossInvocateur",
+        "description":"Boss avec beaucoup de vie et qui invoque deux ennemis tank toute les 4 secondes.",
+        "vitesse":0.4,
+        "couleur":"#9F00B7",
+        "pvMax":3000,
+        "taille":15,
+        "or":200,
+        "triangles":50,
+        "ronds":5,
+        "hexagones":1
     }
 }

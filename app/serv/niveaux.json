@@ -24,7 +24,7 @@
       },
       {
         "ennemis": [
-          { "type": "tank", "nb": 3, "intervale": 1750 },
+          { "type": "tank", "nb": 1, "intervale": 2000 },
           { "type": "classique", "nb": 5, "intervale": 1500 }
         ],
         "derniereVague": false
@@ -57,31 +57,33 @@
     "vagues": [
       {
         "ennemis": [
-          { "type": "classique", "nb": 2, "intervale": 1000 }
+          { "type": "classique", "nb": 10, "intervale": 1000 }
         ],
         "derniereVague": false
       },
       {
         "ennemis": [
-          { "type": "classique", "nb": 5, "intervale": 1250 }
+          { "type": "rapide", "nb": 10, "intervale": 1500 },
+          { "type": "tank", "nb": 5, "intervale": 1000 }
+
         ],
         "derniereVague": false
       },
       {
         "ennemis": [
-          { "type": "tank", "nb": 2, "intervale": 2000 }
+          { "type": "EnnemiReplicateur", "nb": 2, "intervale": 3000 }
         ],
         "derniereVague": false
       },
       {
         "ennemis": [
-          { "type": "rapide", "nb": 4, "intervale": 750 }
+          { "type": "rapide", "nb": 20, "intervale": 300 }
         ],
         "derniereVague": false
       },
       {
         "ennemis": [
-          { "type": "rapide", "nb": 10, "intervale": 1000 }
+          { "type": "BossInvocateur", "nb": 1, "intervale": 1000 }
         ],
         "derniereVague": true
       }
