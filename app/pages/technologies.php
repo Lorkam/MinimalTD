@@ -31,7 +31,14 @@ $sauvegarde = $_SESSION['nomSauvegarde'];
             <div id="divRonds" class="flex-row"><span>0</span><img src="../assets/img/rond.png"></div>
             <div id="divHexagones" class="flex-row"><span>0</span><img src="../assets/img/hexagone.png"></div>
         </div>
-        <div id="divInfoNoeud" class="cachee">coucou</div>
+        <div id="divInfoNoeud" class="flex-column cachee">
+            <h3 id="titre">-Titre par défaut-</h3>
+            <div class="flex-row space-between" style="width: 100%;">
+                <span id="lvl">-1/6-</span>
+                <span id="prix">-99-</span>
+            </div><br>
+            <span id="description">-Description par défaut-</span>
+        </div>
 
     </div></div>
 

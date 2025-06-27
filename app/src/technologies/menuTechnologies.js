@@ -94,6 +94,7 @@ export class MenuTechnologies {
             const etat = data[noeud].nom=='centre' ? 'bloque' : 'inconnu';
             // Ajout des noeuds dans le tableau
             this.noeuds.push(new Noeud(data[noeud].nom, 
+                data[noeud].titre, 
                 data[noeud].description, 
                 data[noeud].position.y, 
                 data[noeud].position.x, 

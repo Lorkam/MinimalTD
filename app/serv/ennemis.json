@@ -16,7 +16,7 @@
         "description":"Ennemi avec beaucoup de vie mais lent",
         "vitesse":0.5,
         "couleur":"rgb(15, 89, 0)",
-        "pvMax":100,
+        "pvMax":200,
         "taille":14,
         "or":4,
         "triangles":2,

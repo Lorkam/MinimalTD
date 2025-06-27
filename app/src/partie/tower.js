@@ -65,7 +65,6 @@ export class TourClassique extends Tower {
     constructor(position, partie) {
         const modificateursToursClassiques = partie.modificateurs.toursClassiques;
         const statToursClassiques = partie.statTours.TourClassique;
-        console.log(statToursClassiques);
         super('Classique', position, partie);
         this.lvl = 1; // Niveau de la tour
         this.prix = statToursClassiques.prix * modificateursToursClassiques.prix; // Prix de la tour
@@ -76,7 +75,7 @@ export class TourClassique extends Tower {
         this.derniereAttaque = Date.now();
         this.afficherPortee = false; // Indique si la portée de la tour doit être affichée
         this.tauxCrit = modificateursToursClassiques.critRate; // Taux de critique de la tour
-        this.multiplicateurCrit = modificateursToursClassiques.critDamage; // Taux de critique de la tour
+        this.multiplicateurCrit = modificateursToursClassiques.critDamage; // dégats supplémentaires en cas de coup critique
     }
 
     dessiner() {
@@ -129,6 +128,10 @@ export class TourClassique extends Tower {
      * @returns {number} Le coût négatif de l'amélioration si réussie, ou 0 si le niveau maximum est atteint.
      */
     ameliorer(){
+        if(this.partie.golds < this.prixAmelioration) {
+            console.warn("Pas assez d'or pour améliorer cette tour.");
+            return 0;
+        }
         const lvlCible = this.lvl + 1;
         switch (lvlCible) {
             case 1:

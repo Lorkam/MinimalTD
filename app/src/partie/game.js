@@ -76,6 +76,7 @@ export class Partie {
             const data = await response.json();
             //console.log(data);
             this.statTours = data; // Récupère les statistiques des tours depuis la réponse
+            this.prixTourClassique = this.statTours.TourClassique.prix; // Prix de la tour classique
         } catch (error) {
             console.error('Erreur récupération données :', error);
         }

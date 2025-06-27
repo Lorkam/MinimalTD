@@ -19,18 +19,19 @@ export class Emplacement {
         switch (type) {
             case 'classique':
                 const nouvelleTour = new TourClassique({x:this.x, y:this.y}, this.partie); // Crée une nouvelle tour classique
-                if (this.partie.golds >= nouvelleTour.prix) { // Vérifie si l'or est suffisant
+                if (this.partie.golds >= this.partie.prixTourClassique) { // Vérifie si l'or est suffisant
                     this.tour = nouvelleTour;
                     this.partie.towers.push(this.tour); // Ajoute la tour à la liste des tours
-                    //console.log(this.tour);
-                    return -1*this.tour.prix; // renvoie le coût de la tour
+                    const cout = this.partie.prixTourClassique
+                    this.partie.prixTourClassique *=2;
+                    return -1*cout; // renvoie le coût de la tour
                 }else{
-                    console.error("Pas assez d'or pour acheter cette tour.");
+                    console.warn("Pas assez d'or pour acheter cette tour.");
                     return 0; // Retourne 0 si l'or est insuffisant
                 }
             // Ajouter d'autres types de tours ici si nécessaire
             default:
-                console.error("Type de tour inconnu :", type);
+                console.warn("Type de tour inconnu :", type);
                 return 0; // Retourne 0 si le type de tour est inconnu
         }
     }
@@ -55,9 +56,14 @@ export class Emplacement {
         // Vérifie si une tour est déjà placée sur cet emplacement
         if (this.tour) {
             if(mouseEvent.which == 3) { // Clic droit
-                return this.tour.ameliorer(); // Améliore la tour si clic droit (et renvoie le coût de l'amélioration)
+                if(this.partie.modificateurs.lvlUpTours==true){
+                    return this.tour.ameliorer();
+                }else{
+                    console.warn("Vous n'avez pas débloqué l'amélioration des tours.");
+                    return 0; // Retourne 0 si l'amélioration est désactivée
+                }
             } else {
-                console.log(this.tour);
+                //console.log(this.tour);
                 return 0; // Retourne l'or sans rien faire si une tour est déjà placée
             }
         } else {

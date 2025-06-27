@@ -1,6 +1,7 @@
 {
     "centre":{
         "nom": "centre",
+        "titre":"Centre de l'arbre technologique",
         "description": "Point de départ de l'arbre technologique",
         "position":{"x": 775, "y": 355},
         "prix":{"type": "triangles", "quantite": 1},
@@ -11,9 +12,10 @@
     },
     "vitesseAttaque":{
         "nom": "vitesseAttaque",
+        "titre":"Rapidité",
         "description": "Augmente la vitesse d'attaque de vos tours",
         "position":{"x": 620, "y": 461},
-        "prix":{"type": "triangles", "quantite": 5},
+        "prix":{"type": "triangles", "quantite": 10},
         "technologiesFille":[],
         "lienImage1":"../assets/img/arc.png",
         "etatParDefaut": "inconnu",
@@ -21,6 +23,7 @@
     },
     "degats":{
         "nom": "degats",
+        "titre":"Force de frappe",
         "description": "Augmente les dégâts de vos tours",
         "position":{"x": 620, "y": 248},
         "prix":{"type": "triangles", "quantite": 5},
@@ -31,6 +34,7 @@
     },
     "goldsBonusDepart":{
         "nom": "goldsBonusDepart",
+        "titre":"Argent de poche",
         "description": "Augmente les golds de départ",
         "position":{"x": 930, "y": 248},
         "prix":{"type": "triangles", "quantite": 7},
@@ -41,6 +45,7 @@
     },
     "goldsBonusParEnnemis":{
         "nom": "goldsBonusParEnnemis",
+        "titre":"Savoir où chercher",
         "description": "Augmente les golds obtenus par ennemi",
         "position":{"x": 1130, "y": 200},
         "prix":{"type": "triangles", "quantite": 7},
@@ -51,9 +56,10 @@
     },
     "lvlUpTours":{
         "nom": "lvlUpTours",
+        "titre":"ingénierie",
         "description": "Augmente le niveau max de vos tours",
         "position":{"x": 930, "y": 461},
-        "prix":{"type": "triangles", "quantite": 10},
+        "prix":{"type": "triangles", "quantite": 60},
         "technologiesFille":[],
         "lienImage1":"../assets/img/flecheVerte.png",
         "etatParDefaut": "inconnu",
@@ -61,7 +67,8 @@
     },
     "critRate":{
         "nom": "critRate",
-        "description": "Augmente le taux de critique de vos tours",
+        "titre":"Précision",
+        "description": "Vos tours ont plus de chances de faire un coup critique",
         "position":{"x": 600, "y": 100},
         "prix":{"type": "triangles", "quantite": 20},
         "technologiesFille":[],
@@ -71,6 +78,7 @@
     },
     "critDamage":{
         "nom": "critDamage",
+        "titre":"Appuyer là où ça fait mal",
         "description": "Augmente les dégâts critiques de vos tours",
         "position":{"x": 480, "y": 130},
         "prix":{"type": "triangles", "quantite": 20},

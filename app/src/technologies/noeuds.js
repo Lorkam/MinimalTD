@@ -1,7 +1,8 @@
 
 export class Noeud {
-    constructor(idHTML, description, top, left, prix, typePrix, menuTechonologies, enfants, nbLvl, etat = 'cache') {
+    constructor(idHTML, titre, description, top, left, prix, typePrix, menuTechonologies, enfants, nbLvl, etat = 'cache') {
         this.idHTML = idHTML;
+        this.titre = titre;
         this.description = description;
         this.typePrix = typePrix;
         this.prix = prix;
@@ -149,6 +150,7 @@ export class Noeud {
             const lvlCible = this.lvl + 1;
             this.lvl = lvlCible;
             this.prixAmelioration = this.prix * ((lvlCible+1)>this.nbLvl ? lvlCible : lvlCible+1); // Augmentation du prix pour l'amélioration
+
             this.etat = this.lvl == this.nbLvl ? 'lvlMax' : 'lvlMin';
             // Mise à jour de l'image
             this.menuTechonologies.dessinerLiensNoeuds();
@@ -164,7 +166,7 @@ export class Noeud {
             this.majMonnaies();
             const lvlCible = this.lvl - 1;
             this.lvl = lvlCible;
-            this.prixAmelioration = this.prix * lvlCible; // Réduction du prix pour l'amélioration
+            this.prixAmelioration = this.prix * (lvlCible+1); // Réduction du prix pour l'amélioration
             this.etat = 'lvlMin'; // Mise à jour de l'état
             // Mise à jour de l'image
             this.menuTechonologies.dessinerLiensNoeuds();
@@ -211,7 +213,10 @@ export class Noeud {
         this.divInfoNoeud.style.left = `${this.divElementHTML.offsetLeft - (this.divInfoNoeud.offsetWidth/2)}px`;
         this.divInfoNoeud.classList.remove('cachee');
         this.divInfoNoeud.classList.add('apparition');
-        this.divInfoNoeud.firstChild.nodeValue = this.description;
+        this.divInfoNoeud.querySelector('#titre').firstChild.nodeValue = this.titre;
+        this.divInfoNoeud.querySelector('#lvl').firstChild.nodeValue = 'Niveau : ' + this.lvl + '/' + this.nbLvl;
+        this.divInfoNoeud.querySelector('#prix').firstChild.nodeValue = 'Prix : ' + (this.lvl<this.nbLvl?((this.lvl==0) ? this.prix : this.prixAmelioration):'Max');
+        this.divInfoNoeud.querySelector('#description').firstChild.nodeValue = this.description;
     }
     cacherInfo() {
         this.divInfoNoeud.classList.remove('apparition');
