@@ -169,7 +169,7 @@ export class MenuTechnologies {
             });
 
             const data = await response.text();
-            //console.log(data);
+            console.log(data);
             this.sauvegarde.monnaies[type] = parseInt(data, 10);
             return;
         } catch (error) {

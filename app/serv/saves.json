@@ -353,7 +353,7 @@
         "test1": {
             "description": "sauvegarde vide",
             "monnaies": {
-                "triangles": 1322,
+                "triangles": 1411,
                 "ronds": 0,
                 "hexagones": 0
             },
@@ -378,7 +378,7 @@
                     "goldsBonusParEnnemis": 1
                 },
                 "coeurBonus": 0,
-                "lvlUpTours": 1
+                "lvlUpTours": 0
             },
             "technologies": {
                 "centre": {

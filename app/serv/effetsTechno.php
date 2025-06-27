@@ -46,12 +46,13 @@ function goldsBonusParEnnemis($action, &$technos, $lvl, &$modificateurs){
     return;
 }
 function lvlUpTours($action, &$technos, $lvl, &$modificateurs){
+    echo "lvlUpTours: $action, $lvl\n";
     if($action == 'achat'){
         $technos['lvlUpTours'][$lvl]['debloque'] = true;
     }elseif($action == 'vente'){
         $technos['lvlUpTours'][$lvl]['debloque'] = false;
     }
-    $modificateurs['lvlUpTours'] = $lvl=='lvl0' ? 0 : $technos['lvlUpTours'][$lvl]['valeur'];
+    $modificateurs['lvlUpTours'] = $action=='vente' ? 0 : $technos['lvlUpTours'][$lvl]['valeur'];
     return;
 }
 function critRate($action, &$technos, $lvl, &$modificateurs){

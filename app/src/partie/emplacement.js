@@ -17,7 +17,7 @@ export class Emplacement {
 
     ajouterTour(type){
         switch (type) {
-            case 'classique':
+            case 'TourClassique':
                 const nouvelleTour = new TourClassique({x:this.x, y:this.y}, this.partie); // Crée une nouvelle tour classique
                 if (this.partie.golds >= this.partie.prixTourClassique) { // Vérifie si l'or est suffisant
                     this.tour = nouvelleTour;
@@ -53,21 +53,33 @@ export class Emplacement {
     }
 
     clicEmplacement(mouseEvent){
-        // Vérifie si une tour est déjà placée sur cet emplacement
-        if (this.tour) {
-            if(mouseEvent.which == 3) { // Clic droit
-                if(this.partie.modificateurs.lvlUpTours==true){
-                    return this.tour.ameliorer();
-                }else{
-                    console.warn("Vous n'avez pas débloqué l'amélioration des tours.");
-                    return 0; // Retourne 0 si l'amélioration est désactivée
-                }
-            } else {
-                //console.log(this.tour);
-                return 0; // Retourne l'or sans rien faire si une tour est déjà placée
+        if(mouseEvent.which == 1) { // Clic gauche
+            this.afficherOptions(); // Affiche les options de la tour si nécessaire
+        }
+        return;
+    }
+
+    afficherOptions() {
+        if(!this.tour){
+            const divOptionsEmplacement = document.querySelector('#divOptionsEmplacement');
+            divOptionsEmplacement.style.display = 'flex'; // Masque les options de l'emplacement
+            divOptionsEmplacement.style.top = `${this.y - divOptionsEmplacement.offsetHeight*1.2}px`; // Positionne le div au-dessus de l'emplacement
+            divOptionsEmplacement.style.left = `${this.x - divOptionsEmplacement.offsetWidth/2}px`; // Positionne le div à gauche de l'emplacement
+            divOptionsEmplacement.querySelector('#prixTourClassique').textContent = this.lvl >= this.nbLvl ? 'Max' : this.partie.prixTourClassique; // Met à jour le prix de la tour classique
+            this.partie.emplacementSelectionne = this;
+        }else{
+            const divOptionsTour = document.querySelector('#divOptionsTour');
+            divOptionsTour.style.display = 'flex'; // Masque les options de l'emplacement
+            divOptionsTour.style.top = `${this.y - divOptionsTour.offsetHeight*1.2}px`; // Positionne le div au-dessus de l'emplacement
+            divOptionsTour.style.left = `${this.x - divOptionsTour.offsetWidth/2}px`; // Positionne le div à gauche de l'emplacement
+            divOptionsTour.querySelector('#prixAmelioration').textContent = this.tour.prixAmelioration; // Met à jour le prix d'amélioration de la tour classique
+            divOptionsTour.querySelector('#prixVente').textContent = this.tour.valeur; // Met à jour la récompense de vente de la tour
+            console.log(this.partie.modificateurs.lvlUpTours);
+            if(this.partie.modificateurs.lvlUpTours == 0){
+                divOptionsTour.querySelector('#ameliorer').classList.add('pasDispo'); // Masque l'option de la tour classique si le niveau est insuffisant
+                divOptionsTour.querySelector('#ameliorer').title = "Vous n'avez pas débloqué la technologie necessaire : Ingénierie";
             }
-        } else {
-            return this.ajouterTour('classique'); // Ajoute une tour classique si l'emplacement est libre
+            this.partie.emplacementSelectionne = this;
         }
     }
 }

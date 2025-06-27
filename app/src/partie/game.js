@@ -43,6 +43,14 @@ export class Partie {
 
     }
 
+    /**
+     * Initialise le niveau en récupérant les données depuis le serveur via une requête POST.
+     * Met à jour les propriétés `niveau`, `chemin` et `heartPos` de l'instance avec les données reçues.
+     * 
+     * @async
+     * @returns {Promise<void>} Une promesse qui se résout lorsque les données du niveau sont chargées.
+     * @throws {Error} Affiche une erreur dans la console si la récupération des données échoue.
+     */
     async initialiserNiveau() {
         const url = '../serv/gestionNiveaux.php';
         console.log(this.nomNiveau);
@@ -63,6 +71,15 @@ export class Partie {
             console.error('Erreur récupération données :', error);
         }
     }
+    /**
+     * Récupère et charge de manière asynchrone les statistiques des tours depuis le serveur.
+     * Envoie une requête POST au backend PHP pour obtenir les statistiques des tours, puis met à jour
+     * les propriétés `statTours` et `prixTourClassique` de l'instance avec les données reçues.
+     *
+     * @async
+     * @returns {Promise<void>} Résout lorsque les statistiques des tours ont été chargées et définies.
+     * @throws Affiche une erreur dans la console si la récupération ou le traitement des données échoue.
+     */
     async chargerStatTours() {
         const url = '../serv/gestionTours&Ennemis.php';
         try {
@@ -81,6 +98,15 @@ export class Partie {
             console.error('Erreur récupération données :', error);
         }
     }
+    /**
+     * Récupère et charge de manière asynchrone les statistiques des ennemis depuis le serveur.
+     * Envoie une requête POST au backend PHP pour obtenir les statistiques des ennemis, puis met à jour
+     * la propriété `statEnnemis` de l'instance avec les données reçues.
+     *
+     * @async
+     * @returns {Promise<void>} Résout lorsque les statistiques des ennemis ont été chargées et définies.
+     * @throws Affiche une erreur dans la console si la récupération ou le traitement des données échoue.
+     */
     async chargerStatEnnemis() {
         const url = '../serv/gestionTours&Ennemis.php';
         try {
@@ -98,6 +124,11 @@ export class Partie {
             console.error('Erreur récupération données :', error);
         }
     }
+    /**
+     * Initialise les modificateurs de la partie à partir de la sauvegarde.
+     * Applique les bonus d'or de départ et de points de vie du cœur selon les modificateurs.
+     * @returns {void}
+     */
     initialiserModificateurs() {
         this.modificateurs = this.sauvegarde.modificateurs; // Liste des modificateurs de la partie
         this.golds += this.modificateurs.economie.goldsBonusDepart; // Ajoute le bonus d'or de départ
@@ -123,7 +154,6 @@ export class Partie {
             this.totalEnnemis += typeEnemy.nb; // Ajoute le nombre d'ennemis à spawn au total
         }
     }
-
 
     /**
      * Fait apparaître un nouvel ennemi si l'intervalle de spawn est écoulé et que le nombre maximum d'ennemis n'est pas atteint.
@@ -207,6 +237,11 @@ export class Partie {
         this.ctx.drawImage(this.imageCoeur, this.heartPos.x, this.heartPos.y, 50, 50);
     }
 
+    /**
+     * Gère les actions de toutes les structures en parcourant chaque emplacement
+     * et en invoquant ses actions pour le tour actuel.
+     * @returns {void}
+     */
     gestionStructures() {
         for (const emplacement of this.emplacements) {
             emplacement.actionsDuTour();
@@ -226,6 +261,14 @@ export class Partie {
         this.HTMLgolds.textContent = this.golds;
     }
 
+    /**
+     * Sauvegarde l'état actuel de la partie, y compris le résultat du niveau et les monnaies gagnées, sur le serveur.
+     * Envoie une requête POST au backend PHP pour enregistrer la progression du joueur.
+     *
+     * @async
+     * @param {boolean} reussite - Indique si le niveau a été réussi.
+     * @returns {Promise<void>} Résout lorsque l'opération de sauvegarde est terminée.
+     */
     async sauvegarder(reussite) {
         // Sauvegarde le passage(ou pas) du niveau et les monnaies gagnées
         const url = '../serv/gestionSaves.php';
@@ -248,7 +291,15 @@ export class Partie {
         }
     }
 
-
+    /**
+     * Vérifie et gère les transitions entre les vagues d'ennemis dans le jeu.
+     * 
+     * - Passe à la vague suivante si tous les ennemis de la vague actuelle sont vaincus et que ce n'est pas la dernière vague.
+     * - Termine le niveau et affiche l'écran de victoire si la dernière vague est terminée.
+     * - Termine la partie et affiche l'écran de défaite si les points de vie du joueur atteignent zéro.
+     * 
+     * Met à jour l'état du jeu, active/désactive les boutons et affiche les écrans de victoire/défaite selon le cas.
+     */
     verifChangementVague() {
         const lancerVagueBtn = document.getElementById('lancerVagueBtn');
         if (this.nbEnnemisMorts == this.totalEnnemis && this.niveau.vagues[this.vague - 1].derniereVague==false) {
@@ -336,7 +387,11 @@ export class Partie {
             }
         });
 
+        const divOptionsEmplacement = document.querySelector('#divOptionsEmplacement')
+        const divOptionsTour = document.querySelector('#divOptionsTour')
         this.canvas.addEventListener("mousedown", (e) => {
+            divOptionsEmplacement.style.display = 'none'; // Masque les options de l'emplacement
+            divOptionsTour.style.display = 'none'; // Masque les options de l'emplacement
             const rect = this.canvas.getBoundingClientRect();
             const mouseX = e.clientX - rect.left;
             const mouseY = e.clientY - rect.top;
@@ -347,10 +402,19 @@ export class Partie {
                 const distance = Math.sqrt(dx * dx + dy * dy);
 
                 if (distance <= emplacement.taille / 2) {
-                    this.golds += emplacement.clicEmplacement(e); // Gère le clic sur l'emplacement
+                    emplacement.clicEmplacement(e); // Gère le clic sur l'emplacement
                 }
             }
         });
+        divOptionsEmplacement.addEventListener('click', (e) => {
+            this.golds += this.emplacementSelectionne.ajouterTour(e.target.id); // Ajoute une tour selon l'option sélectionnée
+            divOptionsEmplacement.style.display = 'none'; // Masque les options de l'emplacement après l'ajout de la tour
+        });
+        divOptionsTour.addEventListener('click', (e) => {
+            this.golds += this.emplacementSelectionne.tour.actionTour(e.target.id); // Ajoute une tour selon l'option sélectionnée
+            divOptionsTour.style.display = 'none'; // Masque les options de l'emplacement après l'ajout de la tour
+        });
+
 
         const lancerVagueBtn = document.getElementById('lancerVagueBtn');
         lancerVagueBtn.addEventListener('click', () => {

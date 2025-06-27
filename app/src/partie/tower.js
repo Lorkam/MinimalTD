@@ -58,6 +58,18 @@ export class Tower {
         }
     }
 
+    actionTour(action) {
+        switch (action) {
+            case 'ameliorer':
+                return this.ameliorer(); // Améliore la tour et retourne le coût négatif de l'amélioration
+            case 'vendre':
+                return this.vendre(); // Vends la tour et retourne le montant d'or gagné
+            default:
+                console.warn("Action inconnue pour la tour :", action);
+                return 0; // Retourne 0 si l'action est inconnue
+        }
+    }
+
 
 }
 
@@ -69,6 +81,7 @@ export class TourClassique extends Tower {
         this.lvl = 1; // Niveau de la tour
         this.prix = statToursClassiques.prix * modificateursToursClassiques.prix; // Prix de la tour
         this.prixAmelioration = this.prix * this.lvl;
+        this.valeur = this.prix;
         this.degats = statToursClassiques.degats * modificateursToursClassiques.degats; // Dégâts infligés par la tour
         this.attaqueSpeed = statToursClassiques.attaqueSpeed / modificateursToursClassiques.vitesseAttaque; // Temps de recharge en millisecondes
         this.portee = statToursClassiques.portee + modificateursToursClassiques.portee
@@ -155,7 +168,15 @@ export class TourClassique extends Tower {
         }
         this.lvl++;
         const cout = this.prixAmelioration;
+        this.valeur += cout; // Augmente la valeur de la tour
         this.prixAmelioration = this.prix * this.lvl * this.lvl;
         return -cout;
+    }
+
+    vendre(){
+        this.partie.emplacementSelectionne.tour = null; // Retire la tour de l'emplacement
+        this.partie.towers = this.partie.towers.filter(tour => tour !== this); // Retire la tour de la liste des tours
+        this.partie.prixTourClassique /= 2; // Réduit le prix de la tour classique pour la prochaine fois
+        return this.valeur; // Retourne la valeur de la tour pour la vendre
     }
 }
