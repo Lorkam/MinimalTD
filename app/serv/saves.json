@@ -3,29 +3,29 @@
         "test": {
             "description": "sauvegarde de test",
             "monnaies": {
-                "triangles": 100,
-                "ronds": 0,
-                "hexagones": 0
+                "triangles": 3641,
+                "ronds": 15,
+                "hexagones": 3
             },
             "niveauxCompletes": {
                 "Niveau 1": true,
-                "Niveau 2": false,
+                "Niveau 2": true,
                 "Niveau 3": false
             },
             "dateCreation": "2025-06-01",
             "dateDerniereSave": "2025-06-14",
             "modificateurs": {
                 "toursClassiques": {
-                    "degats": 1.2,
-                    "vitesseAttaque": 1.2,
+                    "degats": 1.6,
+                    "vitesseAttaque": 1.6,
                     "prix": 1,
-                    "critRate": 0.2,
-                    "critDamage": 1.4,
+                    "critRate": 0.4,
+                    "critDamage": 1.6,
                     "portee": 0
                 },
                 "economie": {
-                    "goldsBonusParEnnemis": 0,
-                    "goldsBonusDepart": 2
+                    "goldsBonusParEnnemis": 3,
+                    "goldsBonusDepart": 8
                 },
                 "coeurBonus": 0,
                 "lvlUpTours": 1
@@ -43,7 +43,7 @@
                         "valeur": 1.2
                     },
                     "lvl2": {
-                        "debloque": false,
+                        "debloque": true,
                         "valeur": 1.4
                     },
                     "lvl3": {
@@ -57,11 +57,11 @@
                         "valeur": 1.2
                     },
                     "lvl2": {
-                        "debloque": false,
+                        "debloque": true,
                         "valeur": 1.4
                     },
                     "lvl3": {
-                        "debloque": false,
+                        "debloque": true,
                         "valeur": 1.6
                     }
                 },
@@ -85,7 +85,7 @@
                         "valeur": 0.2
                     },
                     "lvl2": {
-                        "debloque": false,
+                        "debloque": true,
                         "valeur": 0.3
                     },
                     "lvl3": {
@@ -103,7 +103,7 @@
                         "valeur": 1.4
                     },
                     "lvl2": {
-                        "debloque": false,
+                        "debloque": true,
                         "valeur": 1.6
                     },
                     "lvl3": {
@@ -145,25 +145,25 @@
                         "valeur": 2
                     },
                     "lvl2": {
-                        "debloque": false,
+                        "debloque": true,
                         "valeur": 5
                     },
                     "lvl3": {
-                        "debloque": false,
+                        "debloque": true,
                         "valeur": 8
                     }
                 },
                 "goldsBonusParEnnemis": {
                     "lvl1": {
-                        "debloque": false,
+                        "debloque": true,
                         "valeur": 1
                     },
                     "lvl2": {
-                        "debloque": false,
+                        "debloque": true,
                         "valeur": 2
                     },
                     "lvl3": {
-                        "debloque": false,
+                        "debloque": true,
                         "valeur": 3
                     }
                 },

@@ -170,7 +170,6 @@ export class EnnemiRapide extends Ennemi {
         }
     }
 }
-
 export class EnnemiReplicateur extends Ennemi {
     constructor(partie) {
         super(partie);
@@ -185,15 +184,19 @@ export class EnnemiReplicateur extends Ennemi {
         this.recompense.hexagones = this.partie.statEnnemis.EnnemiReplicateur.hexagones;
     }
 
-
     mort(type){
         if (type=='tour') {
             this.partie.golds += this.recompense.or + this.partie.modificateurs.economie.goldsBonusParEnnemis; // Ajoute la récompense au joueur
             for(const monnaie of Object.keys(this.partie.monnaies)) {
-                this.partie.monnaies[monnaie] += this.recompense[monnaie] //+ this.partie.modificateurs.economie[`${monnaie}BonusParEnnemis`]; // Ajoute la récompense de chaque type de monnaie
+                this.partie.monnaies[monnaie] += this.recompense[monnaie] // Ajoute la récompense de chaque type de monnaie
             }
-        } // Ajoute la récompense au joueur
-        // Si l'ennemi n'est plus en vie, on le retire de la liste
+            for (let i = 0; i < this.partie.statEnnemis.EnnemiReplicateur.nbRepliques; i++) {
+                const replique = new EnnemiReplique(this.partie, {x:this.x+(i-1)*10, y:this.y+(i-1)*5}); // Création une nouvelle réplique de l'ennemi
+                this.partie.ennemies.push(replique); // Ajoute la réplique à la liste des ennemis
+                this.partie.totalEnnemis++;
+                this.partie.majUI(); // Met à jour l'interface utilisateur
+            }
+        }
         this.partie.nbEnnemisMorts++;
         const index = this.partie.ennemies.indexOf(this);
         if (index > -1) {
@@ -203,8 +206,12 @@ export class EnnemiReplicateur extends Ennemi {
 }
 
 export class EnnemiReplique extends Ennemi {
-    constructor(partie) {
+    constructor(partie, position = null) {
         super(partie);
+        if (position) {
+            this.x = position.x;
+            this.y = position.y;
+        }
         this.couleur = this.partie.statEnnemis.EnnemiReplique.couleur;
         this.pvMax = this.partie.statEnnemis.EnnemiReplique.pvMax;
         this.pv = this.pvMax;
@@ -219,14 +226,14 @@ export class EnnemiReplique extends Ennemi {
 export class BossInvocateur extends Ennemi {
     constructor(partie) {
         super(partie);
-        this.couleur = this.partie.statEnnemis.EnnemiReplique.couleur;
-        this.pvMax = this.partie.statEnnemis.EnnemiReplique.pvMax;
+        this.couleur = this.partie.statEnnemis.BossInvocateur.couleur;
+        this.pvMax = this.partie.statEnnemis.BossInvocateur.pvMax;
         this.pv = this.pvMax;
-        this.taille = this.partie.statEnnemis.EnnemiReplique.taille;
-        this.speed = this.partie.statEnnemis.EnnemiReplique.vitesse;
-        this.recompense.or = this.partie.statEnnemis.EnnemiReplique.or;
-        this.recompense.triangles = this.partie.statEnnemis.EnnemiReplique.triangles;
-        this.recompense.ronds = this.partie.statEnnemis.EnnemiReplique.ronds;
-        this.recompense.hexagones = this.partie.statEnnemis.EnnemiReplique.hexagones;
+        this.taille = this.partie.statEnnemis.BossInvocateur.taille;
+        this.speed = this.partie.statEnnemis.BossInvocateur.vitesse;
+        this.recompense.or = this.partie.statEnnemis.BossInvocateur.or;
+        this.recompense.triangles = this.partie.statEnnemis.BossInvocateur.triangles;
+        this.recompense.ronds = this.partie.statEnnemis.BossInvocateur.ronds;
+        this.recompense.hexagones = this.partie.statEnnemis.BossInvocateur.hexagones;
     }
 }

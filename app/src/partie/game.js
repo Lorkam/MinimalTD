@@ -195,7 +195,6 @@ export class Partie {
                         break;
                     case "BossInvocateur":
                         ennemi = new BossInvocateur(this); // Tu peux faire évoluer ça selon le type
-                        console.log('Spawn d\'un boss invocateur');
                         break;
                     default:
                         console.warn("Type d'ennemi inconnu :", type);

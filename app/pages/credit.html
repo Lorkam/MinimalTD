@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crédits</title>
+    <div id="style-container"></div>
+    <script>
+        const dateCSS = new Date().getTime();
+        const logiqueCSS = document.createElement('link');
+        logiqueCSS.href = '../css/credit.css?v=' + dateCSS; // cache buster avec timestamp
+        logiqueCSS.rel = 'stylesheet';
+        document.getElementById('style-container').appendChild(logiqueCSS);
+    </script>
+</head>
+<body>
+    <div id="divBordureJeu">
+    <div id="divContainerJeu" class="flex-column">
+        <div id="divRetourMenuPrincipale" onclick="window.location.href='menuPrincipale.php'"><img src="../assets/img/maison.png"></div>
+        <div class="flex-column" id="divCredits">
+            <span><h1>Crédits</h1></span>
+            <span><h2>MinimalTD</h2></span>
+            <span>Imaginé par Thomas Logeais</span>
+            <span>Imaginé par Thomas Logeais</span>
+            <span>Codé par Thomas Logeais</span>
+            <span>Testé par Thomas Logeais</span>
+            <span>Jeu open source disponible sur <a href="https://github.com/Lorkam/MinimalTD">Github</a></span>
+            <span>Merci d'avoir joué au jeu</span>
+            <span>N'hésitez pas à me faire des retours</span>
+        </div>
+    </div>
+    </div>
+</body>
+</html>

@@ -8,7 +8,7 @@ $sauvegarde = $_SESSION['nomSauvegarde']??null;
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Mini Tower Defense</title>
+    <title>MinimalTD</title>
     <div id="style-container"></div>
     <script>
         const dateCSS = new Date().getTime();
@@ -24,12 +24,12 @@ $sauvegarde = $_SESSION['nomSauvegarde']??null;
     <div id="divContainerJeu">
         <div id="menuGauche">
             <div class="flex-column" id="listeBtnPrincipaux">
-                <h1>Mini Tower Defense</h1>
+                <h1>MinimalTD</h1>
                 <button id="btnJouer" class="btnMenuPrincipale <?php if($sauvegarde==null){echo "disabled";}?>" <?php if($sauvegarde==null){echo "disabled";}?>>Jouer</button>
                 <button id="btnTechnologies" class="btnMenuPrincipale <?php if($sauvegarde==null){echo "disabled";}?>" onclick="window.location.href='technologies.php'" <?php if($sauvegarde==null){echo "disabled";}?>>Technologies</button>
                 <button id="btnMenuSauvegarder" class="btnMenuPrincipale">Charger une sauvegarde</button>
                 <button id="btnMenuChargerSave" class="btnMenuPrincipale">jcp quoi</button>
-                <button id="btnCredits" class="btnMenuPrincipale">Crédits</button>
+                <button id="btnCredits" class="btnMenuPrincipale" onclick="window.location.href='credit.html'">Crédits</button>
             </div>
         </div>
         <div class="flex-column cachee" id="menuMilieu">

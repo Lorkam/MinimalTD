@@ -45,7 +45,8 @@
         "or":2,
         "triangles":3,
         "ronds":0,
-        "hexagones":0
+        "hexagones":0,
+        "nbRepliques":3
     },
     "EnnemiReplique":{
         "nom":"EnnemiReplique",
