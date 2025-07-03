@@ -223,6 +223,20 @@ export class EnnemiReplique extends Ennemi {
         this.recompense.hexagones = this.partie.statEnnemis.EnnemiReplique.hexagones;
     }
 }
+export class BossMontagne extends Ennemi {
+    constructor(partie) {
+        super(partie);
+        this.couleur = this.partie.statEnnemis.BossMontagne.couleur;
+        this.pvMax = this.partie.statEnnemis.BossMontagne.pvMax;
+        this.pv = this.pvMax;
+        this.taille = this.partie.statEnnemis.BossMontagne.taille;
+        this.speed = this.partie.statEnnemis.BossMontagne.vitesse;
+        this.recompense.or = this.partie.statEnnemis.BossMontagne.or;
+        this.recompense.triangles = this.partie.statEnnemis.BossMontagne.triangles;
+        this.recompense.ronds = this.partie.statEnnemis.BossMontagne.ronds;
+        this.recompense.hexagones = this.partie.statEnnemis.BossMontagne.hexagones;
+    }
+}
 export class BossInvocateur extends Ennemi {
     constructor(partie) {
         super(partie);

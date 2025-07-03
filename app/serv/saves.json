@@ -3,14 +3,14 @@
         "test": {
             "description": "sauvegarde de test",
             "monnaies": {
-                "triangles": 3641,
-                "ronds": 15,
+                "triangles": 4097,
+                "ronds": 25,
                 "hexagones": 3
             },
             "niveauxCompletes": {
                 "Niveau 1": true,
                 "Niveau 2": true,
-                "Niveau 3": false
+                "Niveau 3": true
             },
             "dateCreation": "2025-06-01",
             "dateDerniereSave": "2025-06-14",
@@ -19,8 +19,8 @@
                     "degats": 1.6,
                     "vitesseAttaque": 1.6,
                     "prix": 1,
-                    "critRate": 0.4,
-                    "critDamage": 1.6,
+                    "critRate": 0.5,
+                    "critDamage": 1.8,
                     "portee": 0
                 },
                 "economie": {
@@ -47,7 +47,7 @@
                         "valeur": 1.4
                     },
                     "lvl3": {
-                        "debloque": false,
+                        "debloque": true,
                         "valeur": 1.6
                     }
                 },
@@ -89,11 +89,11 @@
                         "valeur": 0.3
                     },
                     "lvl3": {
-                        "debloque": false,
+                        "debloque": true,
                         "valeur": 0.4
                     },
                     "lvl4": {
-                        "debloque": false,
+                        "debloque": true,
                         "valeur": 0.5
                     }
                 },
@@ -107,7 +107,7 @@
                         "valeur": 1.6
                     },
                     "lvl3": {
-                        "debloque": false,
+                        "debloque": true,
                         "valeur": 1.8
                     }
                 },

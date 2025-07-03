@@ -60,6 +60,18 @@
         "ronds":0,
         "hexagones":0
     },
+    "BossMontagne":{
+        "nom":"BossMontagne",
+        "description":"Boss avec énormément de vie.",
+        "vitesse":0.4,
+        "couleur":"#9F00B7",
+        "pvMax":2000,
+        "taille":15,
+        "or":200,
+        "triangles":50,
+        "ronds":5,
+        "hexagones":0
+    },
     "BossInvocateur":{
         "nom":"BossInvocateur",
         "description":"Boss avec beaucoup de vie et qui invoque deux ennemis tank toute les 4 secondes.",
@@ -69,7 +81,7 @@
         "taille":15,
         "or":200,
         "triangles":50,
-        "ronds":5,
+        "ronds":10,
         "hexagones":1
     }
 }

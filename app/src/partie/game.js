@@ -1,4 +1,4 @@
-import { EnnemiClassique, EnnemiTank, EnnemiRapide, EnnemiReplicateur, EnnemiReplique, BossInvocateur } from "./enemy.js";
+import { EnnemiClassique, EnnemiTank, EnnemiRapide, EnnemiReplicateur, EnnemiReplique, BossMontagne, BossInvocateur } from "./enemy.js";
 import { Emplacement } from "./emplacement.js";
 import { Sauvegarde } from "../sauvegarde/sauvegarde.js";
 
@@ -192,6 +192,9 @@ export class Partie {
                     case "EnnemiReplique":
                         ennemi = new EnnemiReplique(this); // Tu peux faire évoluer ça selon le type
                         console.log('Spawn d\'un ennemi réplique');
+                        break;
+                    case "BossMontagne":
+                        ennemi = new BossMontagne(this); // Tu peux faire évoluer ça selon le type
                         break;
                     case "BossInvocateur":
                         ennemi = new BossInvocateur(this); // Tu peux faire évoluer ça selon le type
@@ -422,7 +425,7 @@ export class Partie {
             divOptionsEmplacement.style.display = 'none'; // Masque les options de l'emplacement après l'ajout de la tour
         });
         divOptionsTour.addEventListener('click', (e) => {
-            this.golds += this.emplacementSelectionne.tour.actionTour(e.target.id); // Ajoute une tour selon l'option sélectionnée
+            if(this.emplacementSelectionne.tour) this.golds += this.emplacementSelectionne.tour.actionTour(e.target.id); // Ajoute une tour selon l'option sélectionnée
             divOptionsTour.style.display = 'none'; // Masque les options de l'emplacement après l'ajout de la tour
         });
 
