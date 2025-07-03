@@ -1,7 +1,6 @@
 <?php 
 session_start();
 $sauvegarde = $_SESSION['nomSauvegarde']??null;
-//var_dump($sauvegarde);
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -9,6 +8,7 @@ $sauvegarde = $_SESSION['nomSauvegarde']??null;
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>MinimalTD</title>
+    <link rel="shortcut icon" href="../assets/img/iconeJeu.png" />
     <div id="style-container"></div>
     <script>
         const dateCSS = new Date().getTime();

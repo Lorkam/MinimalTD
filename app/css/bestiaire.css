@@ -7,7 +7,7 @@ body{
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 100vw;
+    font-family:'Trebuchet MS';
 }
 #divBordureJeu{
     position: relative;
@@ -16,6 +16,7 @@ body{
     border: 10px solid #ffffff;
     border-radius: 10px;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+    transform: translateX(5px);
 }
 #divContainerJeu{
     margin: 0;
@@ -85,6 +86,14 @@ body{
 .gap{
     gap: 10px;
 }
+h1{
+    padding: 20px;
+    background-color: #ebebeb;
+    border: 3px solid #2e2e2e;
+    border-radius: 10px;
+    width: min-content;
+    margin: 10px 0 0 0;
+}
 h2{
     margin: 0 0 15px 0;
     padding: 0;
@@ -95,8 +104,6 @@ h2{
         font-weight: bold;
     }
     canvas{
-        width: 100px;
-        height: 120px;
         border: 2px solid #000000;
         border-radius: 10px;
     }

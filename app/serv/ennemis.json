@@ -1,6 +1,7 @@
 {
     "EnnemiClassique":{
         "nom":"EnnemiClassique",
+        "nomBestiaire":"Classique",
         "description":"Ennemi de base",
         "vitesse":1,
         "couleur":"red",
@@ -13,6 +14,7 @@
     },
     "EnnemiTank":{
         "nom":"EnnemiTank",
+        "nomBestiaire":"Tank",
         "description":"Ennemi avec beaucoup de vie mais lent",
         "vitesse":0.5,
         "couleur":"rgb(15, 89, 0)",
@@ -25,6 +27,7 @@
     },
     "EnnemiRapide":{
         "nom":"EnnemiRapide",
+        "nomBestiaire":"Rapide",
         "description":"Ennemi rapide mais fragile",
         "vitesse":3,
         "couleur":"rgb(184, 197, 0)",
@@ -37,6 +40,7 @@
     },
     "EnnemiReplicateur":{
         "nom":"EnnemiReplicateur",
+        "nomBestiaire":"Réplicateur",
         "description":"Ennemi résistant qui se divise en trois à sa mort.",
         "vitesse":1,
         "couleur":"#0077FF",
@@ -50,6 +54,7 @@
     },
     "EnnemiReplique":{
         "nom":"EnnemiReplique",
+        "nomBestiaire":"Répliqué",
         "description":"Ennemi apparaissant lors de la destruction d'un ennemi réplicateur. Ils sont fragiles mais rapides.",
         "vitesse":3,
         "couleur":"#7AB9FF",
@@ -62,6 +67,7 @@
     },
     "BossMontagne":{
         "nom":"BossMontagne",
+        "nomBestiaire":"Montagne",
         "description":"Boss avec énormément de vie.",
         "vitesse":0.4,
         "couleur":"#9F00B7",
@@ -74,6 +80,7 @@
     },
     "BossInvocateur":{
         "nom":"BossInvocateur",
+        "nomBestiaire":"Invocateur",
         "description":"Boss avec beaucoup de vie et qui invoque deux ennemis tank toute les 4 secondes.",
         "vitesse":0.4,
         "couleur":"#9F00B7",
