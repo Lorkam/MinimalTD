@@ -221,6 +221,7 @@ export class Partie {
     majEnnemis() {
         for (const ennemi of this.ennemies) {
             if (ennemi.update()) {
+                ennemi.action(); // Appelle l'action de l'ennemi
                 ennemi.draw(this.ctx);
             }
         }

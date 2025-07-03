@@ -1,10 +1,15 @@
 
 export class Ennemi {
-    constructor(partie) {
+    constructor(partie, position) {
         this.partie = partie; // Référence à la partie à laquelle appartient l'ennemi
         this.chemin = partie.chemin;
-        this.x = this.chemin[0].x;
-        this.y = this.chemin[0].y;
+        if (position) {
+            this.x = position.x;
+            this.y = position.y;
+        }else {
+            this.x = this.chemin[0].x;
+            this.y = this.chemin[0].y;
+        }
         this.speed = 1;
         this.cheminIndex = 0;
         this.distanceParcourue = 0; // Distance parcourue par l'ennemi
@@ -88,11 +93,19 @@ export class Ennemi {
             this.partie.ennemies.splice(index, 1);
         }
     }
+
+    action() {
+        // Méthode utile seulement pour les ennemis qui ont une action spécifique ( à définir dans les classes filles)
+        return;
+    }
+}
+function random(min, max){
+    return Math.floor(Math.random()*(max-min+1))+min;
 }
 
 export class EnnemiClassique extends Ennemi {
-    constructor( partie) {
-        super(partie);
+    constructor( partie, position = null) {
+        super(partie, position);
         this.couleur = this.partie.statEnnemis.EnnemiClassique.couleur;
         this.pvMax = this.partie.statEnnemis.EnnemiClassique.pvMax;
         this.pv = this.pvMax;
@@ -104,8 +117,8 @@ export class EnnemiClassique extends Ennemi {
 }
 
 export class EnnemiTank extends Ennemi {
-    constructor(partie) {
-        super(partie);
+    constructor(partie, position = null) {
+        super(partie, position);
         this.couleur = this.partie.statEnnemis.EnnemiTank.couleur;
         this.pvMax = this.partie.statEnnemis.EnnemiTank.pvMax;
         this.pv = this.pvMax;
@@ -117,8 +130,8 @@ export class EnnemiTank extends Ennemi {
 }
 
 export class EnnemiRapide extends Ennemi {
-    constructor(partie) {
-        super(partie);
+    constructor(partie, position = null) {
+        super(partie, position);
         this.couleur = this.partie.statEnnemis.EnnemiRapide.couleur;
         this.pvMax = this.partie.statEnnemis.EnnemiRapide.pvMax;
         this.pv = this.pvMax;
@@ -171,8 +184,8 @@ export class EnnemiRapide extends Ennemi {
     }
 }
 export class EnnemiReplicateur extends Ennemi {
-    constructor(partie) {
-        super(partie);
+    constructor(partie, position = null) {
+        super(partie, position);
         this.couleur = this.partie.statEnnemis.EnnemiReplicateur.couleur;
         this.pvMax = this.partie.statEnnemis.EnnemiReplicateur.pvMax;
         this.pv = this.pvMax;
@@ -207,11 +220,7 @@ export class EnnemiReplicateur extends Ennemi {
 
 export class EnnemiReplique extends Ennemi {
     constructor(partie, position = null) {
-        super(partie);
-        if (position) {
-            this.x = position.x;
-            this.y = position.y;
-        }
+        super(partie, position);
         this.couleur = this.partie.statEnnemis.EnnemiReplique.couleur;
         this.pvMax = this.partie.statEnnemis.EnnemiReplique.pvMax;
         this.pv = this.pvMax;
@@ -224,8 +233,8 @@ export class EnnemiReplique extends Ennemi {
     }
 }
 export class BossMontagne extends Ennemi {
-    constructor(partie) {
-        super(partie);
+    constructor(partie, position = null) {
+        super(partie, position);
         this.couleur = this.partie.statEnnemis.BossMontagne.couleur;
         this.pvMax = this.partie.statEnnemis.BossMontagne.pvMax;
         this.pv = this.pvMax;
@@ -238,8 +247,8 @@ export class BossMontagne extends Ennemi {
     }
 }
 export class BossInvocateur extends Ennemi {
-    constructor(partie) {
-        super(partie);
+    constructor(partie, position = null) {
+        super(partie, position);
         this.couleur = this.partie.statEnnemis.BossInvocateur.couleur;
         this.pvMax = this.partie.statEnnemis.BossInvocateur.pvMax;
         this.pv = this.pvMax;
@@ -249,5 +258,19 @@ export class BossInvocateur extends Ennemi {
         this.recompense.triangles = this.partie.statEnnemis.BossInvocateur.triangles;
         this.recompense.ronds = this.partie.statEnnemis.BossInvocateur.ronds;
         this.recompense.hexagones = this.partie.statEnnemis.BossInvocateur.hexagones;
+        this.dernierreInvocation = Date.now();
+    }
+
+    action() {
+        if(Date.now() - this.dernierreInvocation >= this.partie.statEnnemis.BossInvocateur.intervalInvocation) {
+            for(let i=0;i<this.partie.statEnnemis.BossInvocateur.nbInvocation; i++) {
+                const ennemi = new EnnemiClassique(this.partie, {x: this.x + random(-10, 10), y: this.y + random(-10, 10)});
+                this.partie.ennemies.push(ennemi);
+                this.partie.totalEnnemis++;
+                console.log("Un ennemi classique a été invoqué par le boss invocateur.");
+            }
+            this.partie.majUI();
+            this.dernierreInvocation = Date.now();
+        }
     }
 }
