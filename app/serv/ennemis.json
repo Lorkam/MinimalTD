@@ -1,20 +1,20 @@
 {
     "EnnemiClassique":{
         "nom":"EnnemiClassique",
-        "nomBestiaire":"Classique",
         "description":"Ennemi de base",
         "vitesse":1,
-        "couleur":"red",
+        "couleur":"#ff0055",
         "pvMax":20,
         "taille":10,
         "or":2,
         "triangles":1,
         "ronds":0,
-        "hexagones":0
+        "hexagones":0,
+        "nomBestiaire":"Classique",
+        "formeDessin":"cercle"
     },
     "EnnemiTank":{
         "nom":"EnnemiTank",
-        "nomBestiaire":"Tank",
         "description":"Ennemi avec beaucoup de vie mais lent",
         "vitesse":0.5,
         "couleur":"rgb(15, 89, 0)",
@@ -23,11 +23,12 @@
         "or":4,
         "triangles":2,
         "ronds":0,
-        "hexagones":0
+        "hexagones":0,
+        "nomBestiaire":"Tank",
+        "formeDessin":"cercle"
     },
     "EnnemiRapide":{
         "nom":"EnnemiRapide",
-        "nomBestiaire":"Rapide",
         "description":"Ennemi rapide mais fragile",
         "vitesse":3,
         "couleur":"rgb(184, 197, 0)",
@@ -36,11 +37,12 @@
         "or":1,
         "triangles":1,
         "ronds":0,
-        "hexagones":0
+        "hexagones":0,
+        "nomBestiaire":"Rapide",
+        "formeDessin":"triangle"
     },
     "EnnemiReplicateur":{
         "nom":"EnnemiReplicateur",
-        "nomBestiaire":"Réplicateur",
         "description":"Ennemi résistant qui se divise en trois à sa mort.",
         "vitesse":1,
         "couleur":"#0077FF",
@@ -50,11 +52,12 @@
         "triangles":3,
         "ronds":0,
         "hexagones":0,
+        "nomBestiaire":"Réplicateur",
+        "formeDessin":"cercle",
         "nbRepliques":3
     },
     "EnnemiReplique":{
         "nom":"EnnemiReplique",
-        "nomBestiaire":"Répliqué",
         "description":"Ennemi apparaissant lors de la destruction d'un ennemi réplicateur. Ils sont fragiles mais rapides.",
         "vitesse":3,
         "couleur":"#7AB9FF",
@@ -63,25 +66,27 @@
         "or":1,
         "triangles":1,
         "ronds":0,
-        "hexagones":0
+        "hexagones":0,
+        "nomBestiaire":"Répliqué",
+        "formeDessin":"cercle"
     },
     "BossMontagne":{
         "nom":"BossMontagne",
-        "nomBestiaire":"Montagne",
-        "description":"Boss avec énormément de vie.",
+        "description":"Boss avec beaucoup de vie.",
         "vitesse":0.4,
-        "couleur":"#9F00B7",
+        "couleur":"#884d00",
         "pvMax":2000,
         "taille":15,
-        "or":200,
+        "or":100,
         "triangles":50,
         "ronds":5,
-        "hexagones":0
+        "hexagones":0,
+        "nomBestiaire":"Montagne",
+        "formeDessin":"cercle"
     },
     "BossInvocateur":{
         "nom":"BossInvocateur",
-        "nomBestiaire":"Invocateur",
-        "description":"Boss avec beaucoup de vie et qui invoque deux ennemis tank toute les 4 secondes.",
+        "description":"Boss avec beaucoup de vie et qui invoque des ennemis classique autour de lui.",
         "vitesse":0.4,
         "couleur":"#9F00B7",
         "pvMax":2000,
@@ -89,8 +94,26 @@
         "or":200,
         "triangles":50,
         "ronds":10,
-        "hexagones":1,
+        "hexagones":1,  
+        "nomBestiaire":"Invocateur",
+        "formeDessin":"cercle",
         "intervalInvocation":3000,
         "nbInvocation":2
+    },
+    "BossAmplificateur":{
+        "nom":"BossAmplificateur",
+        "description":"Boss ayant pas mal de vie qui augmente celle des ennemis à proximité.",
+        "vitesse":0.4,
+        "couleur":"#fceb00",
+        "pvMax":1500,
+        "taille":15,
+        "or":300,
+        "triangles":100,
+        "ronds":30,
+        "hexagones":5,  
+        "nomBestiaire":"Amplificateur",
+        "formeDessin":"ellipse",
+        "porteeAmplification":100,
+        "valeurAmplification":2
     }
 }

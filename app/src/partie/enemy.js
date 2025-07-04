@@ -55,10 +55,49 @@ export class Ennemi {
      * @param {CanvasRenderingContext2D} ctx - Le canvas sur lequel déssiner.
      */
     draw(ctx) {
-        ctx.fillStyle = this.couleur;
-        ctx.beginPath();
-        ctx.arc(this.x, this.y, this.taille, 0, Math.PI * 2);
-        ctx.fill();
+        switch (this.partie.statEnnemis[this.constructor.name].formeDessin) {
+            case 'cercle':
+                ctx.fillStyle = this.couleur;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.taille, 0, Math.PI * 2);
+                ctx.fill();
+                break;
+            case 'triangle':
+                // Calculer la direction du mouvement
+                let angle = 0;
+                const target = this.chemin[this.cheminIndex + 1];
+                if (target) {
+                    const dx = target.x - this.x;
+                    const dy = target.y - this.y;
+                    angle = Math.atan2(dy, dx);
+                }
+            
+                ctx.save();
+                ctx.translate(this.x, this.y);
+                ctx.rotate(angle);
+            
+                // Dessiner un triangle pointant vers la droite (0 radian)
+                ctx.beginPath();
+                ctx.moveTo(this.taille, 0); // pointe du triangle
+                ctx.lineTo(-this.taille, this.taille / 1.5);
+                ctx.lineTo(-this.taille, -this.taille / 1.5);
+                ctx.closePath();
+                ctx.fillStyle = this.couleur;
+                ctx.fill();
+            
+                ctx.restore();
+                break;
+            case 'ellipse':
+                ctx.save();
+                ctx.beginPath();
+                ctx.ellipse(this.x, this.y, this.taille, this.taille * 0.6, 0, 0, Math.PI * 2);
+                ctx.fillStyle = this.couleur;
+                ctx.fill();
+                ctx.restore();
+                break;
+            default:
+                console.warn(`Forme de dessin inconnue : ${this.partie.statEnnemis[this.constructor.name].formeDessin}`);
+        }
         if (this.pv < this.pvMax) {
             const barWidth = this.taille * 2;
             const barHeight = 4;
@@ -145,7 +184,7 @@ export class EnnemiRapide extends Ennemi {
      * Dessine les ennemis sur le canvas sous forme de triangle pointant vers la direction de déplacement.
      * @param {CanvasRenderingContext2D} ctx - Le canvas sur lequel dessiner.
      */
-    draw(ctx) {
+    /*draw(ctx) {
         // Calculer la direction du mouvement
         let angle = 0;
         const target = this.chemin[this.cheminIndex + 1];
@@ -181,7 +220,7 @@ export class EnnemiRapide extends Ennemi {
             ctx.fillStyle = 'green';
             ctx.fillRect(barX, barY, barWidth * (this.pv / this.pvMax), barHeight);
         }
-    }
+    }*/
 }
 export class EnnemiReplicateur extends Ennemi {
     constructor(partie, position = null) {
@@ -272,5 +311,23 @@ export class BossInvocateur extends Ennemi {
             this.partie.majUI();
             this.dernierreInvocation = Date.now();
         }
+    }
+}
+export class BossAmplificateur extends Ennemi {
+    constructor(partie, position = null) {
+        super(partie, position);
+        this.couleur = this.partie.statEnnemis.BossAmplificateur.couleur;
+        this.pvMax = this.partie.statEnnemis.BossAmplificateur.pvMax;
+        this.pv = this.pvMax;
+        this.taille = this.partie.statEnnemis.BossAmplificateur.taille;
+        this.speed = this.partie.statEnnemis.BossAmplificateur.vitesse;
+        this.recompense.or = this.partie.statEnnemis.BossAmplificateur.or;
+        this.recompense.triangles = this.partie.statEnnemis.BossAmplificateur.triangles;
+        this.recompense.ronds = this.partie.statEnnemis.BossAmplificateur.ronds;
+        this.recompense.hexagones = this.partie.statEnnemis.BossAmplificateur.hexagones;
+    }
+
+    action() {
+        //
     }
 }

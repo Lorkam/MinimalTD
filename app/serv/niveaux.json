@@ -138,7 +138,8 @@
         "ennemis": [
           { "type": "classique", "nb": 40, "intervale": 1000 },
           { "type": "tank", "nb": 20, "intervale": 1750 },
-          { "type": "rapide", "nb": 50, "intervale": 750 }
+          { "type": "rapide", "nb": 50, "intervale": 750 },
+          { "type": "BossAmplificateur", "nb": 1, "intervale": 2000 }
         ],
         "derniereVague": true
       }

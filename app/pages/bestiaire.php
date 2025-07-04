@@ -8,7 +8,7 @@ $nomSauvegarde = $_SESSION['nomSauvegarde'] ?? null;
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" href="../assets/img/iconeJeu.png" />
-    <title>bestiaire</title>
+    <title>Bestiaire</title>
     <div id="style-container"></div>
     <script>
         const dateCSS = new Date().getTime();
@@ -40,6 +40,15 @@ $nomSauvegarde = $_SESSION['nomSauvegarde'] ?? null;
                     <h2>Les Boss</h2>
                     <div class="grilleCase"></div>
                 </div>
+            </div>
+        </div>
+        <div id="infoItem" class="flex-column">
+            <h2 id="titreItem">Titre par défaut</h2>
+            <p id="description">Description par défaut</p>
+            <div id="statItem">
+                <div class="ligneAttribut"><span class="nomAttribut">Attribut 1 : </span><span class="valeurAttribut">42</span></div>
+                <div class="ligneAttribut"><span class="nomAttribut">Attribut 2 : </span><span class="valeurAttribut">79</span></div>
+                <div class="ligneAttribut"><span class="nomAttribut">Attribut 3 : </span><span class="valeurAttribut">3</span></div>
             </div>
         </div>
     </div>

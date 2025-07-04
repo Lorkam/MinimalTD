@@ -1,4 +1,4 @@
-import { EnnemiClassique, EnnemiTank, EnnemiRapide, EnnemiReplicateur, EnnemiReplique, BossMontagne, BossInvocateur } from "./enemy.js";
+import { EnnemiClassique, EnnemiTank, EnnemiRapide, EnnemiReplicateur, EnnemiReplique, BossMontagne, BossInvocateur, BossAmplificateur } from "./enemy.js";
 import { Emplacement } from "./emplacement.js";
 import { Sauvegarde } from "../sauvegarde/sauvegarde.js";
 
@@ -198,6 +198,9 @@ export class Partie {
                         break;
                     case "BossInvocateur":
                         ennemi = new BossInvocateur(this); // Tu peux faire évoluer ça selon le type
+                        break;
+                    case "BossAmplificateur":
+                        ennemi = new BossAmplificateur(this); // Tu peux faire évoluer ça selon le type
                         break;
                     default:
                         console.warn("Type d'ennemi inconnu :", type);

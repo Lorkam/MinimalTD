@@ -5,6 +5,9 @@
         "prix":10,
         "degats":10,
         "attaqueSpeed":1000,
-        "portee":100
+        "portee":100,
+        "taille":30,
+        "nomBestiaire":"Classique",
+        "formeDessin":"tourCarree"
     }
 }

@@ -86,18 +86,123 @@ function creerListeItem(listeTours, listeEnnemis) {
     return listeItem;
 }
 
-function dessinerCadenas(ctx, canvas) {
-    //aze
+function dessinerCadenas(ctx, width, height) {
+    console.log("Dessiner un cadenas");
+    // Dimensions du cadenas
+    const cadenasWidth = width / 2;
+    const cadenasHeight = height / 2.5;
+    const arcRadius = cadenasWidth / 2 - 5;
+    const arcLineWidth = 5;
+    const totalCadenasHeight = arcRadius + arcLineWidth + cadenasHeight;
+
+    // Calcul pour centrer verticalement
+    const startY = (height - totalCadenasHeight) / 2;
+
+    // Corps du cadenas (rectangle)
+    const cadenasX = width / 4;
+    const cadenasY = startY + arcRadius + arcLineWidth;
+
+    ctx.fillStyle = '#444';
+    ctx.fillRect(cadenasX, cadenasY, cadenasWidth, cadenasHeight);
+
+    // Anse du cadenas (arc de cercle)
+    const arcCenterX = width / 2;
+    const arcCenterY = startY + arcRadius+3;
+
+    ctx.beginPath();
+    ctx.strokeStyle = '#444';
+    ctx.lineWidth = arcLineWidth;
+    ctx.arc(arcCenterX, arcCenterY, arcRadius, -Math.PI * 1.05, Math.PI * 1.05, false);
+    ctx.stroke();
+
+    // Point d'interrogation
+    ctx.fillStyle = '#fff';
+    ctx.font = '30px Arial';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText('?', arcCenterX, cadenasY + cadenasHeight / 2);
 }
-function dessinerTourClassique(ctx, canvas) {
-    //aze
+
+function dessinerTourClassique(ctx, widthCanvas, heightCanvas, item) {
+    //console.log(`Dessiner une tour carrée pour l'item : ${item.attributs.nom}`);
+    const taille = item.attributs.taille * 2;
+    ctx.fillStyle = "blue";
+    ctx.beginPath();
+    // Dessiner un carré bleu à bords arrondis centré sur la position
+    const x = widthCanvas/2 - taille/2;
+    const y = heightCanvas/2 - taille/2;
+    const width = taille; // Largeur du carré
+    const height = taille; // Largeur du carré;
+    const radius = taille/4.5;
+    ctx.moveTo(x + radius, y);
+    ctx.lineTo(x + width - radius, y);
+    ctx.quadraticCurveTo(x + width, y, x + width, y + radius);
+    ctx.lineTo(x + width, y + height - radius);
+    ctx.quadraticCurveTo(x + width, y + height, x + width - radius, y + height);
+    ctx.lineTo(x + radius, y + height);
+    ctx.quadraticCurveTo(x, y + height, x, y + height - radius);
+    ctx.lineTo(x, y + radius);
+    ctx.quadraticCurveTo(x, y, x + radius, y);
+    ctx.closePath();
+    ctx.fill();
+
+    // Dessiner un cercle blanc au centre
+    ctx.beginPath();
+    ctx.arc(widthCanvas/2, heightCanvas/2, radius, 0, Math.PI * 2);
+    ctx.fillStyle = "white";
+    ctx.fill();
+}
+
+function dessinerCercle(ctx, widthCanvas, heightCanvas, item) {
+    //console.log(`Dessiner un cercle pour l'item : ${item.attributs.nom}`);
+    // Dessiner l'item découvert
+    ctx.fillStyle = item.attributs.couleur;
+    ctx.beginPath();
+    ctx.arc(widthCanvas / 2, heightCanvas / 2, item.attributs.taille * 2, 0, Math.PI * 2);
+    ctx.fill();
+}
+
+function dessinerTriangle(ctx, widthCanvas, heightCanvas, item) {
+    //console.log(`Dessiner un triangle pour l'item : ${item.attributs.nom}`);
+    const taille = item.attributs.taille * 2;
+    // Calculer la direction du mouvement
+    let angle = 0;
+    const target = {x:widthCanvas, y:heightCanvas / 2};
+    if (target) {
+        const dx = target.x - widthCanvas/2;
+        const dy = target.y - heightCanvas/2;
+        angle = Math.atan2(dy, dx);
+    }
+
+    ctx.save();
+    ctx.translate(widthCanvas/2, heightCanvas/2);
+    ctx.rotate(angle);
+
+    // Dessiner un triangle pointant vers la droite (0 radian)
+    ctx.beginPath();
+    ctx.moveTo(taille, 0); // pointe du triangle
+    ctx.lineTo(-taille, taille / 1.5);
+    ctx.lineTo(-taille, -taille / 1.5);
+    ctx.closePath();
+    ctx.fillStyle = item.attributs.couleur;
+    ctx.fill();
+
+    ctx.restore();
+}
+
+function dessinerEllipse(ctx, widthCanvas, heightCanvas, item) {
+    ctx.save();
+    ctx.beginPath();
+    ctx.ellipse(widthCanvas/2, heightCanvas/2, item.attributs.taille*2, item.attributs.taille*2 * 0.6, 0, 0, Math.PI * 2);
+    ctx.fillStyle = item.attributs.couleur;
+    ctx.fill();
+    ctx.restore();
 }
 
 function dessinerCanvas(listeItem) {
     for (const item of listeItem) {
         const ctx = item.ctx;
-        const canvas = item.canvas;
-        const { width, height } = canvas;
+        const { width, height } = item.canvas;
 
         // Nettoyage du canvas
         ctx.clearRect(0, 0, width, height);
@@ -105,45 +210,25 @@ function dessinerCanvas(listeItem) {
         ctx.fillRect(0, 0, width, height);
 
         if (item.decouvert) {
-            // Dessiner l'item découvert
-            ctx.fillStyle = item.attributs.couleur;
-            ctx.beginPath();
-            ctx.arc(width / 2, height / 2, item.attributs.taille * 2, 0, Math.PI * 2);
-            ctx.fill();
+            switch (item.attributs.formeDessin) {
+                case 'cercle':
+                    dessinerCercle(ctx, width, height, item);
+                    break;
+                case 'triangle':
+                    dessinerTriangle(ctx, width, height, item);
+                    break;
+                case 'ellipse':
+                    dessinerEllipse(ctx, width, height, item);
+                    break;
+                case 'tourCarree':
+                    dessinerTourClassique(ctx, width, height, item);
+                    break;
+                default:
+                    console.warn(`Forme de dessin inconnue : ${item.attributs.formeDessin} pour l'item ${item.attributs.nom}`);
+                    break;
+            }
         } else {
-            // Dimensions du cadenas
-            const cadenasWidth = width / 2;
-            const cadenasHeight = height / 2.5;
-            const arcRadius = cadenasWidth / 2 - 5;
-            const arcLineWidth = 5;
-            const totalCadenasHeight = arcRadius + arcLineWidth + cadenasHeight;
-
-            // Calcul pour centrer verticalement
-            const startY = (height - totalCadenasHeight) / 2;
-
-            // Corps du cadenas (rectangle)
-            const cadenasX = width / 4;
-            const cadenasY = startY + arcRadius + arcLineWidth;
-
-            ctx.fillStyle = '#444';
-            ctx.fillRect(cadenasX, cadenasY, cadenasWidth, cadenasHeight);
-
-            // Anse du cadenas (arc de cercle)
-            const arcCenterX = width / 2;
-            const arcCenterY = startY + arcRadius+3;
-
-            ctx.beginPath();
-            ctx.strokeStyle = '#444';
-            ctx.lineWidth = arcLineWidth;
-            ctx.arc(arcCenterX, arcCenterY, arcRadius, -Math.PI * 1.05, Math.PI * 1.05, false);
-            ctx.stroke();
-
-            // Point d'interrogation
-            ctx.fillStyle = '#fff';
-            ctx.font = '30px Arial';
-            ctx.textAlign = 'center';
-            ctx.textBaseline = 'middle';
-            ctx.fillText('?', arcCenterX, cadenasY + cadenasHeight / 2);
+            dessinerCadenas(ctx, width, height);
         }
     }
 }
