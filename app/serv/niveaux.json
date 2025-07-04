@@ -130,13 +130,13 @@
       },
       {
         "ennemis": [
-          { "type": "rapide", "nb": 30, "intervale": 300 }
+          { "type": "rapide", "nb": 30, "intervale": 200 }
         ],
         "derniereVague": false
       },
       {
         "ennemis": [
-          { "type": "classique", "nb": 40, "intervale": 1000 },
+          { "type": "classique", "nb": 39, "intervale": 1000 },
           { "type": "tank", "nb": 20, "intervale": 1750 },
           { "type": "rapide", "nb": 50, "intervale": 750 },
           { "type": "BossAmplificateur", "nb": 1, "intervale": 2000 }
