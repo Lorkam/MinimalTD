@@ -325,9 +325,32 @@ export class BossAmplificateur extends Ennemi {
         this.recompense.triangles = this.partie.statEnnemis.BossAmplificateur.triangles;
         this.recompense.ronds = this.partie.statEnnemis.BossAmplificateur.ronds;
         this.recompense.hexagones = this.partie.statEnnemis.BossAmplificateur.hexagones;
+        this.amplification = this.partie.statEnnemis.BossAmplificateur.valeurAmplification;
+        this.portee = this.partie.statEnnemis.BossAmplificateur.porteeAmplification;
     }
 
     action() {
-        //
+        const listeEnnemis = this.partie.ennemies.filter(ennemi => ennemi !== this);
+        for(const ennemi of listeEnnemis) {
+            if(ennemi.amplifie) continue; // Ignore les ennemis déjà amplifiés
+            const distance = Math.sqrt((ennemi.x - this.x) ** 2 + (ennemi.y - this.y) ** 2);
+            if(distance <= this.partie.statEnnemis.BossAmplificateur.porteeAmplification) {
+                ennemi.amplifie = true; // Indique que l'ennemi est amplifié par le boss
+                ennemi.pvMax *= this.partie.statEnnemis.BossAmplificateur.valeurAmplification;
+                ennemi.pv *= this.partie.statEnnemis.BossAmplificateur.valeurAmplification;
+                ennemi.taille += 2;
+                ennemi.speed *= 1.7;
+            }
+        }
+        // dessin de la portee de l'amplification en pointillés
+        this.partie.ctx.save();
+        this.partie.ctx.setLineDash([6, 6]);
+        this.partie.ctx.beginPath();
+        this.partie.ctx.arc(this.x, this.y, this.portee, 0, 2 * Math.PI);
+        this.partie.ctx.strokeStyle = this.couleur;
+        this.partie.ctx.lineWidth = 2;
+        this.partie.ctx.stroke();
+        this.partie.ctx.setLineDash([]);
+        this.partie.ctx.restore();
     }
 }

@@ -103,10 +103,10 @@
     "BossAmplificateur":{
         "nom":"BossAmplificateur",
         "description":"Boss ayant pas mal de vie qui augmente celle des ennemis à proximité.",
-        "vitesse":0.4,
+        "vitesse":0.2,
         "couleur":"#fceb00",
-        "pvMax":1500,
-        "taille":15,
+        "pvMax":2000,
+        "taille":17,
         "or":300,
         "triangles":100,
         "ronds":30,
@@ -114,6 +114,6 @@
         "nomBestiaire":"Amplificateur",
         "formeDessin":"ellipse",
         "porteeAmplification":100,
-        "valeurAmplification":2
+        "valeurAmplification":3
     }
 }

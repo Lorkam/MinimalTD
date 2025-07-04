@@ -3,9 +3,9 @@
         "test": {
             "description": "sauvegarde de test",
             "monnaies": {
-                "triangles": 4705,
-                "ronds": 75,
-                "hexagones": 10
+                "triangles": 5947,
+                "ronds": 225,
+                "hexagones": 35
             },
             "niveauxCompletes": {
                 "Niveau 1": true,
