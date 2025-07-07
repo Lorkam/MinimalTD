@@ -1,4 +1,4 @@
-import { TourClassique } from "./tower.js";
+import { TourClassique, TourRalentissante } from "./tower.js";
 
 export class Emplacement {
     constructor(position, partie) {
@@ -18,12 +18,24 @@ export class Emplacement {
     ajouterTour(type){
         switch (type) {
             case 'TourClassique':
-                const nouvelleTour = new TourClassique({x:this.x, y:this.y}, this.partie); // Crée une nouvelle tour classique
+                const nouvelleTourClassique = new TourClassique({x:this.x, y:this.y}, this.partie); // Crée une nouvelle tour classique
                 if (this.partie.golds >= this.partie.prixTourClassique) { // Vérifie si l'or est suffisant
-                    this.tour = nouvelleTour;
+                    this.tour = nouvelleTourClassique;
                     this.partie.towers.push(this.tour); // Ajoute la tour à la liste des tours
                     const cout = this.partie.prixTourClassique
                     this.partie.prixTourClassique *=2;
+                    return -1*cout; // renvoie le coût de la tour
+                }else{
+                    console.warn("Pas assez d'or pour acheter cette tour.");
+                    return 0; // Retourne 0 si l'or est insuffisant
+                }
+            case 'TourRalentissante':
+                const nouvelleTourRalentissante = new TourRalentissante({x:this.x, y:this.y}, this.partie); // Crée une nouvelle tour Ralentissante
+                if (this.partie.golds >= this.partie.prixTourRalentissante) { // Vérifie si l'or est suffisant
+                    this.tour = nouvelleTourRalentissante;
+                    this.partie.towers.push(this.tour); // Ajoute la tour à la liste des tours
+                    const cout = this.partie.prixTourRalentissante
+                    this.partie.prixTourRalentissante *=2;
                     return -1*cout; // renvoie le coût de la tour
                 }else{
                     console.warn("Pas assez d'or pour acheter cette tour.");
@@ -65,7 +77,9 @@ export class Emplacement {
             divOptionsEmplacement.style.display = 'flex'; // Masque les options de l'emplacement
             divOptionsEmplacement.style.top = `${this.y - divOptionsEmplacement.offsetHeight*1.2}px`; // Positionne le div au-dessus de l'emplacement
             divOptionsEmplacement.style.left = `${this.x - divOptionsEmplacement.offsetWidth/2}px`; // Positionne le div à gauche de l'emplacement
-            divOptionsEmplacement.querySelector('#prixTourClassique').textContent = this.lvl >= this.nbLvl ? 'Max' : this.partie.prixTourClassique; // Met à jour le prix de la tour classique
+            for(const typeTour of Object.keys(this.partie.statTours)){
+                divOptionsEmplacement.querySelector('#prix'+typeTour).textContent = this.lvl >= this.nbLvl ? 'Max' : this.partie['prix'+typeTour]; // Met à jour le prix de la tour classique
+            }
             this.partie.emplacementSelectionne = this;
         }else{
             const divOptionsTour = document.querySelector('#divOptionsTour');

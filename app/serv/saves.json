@@ -15,7 +15,7 @@
             "dateCreation": "2025-06-01",
             "dateDerniereSave": "2025-06-14",
             "modificateurs": {
-                "toursClassiques": {
+                "tours": {
                     "degats": 1.6,
                     "vitesseAttaque": 1.6,
                     "prix": 1,
@@ -190,7 +190,7 @@
             "dateCreation": "2025-06-19",
             "dateDerniereSave": "2025-06-20",
             "modificateurs": {
-                "toursClassiques": {
+                "tours": {
                     "degats": 1,
                     "vitesseAttaque": 1,
                     "prix": 1,

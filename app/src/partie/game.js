@@ -93,7 +93,8 @@ export class Partie {
             const data = await response.json();
             //console.log(data);
             this.statTours = data; // Récupère les statistiques des tours depuis la réponse
-            this.prixTourClassique = this.statTours.TourClassique.prix; // Prix de la tour classique
+            this.prixTourClassique = this.statTours.TourClassique.prix[0]; // Prix de la tour classique
+            this.prixTourRalentissante = this.statTours.TourRalentissante.prix[0]; // Prix de la tour Ralentissante
         } catch (error) {
             console.error('Erreur récupération données :', error);
         }
@@ -152,6 +153,26 @@ export class Partie {
                 intervale: typeEnnemi.intervale // Intervalle de spawn en millisecondes
             };
             this.totalEnnemis += typeEnnemi.nb; // Ajoute le nombre d'ennemis à spawn au total
+        }
+    }
+    chargerOptionsEmplacement(divOptionsEmplacement) {
+        for (const [key, value] of Object.entries(this.statTours)) {
+            const option = document.createElement('span');
+            option.className = 'optionEmplacement';
+            option.id = key;
+            option.textContent = `${value.nom} : `;
+            const prixSpan = document.createElement('span');
+            prixSpan.id = `prix${key}`;
+            prixSpan.className = 'no-pointer-envents';
+            prixSpan.style.margin = '0 5px';
+            prixSpan.textContent = value.prix;
+            option.appendChild(prixSpan);
+            const euroImg = document.createElement('img');
+            euroImg.className = 'no-pointer-envents';
+            euroImg.src = '../assets/img/euro.png';
+            euroImg.style.width = '20px';
+            option.appendChild(euroImg);
+            divOptionsEmplacement.appendChild(option);
         }
     }
 
@@ -407,6 +428,8 @@ export class Partie {
 
         const divOptionsEmplacement = document.querySelector('#divOptionsEmplacement')
         const divOptionsTour = document.querySelector('#divOptionsTour')
+        this.chargerOptionsEmplacement(divOptionsEmplacement); // Charge les options d'emplacement
+
         this.canvas.addEventListener("mousedown", (e) => {
             divOptionsEmplacement.style.display = 'none'; // Masque les options de l'emplacement
             divOptionsTour.style.display = 'none'; // Masque les options de l'emplacement

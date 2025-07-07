@@ -152,6 +152,36 @@ function dessinerTourClassique(ctx, widthCanvas, heightCanvas, item) {
     ctx.fillStyle = "white";
     ctx.fill();
 }
+function dessinerTourRalentisante(ctx, widthCanvas, heightCanvas, item) {
+    const x = widthCanvas/2;
+    const y = heightCanvas/2;
+
+    // Corps principal de la tour : cercle bleu clair
+    ctx.beginPath();
+    ctx.arc(x, y, 15*2, 0, Math.PI * 2);
+    ctx.fillStyle = "#00bfff"; // bleu clair
+    ctx.fill();
+
+    // Motif de spirale centrale pour représenter le ralentissement
+    ctx.beginPath();
+    ctx.strokeStyle = "#ffffff"; // blanc
+    ctx.lineWidth = 2;
+
+    const spiraleTours = 2.5;
+    const rayonMax = 12*2;
+    const points = 100;
+
+    for (let i = 0; i < points; i++) {
+        const angle = i / points * spiraleTours * 2 * Math.PI;
+        const rayon = (i / points) * rayonMax;
+        const spiraleX = x + Math.cos(angle) * rayon;
+        const spiraleY = y + Math.sin(angle) * rayon;
+
+        if (i == 0) ctx.moveTo(spiraleX, spiraleY);
+        else ctx.lineTo(spiraleX, spiraleY);
+    }
+    ctx.stroke();
+}
 
 function dessinerCercle(ctx, widthCanvas, heightCanvas, item) {
     //console.log(`Dessiner un cercle pour l'item : ${item.attributs.nom}`);
@@ -161,7 +191,6 @@ function dessinerCercle(ctx, widthCanvas, heightCanvas, item) {
     ctx.arc(widthCanvas / 2, heightCanvas / 2, item.attributs.taille * 2, 0, Math.PI * 2);
     ctx.fill();
 }
-
 function dessinerTriangle(ctx, widthCanvas, heightCanvas, item) {
     //console.log(`Dessiner un triangle pour l'item : ${item.attributs.nom}`);
     const taille = item.attributs.taille * 2;
@@ -189,7 +218,6 @@ function dessinerTriangle(ctx, widthCanvas, heightCanvas, item) {
 
     ctx.restore();
 }
-
 function dessinerEllipse(ctx, widthCanvas, heightCanvas, item) {
     ctx.save();
     ctx.beginPath();
@@ -220,8 +248,11 @@ function dessinerCanvas(listeItem) {
                 case 'ellipse':
                     dessinerEllipse(ctx, width, height, item);
                     break;
-                case 'tourCarree':
+                case 'TourClassique':
                     dessinerTourClassique(ctx, width, height, item);
+                    break;
+                case 'TourRalentissante':
+                    dessinerTourRalentisante(ctx, width, height, item);
                     break;
                 default:
                     console.warn(`Forme de dessin inconnue : ${item.attributs.formeDessin} pour l'item ${item.attributs.nom}`);

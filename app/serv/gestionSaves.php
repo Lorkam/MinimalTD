@@ -155,7 +155,7 @@ function getNiveauMaxReussi(&$saves, $nom){
  * - niveauxCompletes : Statut de complétion des niveaux (Niveau 1, 2, 3), initialisés à false.
  * - dateCreation : Date de création de la sauvegarde (format 'Y-m-d').
  * - dateDerniereSave : Date de la dernière sauvegarde (format 'Y-m-d').
- * - modificateurs : Modificateurs de jeu (toursClassiques, economie, coeurBonus, lvlUpTours) avec leurs valeurs par défaut.
+ * - modificateurs : Modificateurs de jeu (tours, economie, coeurBonus, lvlUpTours) avec leurs valeurs par défaut.
  * - technologies : Tableau des technologies et leurs niveaux, chaque niveau ayant un statut de déblocage (debloque) et une valeur associée.
  *
  * La fonction sauvegarde le tableau complet des sauvegardes dans le fichier 'saves.json' au format JSON.
@@ -178,7 +178,7 @@ function creerSauvegarde(&$saves, $nom){
         "dateCreation"=> $date,
         "dateDerniereSave"=> $date,
         "modificateurs"=> [
-            "toursClassiques"=> [
+            "tours"=> [
                 "degats"=> 1,
                 "vitesseAttaque"=> 1,
                 "prix"=> 1,

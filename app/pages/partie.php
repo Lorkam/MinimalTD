@@ -53,8 +53,10 @@ $sauvegarde = $_SESSION['nomSauvegarde'];
         </div>
 
         <div id="divOptionsEmplacement">
-            <span class="optionEmplacement" id="TourClassique">Tour Classique : <span id="prixTourClassique" class="no-pointer-envents" style="margin:0 5px;">-0-</span><img class="no-pointer-envents" src="../assets/img/euro.png" style="width:20px;"></span>
-            <span class="optionEmplacement" id="AutreTour">tour qui existe pas encore : <span id="prixAutre" class="no-pointer-envents" style="margin:0 5px;">-0-</span><img class="no-pointer-envents" src="../assets/img/euro.png" style="width:20px;"></span>
+            <!--<span class="optionEmplacement" id="TourClassique">Tour Classique : 
+                <span id="prixTourClassique" class="no-pointer-envents" style="margin:0 5px;">0</span>
+                <img class="no-pointer-envents" src="../assets/img/euro.png" style="width:20px;">
+            </span>-->
         </div>
         <div id="divOptionsTour">
             <span class="optionTour" id="ameliorer">Améliorer : <span id="prixAmelioration" class="no-pointer-envents" style="margin:0 5px;">-0-</span><img class="no-pointer-envents" src="../assets/img/euro.png" style="width:20px;"></span>

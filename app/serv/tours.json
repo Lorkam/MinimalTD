@@ -1,13 +1,26 @@
 {
     "TourClassique":{
         "nom":"TourClassique",
-        "description":"Tour classique de base",
-        "prix":10,
+        "description":"Tour basique qui tire des projectiles.",
+        "prix":[10, 30 ,90],
         "degats":10,
         "attaqueSpeed":1000,
         "portee":100,
         "taille":30,
         "nomBestiaire":"Classique",
-        "formeDessin":"tourCarree"
+        "formeDessin":"TourClassique"
+    },
+    "TourRalentissante":{
+        "nom":"TourRalentissante",
+        "description":"Tour qui ralentit les ennemis à portée.",
+        "prix":[15, 50, 120],
+        "degats":0,
+        "attaqueSpeed":2000,
+        "portee":100,
+        "taille":30,
+        "nomBestiaire":"Ralentissante",
+        "formeDessin":"TourRalentissante",
+        "ralentissement":0.5,
+        "dureeRalentissement":2000
     }
 }

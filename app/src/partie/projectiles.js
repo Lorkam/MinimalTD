@@ -85,3 +85,63 @@ export class Projectile {
     }
 
 }
+
+export class Onde extends Projectile {
+    /**
+     * Crée une nouvelle instance d'Onde, qui est un type de projectile.
+     * @param {Tower} tower - L'objet tour qui tire l'onde.
+     */
+    constructor(tour, cible) {
+        super(tour, cible);
+        this.rayon = 5; // Rayon initial de l'onde
+        this.couleur = "#00bfff77"; // Couleur de l'onde
+        this.speed = 5; // Vitesse de l'onde
+        this.ralentissement = this.tour.ralentissement; // Ralentissement appliqué par l'onde
+        this.dureeRalentissement = this.tour.dureeRalentissement; // Durée du ralentissement
+    }
+
+    toucherEnnemi(cible) {
+        if (typeof cible.ralenti === "undefined") cible.ralenti = false; // Initialise ralenti si non défini
+        if (typeof cible.vitesseInitiale === "undefined") cible.vitesseInitiale = cible.speed;
+
+
+        cible.speed = cible.vitesseInitiale * this.ralentissement;
+        cible.ralenti = true;
+        
+        if (cible.ralentiTimeout) {
+            clearTimeout(cible.ralentiTimeout);
+        }
+        cible.ralentiTimeout = setTimeout(() => {
+            cible.ralenti = false;
+            cible.speed = cible.vitesseInitiale;
+            cible.ralentiTimeout = null; // Nettoyage
+        }, this.dureeRalentissement);
+    }
+
+    update() {
+        this.rayon += this.speed; // Augmente le rayon de l'onde à chaque mise à jour
+        for(const ennemi of this.tour.partie.ennemies) {
+            const dx = ennemi.x - this.x;
+            const dy = ennemi.y - this.y;
+            const dist = Math.sqrt(dx * dx + dy * dy);
+            if (dist <= this.rayon) {
+                this.toucherEnnemi(ennemi);
+            }
+        }
+        if (this.rayon > this.tour.portee) {
+            return true; // Indique que l'onde a atteint sa portée maximale
+        }
+        return false; // L'onde a pas atteint sa portée maximale
+    }
+
+    draw(ctx) {
+        ctx.save();
+        ctx.strokeStyle = this.couleur;
+        ctx.lineWidth = 3;
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.rayon, 0, Math.PI * 2);
+        ctx.stroke();
+        ctx.restore();
+    }
+
+}
