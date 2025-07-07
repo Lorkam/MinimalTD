@@ -105,6 +105,8 @@ export class MenuTechnologies {
                 data[noeud].nbLvl,
                 etat
             ));
+            if (data[noeud].nom == "critRate"){
+            }
         }
     }
 
@@ -126,7 +128,7 @@ export class MenuTechnologies {
             if (!tech) continue;
             
             const niveaux = Object.values(tech);
-            //console.log(noeud.idHTML, niveaux);
+            console.log(noeud.idHTML, niveaux);
             var nblvlDebloque = 0;
             for (const niveau of niveaux) {
                 if (niveau.debloque === true) {
@@ -136,7 +138,7 @@ export class MenuTechnologies {
             noeud.lvl = nblvlDebloque;
             noeud.prixAmelioration = noeud.prix*(noeud.lvl+1);
 
-            const tousDebloques = nblvlDebloque == niveaux.length;
+            const tousDebloques = nblvlDebloque == niveaux.length-1; // -1 car niveau  0 toujours débloqué
             const lvl1Debloque = tech.lvl1?.debloque === true;
             //console.log(noeud, 'tousDebloques:', tousDebloques, 'lvl1Debloque:', lvl1Debloque);
 
@@ -145,35 +147,6 @@ export class MenuTechnologies {
             } else if (lvl1Debloque) {
                 noeud.etat = "lvlMin";
             }
-        }
-    }
-
-    /**
-     * Enregistre une action technologique en envoyant une requête POST à un script PHP.
-     *
-     * @async
-     * @param {string} nomTechno - Le nom de la technologie concernée par l'action.
-     * @param {string} type - Le type de monnaie utilisé pour l'action.
-     * @param {number} montant - Le montant de monnaie dépensé ou utilisé.
-     * @param {string} actionTechno - Le type d'action technologique à enregistrer.
-     * @returns {Promise<void>} Une promesse qui se résout lorsque l'action est enregistrée.
-     */
-    async enregisterActionTechno(nomTechno, type, montant, actionTechno) {
-        const url = "../serv/gestionSaves.php";
-        try {
-            // création de la requete pour accéder au php
-            const response = await fetch(url, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                body: 'action=enregisterActionTechno'+'&typeMonnaie=' + type + '&montant=' + montant + '&nom=' + this.nomSauvegarde + '&nomTechno=' + nomTechno + '&actionTechno='+actionTechno
-            });
-
-            const data = await response.text();
-            console.log(data);
-            this.sauvegarde.monnaies[type] = parseInt(data, 10);
-            return;
-        } catch (error) {
-            console.error('Erreur récupération données :', error);
         }
     }
 

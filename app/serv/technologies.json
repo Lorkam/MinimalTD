@@ -63,7 +63,7 @@
         "technologiesFille":[],
         "lienImage1":"../assets/img/flecheVerte.png",
         "etatParDefaut": "inconnu",
-        "nbLvl": 1
+        "nbLvl": 2
     },
     "critRate":{
         "nom": "critRate",

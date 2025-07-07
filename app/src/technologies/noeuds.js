@@ -66,7 +66,6 @@ export class Noeud {
     }
     async debloquer(source = 'clic') {
         this.debloque = true;
-        this.lvl=1;
         this.prixAmelioration = this.prix * (this.lvl + 1); // Augmentation du prix pour l'amélioration
         this.etat = this.lvl==this.nbLvl ? 'lvlMax' : 'lvlMin';
         if(source === 'clic'){
@@ -75,11 +74,12 @@ export class Noeud {
             //console.log(monnaies);
             if (monnaies[this.typePrix] >= this.prix) {
                 // enregistrement de la technologie débloquée
-                await this.menuTechonologies.enregisterActionTechno(this.idHTML, this.typePrix, this.prix, 'achat');
+                await this.changerNivNoeud('+');
+                this.lvl=1;
                 // mise à jour des monnaies
                 this.majMonnaies();
             }else {
-                console.error(`Pas assez de ${this.typePrix} pour débloquer la technologie ${this.idHTML} (${monnaies[this.typePrix]}/${this.prix}).`);
+                console.warn(`Pas assez de ${this.typePrix} pour débloquer la technologie ${this.idHTML} (${monnaies[this.typePrix]}/${this.prix}).`);
                 return;
             }
         }
@@ -105,7 +105,7 @@ export class Noeud {
                 // On vend les améliorations avant de vendre le noeud
                 this.vendreAmeliorationNoeud();
             }
-            await this.menuTechonologies.enregisterActionTechno(this.idHTML, this.typePrix, this.prix, 'vente');
+            await this.changerNivNoeud('-');
             this.majMonnaies();
             this.debloque = false;
             this.lvl=0;
@@ -183,12 +183,12 @@ export class Noeud {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
                 body: 'action=ameliorerTechno'+'&typeMonnaie=' + this.typePrix + '&montant=' + this.prixAmelioration + 
-                      '&nom=' + this.menuTechonologies.nomSauvegarde + '&nomTechno=' + this.idHTML + '&direction=' + (direction=='+'?'up':'down') + '&lvl=' + this.lvl
+                      '&nom=' + this.menuTechonologies.nomSauvegarde + '&nomTechno=' + this.idHTML + '&direction=' + (direction=='+'?'up':'down') + '&lvl=' + lvlCible
             });
 
-            const data = await response.json();
+            const data = await response.text();
             //console.log(data);
-            return data.resultat === 'succes';
+            return data.resultat === true;//'succes';
         } catch (error) {
             console.error('Erreur récupération données :', error);
         }

@@ -4,7 +4,7 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
 session_start();
-$action = $_POST['action']??'enregisterActionTechno';
+$action = $_POST['action'];
 $nom = $_POST['nom']??'test'; // Nom de la sauvegarde, par défaut 'test'
 $saves = json_decode(file_get_contents('saves.json'), true);
 
@@ -14,9 +14,6 @@ switch ($action){
         break;
     case 'selectionnerSauvegarde':
         $_SESSION['nomSauvegarde'] = $nom;
-        break;
-    case 'enregisterActionTechno':
-        enregisterActionTechno($saves, $nom);
         break;
     case 'sauvegarder':
         sauvegarder($saves, $nom);
@@ -41,59 +38,6 @@ switch ($action){
         break;
 }
 
-/**
- * Enregistre une action liée à une technologie (achat ou vente) pour une sauvegarde donnée.
- *
- * Cette fonction met à jour le montant de la monnaie du joueur en fonction de l'action
- * (achat ou vente) et applique les effets de la technologie correspondante en appelant
- * une fonction dynamique définie dans 'effetsTechno.php'. Elle met également à jour
- * les technologies et modificateurs associés à la sauvegarde, puis enregistre les
- * modifications dans le fichier JSON des sauvegardes.
- *
- * @param array  &$saves Tableau de toutes les sauvegardes (passé par référence).
- * @param string $nom    Nom de la sauvegarde à modifier.
- *
- * Données attendues dans $_POST :
- * - 'typeMonnaie' : Type de monnaie à modifier.
- * - 'montant' : Montant à ajouter ou retirer.
- * - 'nomTechno' : Nom de la technologie concernée.
- * - 'actionTechno' : Action à effectuer ('achat' ou 'vente').
- *
- * Effets de bord :
- * - Met à jour le fichier 'saves.json' avec les nouvelles données.
- * - Affiche le nouveau montant de la monnaie modifiée au format JSON.
- */
-function enregisterActionTechno(&$saves, $nom){
-    $typeMonnaie = $_POST['typeMonnaie'];
-    $nouveauMontant = (int) $_POST['montant'];
-    $nomTechno = $_POST['nomTechno']; // Nom de la technologie, par défaut 'centre'
-    $action = $_POST['actionTechno']; // Action à effectuer, par défaut 'achat'
-    $lvl = $_POST['lvl'] ?? 'lvl1'; // Niveau de la technologie, par défaut 1
-    $technos = $saves['saves'][$nom]['technologies'];
-    $modificateurs = $saves['saves'][$nom]['modificateurs'];
-    require_once 'effetsTechno.php';
-
-    // Modification des valeurs
-    if($action == 'achat'){
-        $saves['saves'][$nom]['monnaies'][$typeMonnaie] -= $nouveauMontant;
-        if(function_exists($nomTechno)) {
-            $nomTechno($action, $technos,'lvl1', $modificateurs);
-        }
-    } elseif ($action == 'vente') {
-        $saves['saves'][$nom]['monnaies'][$typeMonnaie] += $nouveauMontant;
-        if(function_exists($nomTechno)) {
-            $nomTechno($action, $technos, 'lvl1', $modificateurs);
-        }
-    }
-    $saves['saves'][$nom]['technologies'] = $technos;
-    $saves['saves'][$nom]['modificateurs'] = $modificateurs;
-    //echo '<br><br>';print_r($technos);echo '<br><br>';
-    //print_r($modificateurs);
-
-    // Remplacement dans le fichier JSON
-    file_put_contents('saves.json', json_encode($saves, JSON_PRETTY_PRINT));
-    echo json_encode($saves['saves'][$nom]['monnaies'][$typeMonnaie]);
-}
 
 /**
  * Sauvegarde les données de progression d'un joueur dans le tableau des sauvegardes et met à jour le fichier JSON.
@@ -191,16 +135,26 @@ function creerSauvegarde(&$saves, $nom){
                 "goldsBonusParEnnemis"=> 0
             ],
             "coeurBonus"=> 0,
-            "lvlUpTours"=> 0
+            "lvlUpTours"=> 0,
+            "toursClassiques"=> [
+                "vitesseAttaque"=> 1,
+                "degats"=> 1.2
+            ]
         ],
         "technologies"=> [
             "centre"=> [
+                "lvl0"=> [
+                    "valeur"=> 1
+                ],
                 "lvl1"=> [
                     "debloque"=> false,
                     "valeur"=> 1
                 ]
             ],
             "degats"=> [
+                "lvl0"=> [
+                    "valeur"=> 1
+                ],
                 "lvl1"=> [
                     "debloque"=> false,
                     "valeur"=> 1.2
@@ -215,6 +169,9 @@ function creerSauvegarde(&$saves, $nom){
                 ]
             ],
             "vitesseAttaque"=> [
+                "lvl0"=> [
+                    "valeur"=> 1
+                ],
                 "lvl1"=> [
                     "debloque"=> false,
                     "valeur"=> 1.2
@@ -229,6 +186,9 @@ function creerSauvegarde(&$saves, $nom){
                 ]
             ],
             "portee"=> [
+                "lvl0"=> [
+                    "valeur"=> 1
+                ],
                 "lvl1"=> [
                     "debloque"=> false,
                     "valeur"=> 1.2
@@ -243,6 +203,9 @@ function creerSauvegarde(&$saves, $nom){
                 ]
             ],
             "critRate"=> [
+                "lvl0"=> [
+                    "valeur"=> 0.1
+                ],
                 "lvl1"=> [
                     "debloque"=> false,
                     "valeur"=> 0.2
@@ -261,6 +224,9 @@ function creerSauvegarde(&$saves, $nom){
                 ]
             ],
             "critDamage"=> [
+                "lvl0"=> [
+                    "valeur"=> 1.2
+                ],
                 "lvl1"=> [
                     "debloque"=> false,
                     "valeur"=> 1.4
@@ -275,6 +241,9 @@ function creerSauvegarde(&$saves, $nom){
                 ]
             ],
             "prix"=> [
+                "lvl0"=> [
+                    "valeur"=> 1
+                ],
                 "lvl1"=> [
                     "debloque"=> false,
                     "valeur"=> 0.9
@@ -289,6 +258,9 @@ function creerSauvegarde(&$saves, $nom){
                 ]
             ],
             "coeurBonus"=> [
+                "lvl0"=> [
+                    "valeur"=> 0
+                ],
                 "lvl1"=> [
                     "debloque"=> false,
                     "valeur"=> 1
@@ -303,6 +275,9 @@ function creerSauvegarde(&$saves, $nom){
                 ]
             ],
             "goldsBonusDepart"=> [
+                "lvl0"=> [
+                    "valeur"=> 0
+                ],
                 "lvl1"=> [
                     "debloque"=> false,
                     "valeur"=> 2
@@ -317,6 +292,9 @@ function creerSauvegarde(&$saves, $nom){
                 ]
             ],
             "goldsBonusParEnnemis"=> [
+                "lvl0"=> [
+                    "valeur"=> 0
+                ],
                 "lvl1"=> [
                     "debloque"=> false,
                     "valeur"=> 1
@@ -331,9 +309,16 @@ function creerSauvegarde(&$saves, $nom){
                 ]
             ],
             "lvlUpTours"=> [
+                "lvl0"=> [
+                    "valeur"=> 0
+                ],
                 "lvl1"=> [
                     "debloque"=> false,
                     "valeur"=> 1
+                ],
+                "lvl2"=> [
+                    "debloque"=> false,
+                    "valeur"=> 2
                 ]
             ]
         ]
@@ -378,8 +363,7 @@ function ameliorerTechno(&$saves, $nom){
     $typeMonnaie = $_POST['typeMonnaie'];
     $montant = $_POST['montant'];
     $direction = $_POST['direction'];
-    $niveau = $_POST['lvl'];
-    $nivCible = $direction == 'up' ? 'lvl'.($niveau+1) : 'lvl'.($niveau-1);
+    $nivCible = $_POST['lvl'];
 
     $technos = $saves['saves'][$nom]['technologies'];
     $modificateurs = $saves['saves'][$nom]['modificateurs'];
@@ -397,7 +381,7 @@ function ameliorerTechno(&$saves, $nom){
     }else{
         $saves['saves'][$nom]['monnaies'][$typeMonnaie] += $montant;
 
-        $nomTechno('vente', $technos, 'lvl'.$niveau, $modificateurs); // Appel de la fonction correspondante à la techno améliorée pour modifier les bons modificateurs
+        $nomTechno('vente', $technos, $nivCible, $modificateurs); // Appel de la fonction correspondante à la techno améliorée pour modifier les bons modificateurs
         echo json_encode(['resultat' => 'succes', 'message' => 'Technologie vendue avec succès']);
     }
     $saves['saves'][$nom]['technologies'] = $technos;

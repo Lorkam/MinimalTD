@@ -15,12 +15,12 @@
         "description":"Tour qui ralentit les ennemis à portée.",
         "prix":[15, 50, 120],
         "degats":0,
-        "attaqueSpeed":2000,
+        "attaqueSpeed":1000,
         "portee":100,
         "taille":30,
         "nomBestiaire":"Ralentissante",
         "formeDessin":"TourRalentissante",
         "ralentissement":0.5,
-        "dureeRalentissement":2000
+        "dureeRalentissement":1000
     }
 }

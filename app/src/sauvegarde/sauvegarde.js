@@ -54,6 +54,7 @@ export async function recupAllNomSaves() {
         });
 
         const data = await response.json();
+        //console.log(data);
         return Object.keys(data.saves);
     } catch (error) {
         console.error('Erreur récupération données :', error);
