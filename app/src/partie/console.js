@@ -45,13 +45,13 @@ export class Console {
                     this.partie.golds += parseInt(listeMots[1], 10);
                     break;
                 case 'vie':
-                    this.ecrire(`Vie restante : ${this.partie.vie}`);
+                    this.ecrire(`Vie restante : ${this.partie.heartPV}`);
                     break;
                 default:
-                    this.ecrire(`Commande inconnue : ${commande}`);
+                    this.ecrire(`Commande inconnue : ${message}`);
             }
         } else {
-            this.ecrire(`Message non reconnu : ${message}`);
+            this.ecrire(message); // Affiche le message dans la console
         }
     }
 }
