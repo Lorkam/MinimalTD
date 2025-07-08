@@ -33,10 +33,8 @@ export class Console {
     }
 
     analyserMessage(message) {
-        console.log(message);
         // Analyse le message et exécute les commandes qui correspondent
         const listeMots = message.trim().toLowerCase().split(' '); // Sépare les mots de la commande
-        console.log(listeMots);
         if (listeMots[0].startsWith('/')) {
             listeMots[0] = listeMots[0].slice(1).trim();
             switch (listeMots[0]) {

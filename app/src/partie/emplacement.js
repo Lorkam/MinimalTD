@@ -88,10 +88,13 @@ export class Emplacement {
             divOptionsTour.style.left = `${this.x - divOptionsTour.offsetWidth/2}px`; // Positionne le div à gauche de l'emplacement
             divOptionsTour.querySelector('#prixAmelioration').textContent = this.tour.prixAmelioration; // Met à jour le prix d'amélioration de la tour classique
             divOptionsTour.querySelector('#prixVente').textContent = this.tour.valeur; // Met à jour la récompense de vente de la tour
-            //console.log(this.partie.modificateurs.lvlUpTours);
-            if(this.partie.modificateurs.lvlUpTours == this.tour.lvl){
+            console.log(this.partie.modificateurs.lvlUpTours, this.tour.lvl);
+            if(this.partie.modificateurs.lvlUpTours <= this.tour.lvl){
                 divOptionsTour.querySelector('#ameliorer').classList.add('pasDispo'); // Masque l'option de la tour classique si le niveau est insuffisant
                 divOptionsTour.querySelector('#ameliorer').title = "Vous n'avez pas débloqué la technologie necessaire : Ingénierie niv "+(this.tour.lvl);
+            }else{
+                divOptionsTour.querySelector('#ameliorer').classList.remove('pasDispo'); // Affiche l'option de la tour classique si le niveau est suffisant
+                divOptionsTour.querySelector('#ameliorer').title = "Améliorer la tour";
             }
             this.partie.emplacementSelectionne = this;
         }

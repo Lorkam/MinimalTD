@@ -28,11 +28,7 @@
                     "goldsBonusParEnnemis": 3
                 },
                 "coeurBonus": 0,
-                "lvlUpTours": 3,
-                "toursClassiques": {
-                    "vitesseAttaque": 1,
-                    "degats": 1.2
-                }
+                "lvlUpTours": 3
             },
             "technologies": {
                 "centre": 1,
