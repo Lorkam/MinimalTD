@@ -264,10 +264,6 @@ function dessinerCanvas(listeItem) {
     }
 }
 
-
-
-
-
 const listeTours = await getTours();
 const listeEnnemis = await getEnnemis();
 const listeItem = creerListeItem(listeTours, listeEnnemis);

@@ -22,6 +22,7 @@ $sauvegarde = $_SESSION['nomSauvegarde'];
     <div id="divBordureJeu"><div id="divContainerJeu">
         <input type="hidden" id="nomSauvegarde" value="<?php echo $sauvegarde; ?>">
         <canvas id="canvasTechno" width="1550px" height="710px"></canvas>
+        <h1 id="titrePage">Technologies</h1>
         <div id="divContainerNoeuds">
             <!-- Les noeuds s'ajoutent automatiquement ici -->
         </div>
@@ -39,6 +40,15 @@ $sauvegarde = $_SESSION['nomSauvegarde'];
                 <span id="prix">-99-</span>
             </div><br>
             <span id="description">-Description par défaut-</span>
+        </div>
+
+        <div id="legende">
+            <p>Les technologies sont des améliorations permanentes qui vous permettent de vous renforcer.</p>
+            <p>Chaque technologie a un coût en ressources et peut être débloquée / améliorée avec un clique gauche, ou vendue avec un clic droit.</p>
+            <p>Les ressources sont gagnées en tuant des ennemis dans les niveaux.</p>
+            <p class="alignLeft"><img src="../assets/img/pasDebloque.png"> Pas Débloqué</p>
+            <p class="alignLeft"><img src="../assets/img/debloque.png"> Débloqué</p>
+            <p class="alignLeft"><img src="../assets/img/niveauMax.png"> Niveau maximum</p>
         </div>
 
     </div></div>

@@ -146,11 +146,12 @@ function random(min, max){
 }
 
 export class EnnemiClassique extends Ennemi {
-    constructor( partie, position = null) {
+    constructor( partie, position = null, cheminIndex = 0) {
         super(partie, position);
         this.couleur = this.partie.statEnnemis.EnnemiClassique.couleur;
         this.pvMax = this.partie.statEnnemis.EnnemiClassique.pvMax;
         this.pv = this.pvMax;
+        this.cheminIndex = cheminIndex;
         this.degatAuCoeur = this.partie.statEnnemis.EnnemiClassique.degatAuCoeur;
         this.speed = this.partie.statEnnemis.EnnemiClassique.vitesse;
         this.taille = this.partie.statEnnemis.EnnemiClassique.taille;
@@ -270,7 +271,7 @@ export class BossInvocateur extends Ennemi {
     action() {
         if(Date.now() - this.dernierreInvocation >= this.partie.statEnnemis.BossInvocateur.intervalInvocation) {
             for(let i=0;i<this.partie.statEnnemis.BossInvocateur.nbInvocation; i++) {
-                const ennemi = new EnnemiClassique(this.partie, {x: this.x + random(-10, 10), y: this.y + random(-10, 10)});
+                const ennemi = new EnnemiClassique(this.partie, {x: this.x + random(-10, 10), y: this.y + random(-10, 10)}, this.cheminIndex);
                 this.partie.ennemies.push(ennemi);
                 this.partie.totalEnnemis++;
                 console.log("Un ennemi classique a été invoqué par le boss invocateur.");
