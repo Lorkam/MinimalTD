@@ -37,7 +37,7 @@ export class MenuTechnologies {
         const technoDebloquees = [];
         //console.log('this.sauvegarde :', this.sauvegarde);
         for(const techno of Object.keys(technos)) {
-            if (technos[techno]['lvl1'].debloque === true) {
+            if (technos[techno] >= 1) {
                 //console.log("Technologie " + techno + " OK");
                 technoDebloquees.push(techno);
             }
@@ -124,24 +124,13 @@ export class MenuTechnologies {
     chargerEtatNoeuds() {
         const technologies = this.sauvegarde.technologies;
         for (const noeud of this.noeuds) {
-            const tech = technologies[noeud.idHTML];
-            if (!tech) continue;
-            
-            const niveaux = Object.values(tech);
-            console.log(noeud.idHTML, niveaux);
-            var nblvlDebloque = 0;
-            for (const niveau of niveaux) {
-                if (niveau.debloque === true) {
-                    nblvlDebloque++;
-                }
-            }
-            noeud.lvl = nblvlDebloque;
+            noeud.lvl = technologies[noeud.idHTML]; // Niveau actuel, par défaut 0 si non défini
             noeud.prixAmelioration = noeud.prix*(noeud.lvl+1);
-
-            const tousDebloques = nblvlDebloque == niveaux.length-1; // -1 car niveau  0 toujours débloqué
-            const lvl1Debloque = tech.lvl1?.debloque === true;
+            
+            const tousDebloques = technologies[noeud.idHTML] == noeud.nbLvl; // -1 car niveau  0 toujours débloqué
+            const lvl1Debloque = technologies[noeud.idHTML] >= 1;
             //console.log(noeud, 'tousDebloques:', tousDebloques, 'lvl1Debloque:', lvl1Debloque);
-
+            
             if (tousDebloques) {
                 noeud.etat = "lvlMax";
             } else if (lvl1Debloque) {

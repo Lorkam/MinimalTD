@@ -142,6 +142,11 @@ export class TourClassique extends Tower {
      * @returns {number} Le coût négatif de l'amélioration si réussie, ou 0 si le niveau maximum est atteint.
      */
     ameliorer(){
+        const spanAmelioration = document.querySelector('#divOptionsTour #ameliorer');
+        if(spanAmelioration.classList.contains('pasDispo')) {
+            console.warn("Vous n'avez pas débloqué la technologie nécessaire : Ingénierie niv " + (this.lvl));
+            return 0; // Retourne 0 si l'utilisateur n'a pas débloqué la technologie
+        }
         if(this.partie.golds < this.prixAmelioration) {
             console.warn("Pas assez d'or pour améliorer cette tour.");
             return 0;
@@ -170,7 +175,7 @@ export class TourClassique extends Tower {
         this.lvl++;
         const cout = this.prixAmelioration;
         this.valeur += cout; // Augmente la valeur de la tour
-        this.prixAmelioration = this.liqtePrixAmelioration[this.lvl];
+        this.prixAmelioration = this.listePrixAmelioration[this.lvl];
         return -cout;
     }
 

@@ -105,6 +105,7 @@ function getNiveauMaxReussi(&$saves, $nom){
  * La fonction sauvegarde le tableau complet des sauvegardes dans le fichier 'saves.json' au format JSON.
  */
 function creerSauvegarde(&$saves, $nom){
+    $listeTechno = json_decode(file_get_contents('technologies.json'), true);
     $date = new DateTime();
     $date = $date->format('Y-m-d');
     $saves['saves'][$nom] = [
@@ -136,193 +137,13 @@ function creerSauvegarde(&$saves, $nom){
             ],
             "coeurBonus"=> 0,
             "lvlUpTours"=> 0,
-            "toursClassiques"=> [
-                "vitesseAttaque"=> 1,
-                "degats"=> 1.2
-            ]
         ],
-        "technologies"=> [
-            "centre"=> [
-                "lvl0"=> [
-                    "valeur"=> 1
-                ],
-                "lvl1"=> [
-                    "debloque"=> false,
-                    "valeur"=> 1
-                ]
-            ],
-            "degats"=> [
-                "lvl0"=> [
-                    "valeur"=> 1
-                ],
-                "lvl1"=> [
-                    "debloque"=> false,
-                    "valeur"=> 1.2
-                ],
-                "lvl2"=> [
-                    "debloque"=> false,
-                    "valeur"=> 1.4
-                ],
-                "lvl3"=> [
-                    "debloque"=> false,
-                    "valeur"=> 1.6
-                ]
-            ],
-            "vitesseAttaque"=> [
-                "lvl0"=> [
-                    "valeur"=> 1
-                ],
-                "lvl1"=> [
-                    "debloque"=> false,
-                    "valeur"=> 1.2
-                ],
-                "lvl2"=> [
-                    "debloque"=> false,
-                    "valeur"=> 1.4
-                ],
-                "lvl3"=> [
-                    "debloque"=> false,
-                    "valeur"=> 1.6
-                ]
-            ],
-            "portee"=> [
-                "lvl0"=> [
-                    "valeur"=> 1
-                ],
-                "lvl1"=> [
-                    "debloque"=> false,
-                    "valeur"=> 1.2
-                ],
-                "lvl2"=> [
-                    "debloque"=> false,
-                    "valeur"=> 1.4
-                ],
-                "lvl3"=> [
-                    "debloque"=> false,
-                    "valeur"=> 1.6
-                ]
-            ],
-            "critRate"=> [
-                "lvl0"=> [
-                    "valeur"=> 0.1
-                ],
-                "lvl1"=> [
-                    "debloque"=> false,
-                    "valeur"=> 0.2
-                ],
-                "lvl2"=> [
-                    "debloque"=> false,
-                    "valeur"=> 0.3
-                ],
-                "lvl3"=> [
-                    "debloque"=> false,
-                    "valeur"=> 0.4
-                ],
-                "lvl4"=> [
-                    "debloque"=> false,
-                    "valeur"=> 0.5
-                ]
-            ],
-            "critDamage"=> [
-                "lvl0"=> [
-                    "valeur"=> 1.2
-                ],
-                "lvl1"=> [
-                    "debloque"=> false,
-                    "valeur"=> 1.4
-                ],
-                "lvl2"=> [
-                    "debloque"=> false,
-                    "valeur"=> 1.6
-                ],
-                "lvl3"=> [
-                    "debloque"=> false,
-                    "valeur"=> 1.8
-                ]
-            ],
-            "prix"=> [
-                "lvl0"=> [
-                    "valeur"=> 1
-                ],
-                "lvl1"=> [
-                    "debloque"=> false,
-                    "valeur"=> 0.9
-                ],
-                "lvl2"=> [
-                    "debloque"=> false,
-                    "valeur"=> 0.8
-                ],
-                "lvl3"=> [
-                    "debloque"=> false,
-                    "valeur"=> 0.7
-                ]
-            ],
-            "coeurBonus"=> [
-                "lvl0"=> [
-                    "valeur"=> 0
-                ],
-                "lvl1"=> [
-                    "debloque"=> false,
-                    "valeur"=> 1
-                ],
-                "lvl2"=> [
-                    "debloque"=> false,
-                    "valeur"=> 2
-                ],
-                "lvl3"=> [
-                    "debloque"=> false,
-                    "valeur"=> 3
-                ]
-            ],
-            "goldsBonusDepart"=> [
-                "lvl0"=> [
-                    "valeur"=> 0
-                ],
-                "lvl1"=> [
-                    "debloque"=> false,
-                    "valeur"=> 2
-                ],
-                "lvl2"=> [
-                    "debloque"=> false,
-                    "valeur"=> 5
-                ],
-                "lvl3"=> [
-                    "debloque"=> false,
-                    "valeur"=> 8
-                ]
-            ],
-            "goldsBonusParEnnemis"=> [
-                "lvl0"=> [
-                    "valeur"=> 0
-                ],
-                "lvl1"=> [
-                    "debloque"=> false,
-                    "valeur"=> 1
-                ],
-                "lvl2"=> [
-                    "debloque"=> false,
-                    "valeur"=> 2
-                ],
-                "lvl3"=> [
-                    "debloque"=> false,
-                    "valeur"=> 3
-                ]
-            ],
-            "lvlUpTours"=> [
-                "lvl0"=> [
-                    "valeur"=> 0
-                ],
-                "lvl1"=> [
-                    "debloque"=> false,
-                    "valeur"=> 1
-                ],
-                "lvl2"=> [
-                    "debloque"=> false,
-                    "valeur"=> 2
-                ]
-            ]
-        ]
+        "technologies"=> []
     ];
+    foreach($listeTechno as $nomTechno){
+        $saves['saves'][$nom]['technologies'][$nomTechno['nom']] = 0;
+
+    }
     file_put_contents('saves.json', json_encode($saves, JSON_PRETTY_PRINT));
 }
 
@@ -365,6 +186,8 @@ function ameliorerTechno(&$saves, $nom){
     $direction = $_POST['direction'];
     $nivCible = $_POST['lvl'];
 
+    $listeTechno = json_decode(file_get_contents('technologies.json'), true);
+
     $technos = $saves['saves'][$nom]['technologies'];
     $modificateurs = $saves['saves'][$nom]['modificateurs'];
     require_once 'effetsTechno.php';
@@ -376,12 +199,12 @@ function ameliorerTechno(&$saves, $nom){
         }
         $saves['saves'][$nom]['monnaies'][$typeMonnaie] -= $montant;
 
-        $nomTechno('achat', $technos, $nivCible, $modificateurs); // Appel de la fonction correspondante à la techno améliorée pour modifier les bons modificateurs
+        $nomTechno('achat', $technos, $nivCible, $modificateurs, $listeTechno); // Appel de la fonction correspondante à la techno améliorée pour modifier les bons modificateurs
         echo json_encode(['resultat' => 'succes', 'message' => 'Technologie améliorée avec succès']);
     }else{
         $saves['saves'][$nom]['monnaies'][$typeMonnaie] += $montant;
 
-        $nomTechno('vente', $technos, $nivCible, $modificateurs); // Appel de la fonction correspondante à la techno améliorée pour modifier les bons modificateurs
+        $nomTechno('vente', $technos, $nivCible, $modificateurs, $listeTechno); // Appel de la fonction correspondante à la techno améliorée pour modifier les bons modificateurs
         echo json_encode(['resultat' => 'succes', 'message' => 'Technologie vendue avec succès']);
     }
     $saves['saves'][$nom]['technologies'] = $technos;

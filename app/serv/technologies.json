@@ -8,7 +8,11 @@
         "technologiesFille":["degats", "vitesseAttaque", "lvlUpTours", "goldsBonusDepart"],
         "lienImage1":"../assets/img/ampoule.png",
         "etatParDefaut": "visible",
-        "nbLvl": 1
+        "nbLvl": 1,
+        "detailLvl":{
+            "0":0,
+            "1":1
+        }
     },
     "vitesseAttaque":{
         "nom": "vitesseAttaque",
@@ -19,7 +23,13 @@
         "technologiesFille":[],
         "lienImage1":"../assets/img/arc.png",
         "etatParDefaut": "inconnu",
-        "nbLvl": 3
+        "nbLvl": 3,
+        "detailLvl":{
+            "0":1,
+            "1":1.2,
+            "2":1.4,
+            "3":1.6
+        }
     },
     "degats":{
         "nom": "degats",
@@ -30,7 +40,13 @@
         "technologiesFille":["critRate", "critDamage"],
         "lienImage1":"../assets/img/sabre.png",
         "etatParDefaut": "inconnu",
-        "nbLvl": 3
+        "nbLvl": 3,
+        "detailLvl":{
+            "0":1,
+            "1":1.2,
+            "2":1.4,
+            "3":1.6
+        }
     },
     "goldsBonusDepart":{
         "nom": "goldsBonusDepart",
@@ -41,7 +57,13 @@
         "technologiesFille":["goldsBonusParEnnemis"],
         "lienImage1":"../assets/img/euro.png",
         "etatParDefaut": "inconnu",
-        "nbLvl": 3
+        "nbLvl": 3,
+        "detailLvl":{
+            "0":0,
+            "1":2,
+            "2":5,
+            "3":8
+        }
     },
     "goldsBonusParEnnemis":{
         "nom": "goldsBonusParEnnemis",
@@ -52,7 +74,13 @@
         "technologiesFille":[],
         "lienImage1":"../assets/img/euro.png",
         "etatParDefaut": "cache",
-        "nbLvl": 3
+        "nbLvl": 3,
+        "detailLvl":{
+            "0":0,
+            "1":1,
+            "2":2,
+            "3":3
+        }
     },
     "lvlUpTours":{
         "nom": "lvlUpTours",
@@ -63,7 +91,12 @@
         "technologiesFille":[],
         "lienImage1":"../assets/img/flecheVerte.png",
         "etatParDefaut": "inconnu",
-        "nbLvl": 2
+        "nbLvl": 2,
+        "detailLvl":{
+            "0":1,
+            "1":2,
+            "2":3
+        }
     },
     "critRate":{
         "nom": "critRate",
@@ -74,7 +107,14 @@
         "technologiesFille":[],
         "lienImage1":"../assets/img/critRate.png",
         "etatParDefaut": "cache",
-        "nbLvl": 4
+        "nbLvl": 4,
+        "detailLvl":{
+            "0":0.1,
+            "1":0.2,
+            "2":0.3,
+            "3":0.4,
+            "4":0.5
+        }
     },
     "critDamage":{
         "nom": "critDamage",
@@ -85,6 +125,12 @@
         "technologiesFille":[],
         "lienImage1":"../assets/img/dagger.png",
         "etatParDefaut": "cache",
-        "nbLvl": 3
+        "nbLvl": 3,
+        "detailLvl":{
+            "0":1,
+            "1":1.2,
+            "2":1.4,
+            "3":1.6
+        }
     }
 }

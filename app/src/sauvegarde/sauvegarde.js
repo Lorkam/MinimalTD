@@ -85,7 +85,9 @@ export async function creerSauvegarde(nomSauvegarde) {
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
             body: 'action=creerSauvegarde' + '&nom=' + encodeURIComponent(nomSauvegarde)
         });
-        return await response.text();
+        const data = await response.text()
+        //console.log(data);
+        return data;
     } catch (error) {
         console.error('Erreur récupération données :', error);
     }

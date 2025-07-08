@@ -207,8 +207,7 @@ span.optionEmplacement:hover, span.optionTour:hover{
   pointer-events: none; /* Désactive les événements de souris */
 }
 .pasDispo{
-  color: #0000003d;
-  background-color: #ffffff3d;
-  cursor: not-allowed;
-  pointer-events: none; /* Désactive les événements de souris */
+  color: #0000003d !important;
+  background-color: #ffffff3d !important;
+  cursor: not-allowed !important;
 }

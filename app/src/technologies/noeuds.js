@@ -76,6 +76,7 @@ export class Noeud {
                 // enregistrement de la technologie débloquée
                 await this.changerNivNoeud('+');
                 this.lvl=1;
+                this.etat = this.lvl == this.nbLvl ? 'lvlMax' : 'lvlMin';
                 // mise à jour des monnaies
                 this.majMonnaies();
             }else {
