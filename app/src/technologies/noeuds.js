@@ -102,7 +102,7 @@ export class Noeud {
         this.menuTechonologies.dessinerLiensNoeuds();
     }
     async vendre(n=0) {
-        console.log(`Vente du noeud ${this.idHTML} - n = ${n}`);
+        //console.log(`Vente du noeud ${this.idHTML} - n = ${n}`);
         if(this.debloque) {
             while(this.lvl > 1) {
                 // On vend les améliorations avant de vendre le noeud
@@ -163,7 +163,7 @@ export class Noeud {
         }
     }
     vendreAmeliorationNoeud() {
-        console.log(`Vente de l'amélioration du noeud ${this.idHTML} - niveau actuel : ${this.lvl}`);
+        //console.log(`Vente de l'amélioration du noeud ${this.idHTML} - niveau actuel : ${this.lvl}`);
         if(this.lvl > 1) {
             if(!this.changerNivNoeud('-')) return;
             const lvlCible = this.lvl - 1;
@@ -221,7 +221,6 @@ export class Noeud {
         this.divInfoNoeud.classList.add('apparition');
         this.divInfoNoeud.querySelector('#titre').firstChild.nodeValue = this.titre;
         this.divInfoNoeud.querySelector('#lvl').firstChild.nodeValue = 'Niveau : ' + this.lvl + '/' + this.nbLvl;
-        console.log(this.lvl, this.prix, this.prixAmelioration, this.nbLvl);
         this.divInfoNoeud.querySelector('#prix').firstChild.nodeValue = 'Prix : ' + (this.lvl<this.nbLvl?((this.lvl==0) ? this.prix : this.prixAmelioration):'Max');
         this.divInfoNoeud.querySelector('#description').firstChild.nodeValue = this.description;
     }
