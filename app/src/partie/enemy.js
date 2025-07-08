@@ -41,8 +41,6 @@ export class Ennemi {
             return false; // Indique que l'ennemi n'est plus en vie
         }else {
             if (this.cheminIndex >= this.chemin.length - 1) {
-                this.partie.heartPV--; // Retire un point de vie au coeur du joueur
-                console.log("L'ennemi a atteint la fin du chemin : pv du coeur = " + this.partie.heartPV);
                 this.mort('coeur'); // Appelle la méthode mort pour gérer la mort de l'ennemi
                 return false; // Indique que l'ennemi n'est plus en vie
             }   
@@ -124,7 +122,11 @@ export class Ennemi {
             for(const monnaie of Object.keys(this.partie.monnaies)) {
                 this.partie.monnaies[monnaie] += this.recompense[monnaie] //+ this.partie.modificateurs.economie[`${monnaie}BonusParEnnemis`]; // Ajoute la récompense de chaque type de monnaie
             }
-        } // Ajoute la récompense au joueur
+        }else{
+            console.log(this.partie.heartPV, this.degatAuCoeur);
+            this.partie.heartPV -= this.degatAuCoeur;
+            this.partie.console.ecrire("Un ennemi a atteint le coeur -> PV : " + this.partie.heartPV);
+        }
         // Si l'ennemi n'est plus en vie, on le retire de la liste
         this.partie.nbEnnemisMorts++;
         const index = this.partie.ennemies.indexOf(this);
@@ -138,6 +140,7 @@ export class Ennemi {
         return;
     }
 }
+
 function random(min, max){
     return Math.floor(Math.random()*(max-min+1))+min;
 }
@@ -148,79 +151,38 @@ export class EnnemiClassique extends Ennemi {
         this.couleur = this.partie.statEnnemis.EnnemiClassique.couleur;
         this.pvMax = this.partie.statEnnemis.EnnemiClassique.pvMax;
         this.pv = this.pvMax;
+        this.degatAuCoeur = this.partie.statEnnemis.EnnemiClassique.degatAuCoeur;
         this.speed = this.partie.statEnnemis.EnnemiClassique.vitesse;
         this.taille = this.partie.statEnnemis.EnnemiClassique.taille;
         this.recompense.or = this.partie.statEnnemis.EnnemiClassique.or;
         this.recompense.triangles = this.partie.statEnnemis.EnnemiClassique.triangles;
     }
 }
-
 export class EnnemiTank extends Ennemi {
     constructor(partie, position = null) {
         super(partie, position);
         this.couleur = this.partie.statEnnemis.EnnemiTank.couleur;
         this.pvMax = this.partie.statEnnemis.EnnemiTank.pvMax;
         this.pv = this.pvMax;
+        this.degatAuCoeur = this.partie.statEnnemis.EnnemiTank.degatAuCoeur;
         this.taille = this.partie.statEnnemis.EnnemiTank.taille;
         this.speed = this.partie.statEnnemis.EnnemiTank.vitesse;
         this.recompense.or = this.partie.statEnnemis.EnnemiTank.or;
         this.recompense.triangles = this.partie.statEnnemis.EnnemiTank.triangles;
     }
 }
-
 export class EnnemiRapide extends Ennemi {
     constructor(partie, position = null) {
         super(partie, position);
         this.couleur = this.partie.statEnnemis.EnnemiRapide.couleur;
         this.pvMax = this.partie.statEnnemis.EnnemiRapide.pvMax;
         this.pv = this.pvMax;
+        this.degatAuCoeur = this.partie.statEnnemis.EnnemiRapide.degatAuCoeur;
         this.taille = this.partie.statEnnemis.EnnemiRapide.taille;
         this.speed = this.partie.statEnnemis.EnnemiRapide.vitesse;
         this.recompense.or = this.partie.statEnnemis.EnnemiRapide.or;
         this.recompense.triangles = this.partie.statEnnemis.EnnemiRapide.triangles;
     }
-
-    /**
-     * Dessine les ennemis sur le canvas sous forme de triangle pointant vers la direction de déplacement.
-     * @param {CanvasRenderingContext2D} ctx - Le canvas sur lequel dessiner.
-     */
-    /*draw(ctx) {
-        // Calculer la direction du mouvement
-        let angle = 0;
-        const target = this.chemin[this.cheminIndex + 1];
-        if (target) {
-            const dx = target.x - this.x;
-            const dy = target.y - this.y;
-            angle = Math.atan2(dy, dx);
-        }
-
-        ctx.save();
-        ctx.translate(this.x, this.y);
-        ctx.rotate(angle);
-
-        // Dessiner un triangle pointant vers la droite (0 radian)
-        ctx.beginPath();
-        ctx.moveTo(this.taille, 0); // pointe du triangle
-        ctx.lineTo(-this.taille, this.taille / 1.5);
-        ctx.lineTo(-this.taille, -this.taille / 1.5);
-        ctx.closePath();
-        ctx.fillStyle = this.couleur;
-        ctx.fill();
-
-        ctx.restore();
-
-        // Barre de vie
-        if (this.pv < this.pvMax) {
-            const barWidth = this.taille * 2;
-            const barHeight = 4;
-            const barX = this.x - this.taille;
-            const barY = this.y + this.taille + 4;
-            ctx.fillStyle = 'gray';
-            ctx.fillRect(barX, barY, barWidth, barHeight);
-            ctx.fillStyle = 'green';
-            ctx.fillRect(barX, barY, barWidth * (this.pv / this.pvMax), barHeight);
-        }
-    }*/
 }
 export class EnnemiReplicateur extends Ennemi {
     constructor(partie, position = null) {
@@ -228,6 +190,7 @@ export class EnnemiReplicateur extends Ennemi {
         this.couleur = this.partie.statEnnemis.EnnemiReplicateur.couleur;
         this.pvMax = this.partie.statEnnemis.EnnemiReplicateur.pvMax;
         this.pv = this.pvMax;
+        this.degatAuCoeur = this.partie.statEnnemis.EnnemiReplicateur.degatAuCoeur;
         this.taille = this.partie.statEnnemis.EnnemiReplicateur.taille;
         this.speed = this.partie.statEnnemis.EnnemiReplicateur.vitesse;
         this.recompense.or = this.partie.statEnnemis.EnnemiReplicateur.or;
@@ -243,7 +206,7 @@ export class EnnemiReplicateur extends Ennemi {
                 this.partie.monnaies[monnaie] += this.recompense[monnaie] // Ajoute la récompense de chaque type de monnaie
             }
             for (let i = 0; i < this.partie.statEnnemis.EnnemiReplicateur.nbRepliques; i++) {
-                const replique = new EnnemiReplique(this.partie, {x:this.x+(i-1)*10, y:this.y+(i-1)*5}); // Création une nouvelle réplique de l'ennemi
+                const replique = new EnnemiReplique(this.partie, {x:this.x+(i-1)*10, y:this.y+(i-1)*5}, this.cheminIndex); // Création une nouvelle réplique de l'ennemi
                 this.partie.ennemies.push(replique); // Ajoute la réplique à la liste des ennemis
                 this.partie.totalEnnemis++;
                 this.partie.majUI(); // Met à jour l'interface utilisateur
@@ -256,13 +219,14 @@ export class EnnemiReplicateur extends Ennemi {
         }
     }
 }
-
 export class EnnemiReplique extends Ennemi {
-    constructor(partie, position = null) {
+    constructor(partie, position = null, cheminIndex = 0) {
         super(partie, position);
         this.couleur = this.partie.statEnnemis.EnnemiReplique.couleur;
         this.pvMax = this.partie.statEnnemis.EnnemiReplique.pvMax;
         this.pv = this.pvMax;
+        this.cheminIndex = cheminIndex;
+        this.degatAuCoeur = this.partie.statEnnemis.EnnemiReplique.degatAuCoeur;
         this.taille = this.partie.statEnnemis.EnnemiReplique.taille;
         this.speed = this.partie.statEnnemis.EnnemiReplique.vitesse;
         this.recompense.or = this.partie.statEnnemis.EnnemiReplique.or;
@@ -271,12 +235,14 @@ export class EnnemiReplique extends Ennemi {
         this.recompense.hexagones = this.partie.statEnnemis.EnnemiReplique.hexagones;
     }
 }
+
 export class BossMontagne extends Ennemi {
     constructor(partie, position = null) {
         super(partie, position);
         this.couleur = this.partie.statEnnemis.BossMontagne.couleur;
         this.pvMax = this.partie.statEnnemis.BossMontagne.pvMax;
         this.pv = this.pvMax;
+        this.degatAuCoeur = this.partie.statEnnemis.BossMontagne.degatAuCoeur;
         this.taille = this.partie.statEnnemis.BossMontagne.taille;
         this.speed = this.partie.statEnnemis.BossMontagne.vitesse;
         this.recompense.or = this.partie.statEnnemis.BossMontagne.or;
@@ -291,6 +257,7 @@ export class BossInvocateur extends Ennemi {
         this.couleur = this.partie.statEnnemis.BossInvocateur.couleur;
         this.pvMax = this.partie.statEnnemis.BossInvocateur.pvMax;
         this.pv = this.pvMax;
+        this.degatAuCoeur = this.partie.statEnnemis.BossInvocateur.degatAuCoeur;
         this.taille = this.partie.statEnnemis.BossInvocateur.taille;
         this.speed = this.partie.statEnnemis.BossInvocateur.vitesse;
         this.recompense.or = this.partie.statEnnemis.BossInvocateur.or;
@@ -319,6 +286,7 @@ export class BossAmplificateur extends Ennemi {
         this.couleur = this.partie.statEnnemis.BossAmplificateur.couleur;
         this.pvMax = this.partie.statEnnemis.BossAmplificateur.pvMax;
         this.pv = this.pvMax;
+        this.degatAuCoeur = this.partie.statEnnemis.BossAmplificateur.degatAuCoeur;
         this.taille = this.partie.statEnnemis.BossAmplificateur.taille;
         this.speed = this.partie.statEnnemis.BossAmplificateur.vitesse;
         this.recompense.or = this.partie.statEnnemis.BossAmplificateur.or;

@@ -3,7 +3,7 @@
         "test": {
             "description": "Save de test",
             "monnaies": {
-                "triangles": 2614,
+                "triangles": 1000,
                 "ronds": 260,
                 "hexagones": 60
             },
@@ -41,27 +41,27 @@
                 "lvlUpTours": 2
             }
         },
-        "vide": {
+        "yitd": {
             "description": "sauvegarde vide",
             "monnaies": {
-                "triangles": 0,
+                "triangles": 503,
                 "ronds": 0,
                 "hexagones": 0
             },
             "niveauxCompletes": {
-                "Niveau 1": false,
+                "Niveau 1": true,
                 "Niveau 2": false,
                 "Niveau 3": false
             },
-            "dateCreation": "2025-07-07",
-            "dateDerniereSave": "2025-07-07",
+            "dateCreation": "2025-07-08",
+            "dateDerniereSave": "2025-07-08",
             "modificateurs": {
                 "tours": {
                     "degats": 1,
                     "vitesseAttaque": 1,
                     "prix": 1,
                     "critRate": 0.1,
-                    "critDamage": 1.2,
+                    "critDamage": 1,
                     "portee": 1
                 },
                 "economie": {
@@ -69,10 +69,10 @@
                     "goldsBonusParEnnemis": 0
                 },
                 "coeurBonus": 0,
-                "lvlUpTours": 0
+                "lvlUpTours": 1
             },
             "technologies": {
-                "centre": 0,
+                "centre": 1,
                 "vitesseAttaque": 0,
                 "degats": 0,
                 "goldsBonusDepart": 0,

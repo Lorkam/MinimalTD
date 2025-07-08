@@ -76,7 +76,9 @@ export class Noeud {
                 // enregistrement de la technologie débloquée
                 await this.changerNivNoeud('+');
                 this.lvl=1;
+                this.prixAmelioration = this.prix * ((this.lvl+1)>this.nbLvl ? this.lvl : this.lvl+1);
                 this.etat = this.lvl == this.nbLvl ? 'lvlMax' : 'lvlMin';
+                this.menuTechonologies.sauvegarde.monnaies[this.typePrix] -= this.prix;
                 // mise à jour des monnaies
                 this.majMonnaies();
             }else {
@@ -100,15 +102,15 @@ export class Noeud {
         this.menuTechonologies.dessinerLiensNoeuds();
     }
     async vendre(n=0) {
-        //console.log(`Vente du noeud ${this.idHTML} - n = ${n}`);
+        console.log(`Vente du noeud ${this.idHTML} - n = ${n}`);
         if(this.debloque) {
             while(this.lvl > 1) {
                 // On vend les améliorations avant de vendre le noeud
                 this.vendreAmeliorationNoeud();
             }
             await this.changerNivNoeud('-');
-            this.majMonnaies();
             this.debloque = false;
+            this.menuTechonologies.sauvegarde.monnaies[this.typePrix] += this.prix*this.lvl; // On récupère le prix de l'amélioration
             this.lvl=0;
             this.etat = 'bloque';
         }
@@ -137,6 +139,7 @@ export class Noeud {
         }
         // dessin des liens vers les enfants
         this.menuTechonologies.dessinerLiensNoeuds();
+        this.majMonnaies();
     }
 
     ameliorerNoeud() {
@@ -160,14 +163,15 @@ export class Noeud {
         }
     }
     vendreAmeliorationNoeud() {
+        console.log(`Vente de l'amélioration du noeud ${this.idHTML} - niveau actuel : ${this.lvl}`);
         if(this.lvl > 1) {
-            const montantRemboursement = this.prixAmelioration; // Remboursement du prix d'amélioration
             if(!this.changerNivNoeud('-')) return;
-            this.menuTechonologies.sauvegarde.monnaies[this.typePrix] += montantRemboursement;
-            this.majMonnaies();
             const lvlCible = this.lvl - 1;
             this.lvl = lvlCible;
-            this.prixAmelioration = this.prix * (lvlCible+1); // Réduction du prix pour l'amélioration
+            const prixRembourse = this.prixAmelioration;
+            this.prixAmelioration = this.prix * (lvlCible); // Réduction du prix pour l'amélioration
+            this.menuTechonologies.sauvegarde.monnaies[this.typePrix] += prixRembourse;
+            this.majMonnaies();
             this.etat = 'lvlMin'; // Mise à jour de l'état
             // Mise à jour de l'image
             this.menuTechonologies.dessinerLiensNoeuds();
@@ -176,14 +180,15 @@ export class Noeud {
 
     async changerNivNoeud(direction) {
         const lvlCible = direction == '+' ? this.lvl + 1 : this.lvl - 1;
-        //console.log(`Changement de niveau du noeud ${this.idHTML} : ${this.lvl} -> ${lvlCible}`);
+        const montant = direction == '+' ? this.prix*(this.lvl + 1) : this.prix*this.lvl;
+        //console.log('prix = ',(montant));
         const url = "../serv/gestionSaves.php";
         try {
             // création de la requete pour accéder au php
             const response = await fetch(url, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                body: 'action=ameliorerTechno'+'&typeMonnaie=' + this.typePrix + '&montant=' + this.prixAmelioration + 
+                body: 'action=ameliorerTechno'+'&typeMonnaie=' + this.typePrix + '&montant=' + montant + 
                       '&nom=' + this.menuTechonologies.nomSauvegarde + '&nomTechno=' + this.idHTML + '&direction=' + (direction=='+'?'up':'down') + '&lvl=' + lvlCible
             });
 
@@ -216,6 +221,7 @@ export class Noeud {
         this.divInfoNoeud.classList.add('apparition');
         this.divInfoNoeud.querySelector('#titre').firstChild.nodeValue = this.titre;
         this.divInfoNoeud.querySelector('#lvl').firstChild.nodeValue = 'Niveau : ' + this.lvl + '/' + this.nbLvl;
+        console.log(this.lvl, this.prix, this.prixAmelioration, this.nbLvl);
         this.divInfoNoeud.querySelector('#prix').firstChild.nodeValue = 'Prix : ' + (this.lvl<this.nbLvl?((this.lvl==0) ? this.prix : this.prixAmelioration):'Max');
         this.divInfoNoeud.querySelector('#description').firstChild.nodeValue = this.description;
     }

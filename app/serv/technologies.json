@@ -87,7 +87,7 @@
         "titre":"ingénierie",
         "description": "Augmente le niveau max de vos tours",
         "position":{"x": 930, "y": 461},
-        "prix":{"type": "triangles", "quantite": 60},
+        "prix":{"type": "triangles", "quantite": 30},
         "technologiesFille":[],
         "lienImage1":"../assets/img/flecheVerte.png",
         "etatParDefaut": "inconnu",

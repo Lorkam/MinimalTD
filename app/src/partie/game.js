@@ -145,7 +145,7 @@ export class Partie {
      * Affiche les détails de l'initialisation dans la console.
      */
     initialisationVague() {
-        this.console.ecrire("Initialisation de la vague :" + this.vague);
+        this.console.ecrire("Initialisation de la vague : " + this.vague);
         this.nbEnnemisMorts = 0; // Réinitialise le compteur d'ennemis morts
         this.totalEnnemis = 0; // Réinitialise le nombre total d'ennemis à spawn
         for( const typeEnnemi of this.niveau.vagues[this.vague-1].ennemis) {
@@ -342,7 +342,7 @@ export class Partie {
     verifChangementVague() {
         const lancerVagueBtn = document.getElementById('lancerVagueBtn');
         if (this.nbEnnemisMorts == this.totalEnnemis && this.niveau.vagues[this.vague - 1].derniereVague==false) {
-            this.console.ecrire("Fin de la vague " + (this.vague ) + ", passage à la vague " + (this.vague+1));
+            this.console.ecrire("Fin de la vague " + (this.vague ));
             this.vague++;
             this.initialisationVague();
             lancerVagueBtn.disabled = false; // Réactive le bouton pour la prochaine vague

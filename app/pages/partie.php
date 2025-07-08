@@ -39,15 +39,17 @@ $sauvegarde = $_SESSION['nomSauvegarde'];
         <div id="divEcranSombre" style="display: none;"></div>
         <div id="divImgVictoire" style="display: none;">
             <img src="../assets/img/victoire.png" alt="victoire">
-            <div class="flex-row">
+            <div class="flex-row" style="gap: 10px;">
                 <button id="btnRejouerVictoire">Rejouer</button>
+                <button class="btnMainMenu" onclick="window.location.href='technologies.php'">Technologies</button>
                 <button class="btnMainMenu" onclick="window.location.href='menuPrincipale.php'">Revenir au menu principale</button>
             </div>
         </div>
         <div id="divImgDefaite" style="display: none;">
             <img src="../assets/img/defaite.png" alt="defaite">
-            <div class="flex-row">
+            <div class="flex-row" style="gap: 10px;">
                 <button id="btnRejouerDefaite">Réessayer</button>
+                <button class="btnMainMenu" onclick="window.location.href='technologies.php'">Technologies</button>
                 <button class="btnMainMenu" onclick="window.location.href='menuPrincipale.php'">Revenir au menu principale</button>
             </div>
         </div>

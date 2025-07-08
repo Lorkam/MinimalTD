@@ -150,20 +150,15 @@ export class TourClassique extends Tower {
         }
         const lvlCible = this.lvl + 1;
         switch (lvlCible) {
-            case 1:
+            case 2:
                 this.degats *= 1.5;
                 this.attaqueSpeed *= 0.9;
                 this.portee *= 1.1;
                 break;
-            case 2:
+            case 3:
                 this.degats *= 2;
                 this.attaqueSpeed *= 0.8;
                 this.portee *= 1.2;
-                break;
-            case 3:
-                this.degats *= 2.5;
-                this.attaqueSpeed *= 0.7;
-                this.portee *= 1.3;
                 break;
             default:
                 console.error("Cette tour ne peut pas être améliorée au-delà du niveau 3.");
