@@ -1,6 +1,7 @@
 import { EnnemiClassique, EnnemiTank, EnnemiRapide, EnnemiReplicateur, EnnemiReplique, BossMontagne, BossInvocateur, BossAmplificateur } from "./enemy.js";
 import { Emplacement } from "./emplacement.js";
 import { Sauvegarde } from "../sauvegarde/sauvegarde.js";
+import { Console } from "./console.js";
 
 
 export class Partie {
@@ -21,6 +22,7 @@ export class Partie {
         
         this.canvas = document.getElementById('gameCanvas');
         this.ctx = this.canvas.getContext('2d');
+        this.console = new Console(this); // Instance de la classe Console
         this.imageCoeur = new Image();
         this.imageCoeur.src = '../assets/img/heart.png';
         this.jeuDemarre = false; // Indique si le jeu a démarré
@@ -53,7 +55,7 @@ export class Partie {
      */
     async initialiserNiveau() {
         const url = '../serv/gestionNiveaux.php';
-        console.log(this.nomNiveau);
+        //console.log(this.nomNiveau);
         try {
             // Création de la requête pour accéder au PHP
             const response = await fetch(url, {
@@ -143,7 +145,7 @@ export class Partie {
      * Affiche les détails de l'initialisation dans la console.
      */
     initialisationVague() {
-        console.log("Initialisation de la vague :" + this.vague);
+        this.console.ecrire("Initialisation de la vague :" + this.vague);
         this.nbEnnemisMorts = 0; // Réinitialise le compteur d'ennemis morts
         this.totalEnnemis = 0; // Réinitialise le nombre total d'ennemis à spawn
         for( const typeEnnemi of this.niveau.vagues[this.vague-1].ennemis) {
@@ -208,11 +210,9 @@ export class Partie {
                         break;
                     case "EnnemiReplicateur":
                         ennemi = new EnnemiReplicateur(this); // Tu peux faire évoluer ça selon le type
-                        console.log('Spawn d\'un ennemi replicateur');
                         break;
                     case "EnnemiReplique":
                         ennemi = new EnnemiReplique(this); // Tu peux faire évoluer ça selon le type
-                        console.log('Spawn d\'un ennemi réplique');
                         break;
                     case "BossMontagne":
                         ennemi = new BossMontagne(this); // Tu peux faire évoluer ça selon le type
@@ -342,14 +342,14 @@ export class Partie {
     verifChangementVague() {
         const lancerVagueBtn = document.getElementById('lancerVagueBtn');
         if (this.nbEnnemisMorts == this.totalEnnemis && this.niveau.vagues[this.vague - 1].derniereVague==false) {
-            console.log("Fin de la vague " + (this.vague ) + ", passage à la vague " + (this.vague+1));
+            this.console.ecrire("Fin de la vague " + (this.vague ) + ", passage à la vague " + (this.vague+1));
             this.vague++;
             this.initialisationVague();
             lancerVagueBtn.disabled = false; // Réactive le bouton pour la prochaine vague
             this.jeuDemarre = false; // Indique que le jeu n'est plus en cours
         }else if(this.nbEnnemisMorts == this.totalEnnemis && this.niveau.vagues[this.vague - 1].derniereVague==true) {
-            console.log("Fin de la dernière vague");
-            console.log("Félicitations ! Vous avez terminé ce niveau !");
+            this.console.ecrire("Fin de la dernière vague");
+            this.console.ecrire("Félicitations ! Vous avez terminé ce niveau !");
             console.log(this.monnaies);
             this.sauvegarder(true); // Sauvegarde l'état du jeu
             this.jeuDemarre = false; // Indique que le jeu n'est plus en cours
@@ -358,7 +358,7 @@ export class Partie {
             document.getElementById('divEcranSombre').style.display = 'flex'; // Affiche l'image de victoire
             document.getElementById('divImgVictoire').style.display = 'flex'; // Affiche l'image de victoire
         }else if(this.heartPV <= 0) {
-            console.log("Game Over ! Vous avez perdu !");
+            this.console.ecrire("Game Over ! Vous avez perdu !");
             console.log(this.monnaies);
             this.sauvegarder(false); // Sauvegarde l'état du jeu
             this.jeuDemarre = false; // Indique que le jeu n'est plus en cours

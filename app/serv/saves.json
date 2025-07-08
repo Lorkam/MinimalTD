@@ -3,9 +3,9 @@
         "test": {
             "description": "Save de test",
             "monnaies": {
-                "triangles": 2357,
-                "ronds": 230,
-                "hexagones": 55
+                "triangles": 2614,
+                "ronds": 260,
+                "hexagones": 60
             },
             "niveauxCompletes": {
                 "Niveau 1": true,
@@ -28,7 +28,7 @@
                     "goldsBonusParEnnemis": 3
                 },
                 "coeurBonus": 0,
-                "lvlUpTours": 1,
+                "lvlUpTours": 3,
                 "toursClassiques": {
                     "vitesseAttaque": 1,
                     "degats": 1.2
@@ -42,7 +42,7 @@
                 "critDamage": 3,
                 "goldsBonusDepart": 3,
                 "goldsBonusParEnnemis": 3,
-                "lvlUpTours": 0
+                "lvlUpTours": 2
             }
         },
         "vide": {

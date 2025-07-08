@@ -26,7 +26,7 @@ export class Emplacement {
                     this.partie.prixTourClassique *=2;
                     return -1*cout; // renvoie le coût de la tour
                 }else{
-                    console.warn("Pas assez d'or pour acheter cette tour.");
+                    this.partie.console.ecrire("Pas assez d'or pour acheter cette tour.");
                     return 0; // Retourne 0 si l'or est insuffisant
                 }
             case 'TourRalentissante':
@@ -38,7 +38,7 @@ export class Emplacement {
                     this.partie.prixTourRalentissante *=2;
                     return -1*cout; // renvoie le coût de la tour
                 }else{
-                    console.warn("Pas assez d'or pour acheter cette tour.");
+                    this.partie.console.ecrire("Pas assez d'or pour acheter cette tour.");
                     return 0; // Retourne 0 si l'or est insuffisant
                 }
             // Ajouter d'autres types de tours ici si nécessaire

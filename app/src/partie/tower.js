@@ -12,9 +12,6 @@ export class Tower {
         this.tauxCrit = 0;
         this.multiplicateurCrit = 1.2;
     }
-    getDetails() {
-        return `Tower type: ${this.type}, portee: ${this.portee}m, position: (${this.position.x}, ${this.position.y})`;
-    }
 
     /**
      * Cherche l'ennemi le plus proche du coeur (ayant la plus grande distanceParcourue)
@@ -144,11 +141,11 @@ export class TourClassique extends Tower {
     ameliorer(){
         const spanAmelioration = document.querySelector('#divOptionsTour #ameliorer');
         if(spanAmelioration.classList.contains('pasDispo')) {
-            console.warn("Vous n'avez pas débloqué la technologie nécessaire : Ingénierie niv " + (this.lvl));
+            this.partie.console.ecrire("Vous n'avez pas débloqué la technologie nécessaire : Ingénierie niv " + (this.lvl));
             return 0; // Retourne 0 si l'utilisateur n'a pas débloqué la technologie
         }
         if(this.partie.golds < this.prixAmelioration) {
-            console.warn("Pas assez d'or pour améliorer cette tour.");
+            this.partie.console.ecrire("Pas assez d'or pour améliorer cette tour.");
             return 0;
         }
         const lvlCible = this.lvl + 1;
@@ -254,7 +251,7 @@ export class TourRalentissante extends Tower {
      *
      * @returns {number} Le coût négatif de l'amélioration si réussie, ou 0 si le niveau maximum est atteint.
      */
-    ameliorer(){
+    ameliorer(){this.partie.console.ecrire
         if(this.partie.golds < this.prixAmelioration) {
             console.warn("Pas assez d'or pour améliorer cette tour.");
             return 0;

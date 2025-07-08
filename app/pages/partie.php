@@ -52,12 +52,7 @@ $sauvegarde = $_SESSION['nomSauvegarde'];
             </div>
         </div>
 
-        <div id="divOptionsEmplacement">
-            <!--<span class="optionEmplacement" id="TourClassique">Tour Classique : 
-                <span id="prixTourClassique" class="no-pointer-envents" style="margin:0 5px;">0</span>
-                <img class="no-pointer-envents" src="../assets/img/euro.png" style="width:20px;">
-            </span>-->
-        </div>
+        <div id="divOptionsEmplacement"></div>
         <div id="divOptionsTour">
             <span class="optionTour" id="ameliorer">Améliorer : <span id="prixAmelioration" class="no-pointer-envents" style="margin:0 5px;">-0-</span><img class="no-pointer-envents" src="../assets/img/euro.png" style="width:20px;"></span>
             <span class="optionTour" id="vendre">Vendre : <span id="prixVente" class="no-pointer-envents" style="margin:0 5px;">-0-</span><img class="no-pointer-envents" src="../assets/img/euro.png" style="width:20px;"></span>
@@ -66,6 +61,7 @@ $sauvegarde = $_SESSION['nomSauvegarde'];
 
 
         <button id="lancerVagueBtn">Lancer la Prochaine Vague</button>
+        <div id="divConsole"><div id="divHistorique"></div><input type="text" id="inputBarreEcriture"></div>
     </div>
     </div>
 
