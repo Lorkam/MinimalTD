@@ -236,6 +236,9 @@ btnSauvegarder.addEventListener('click', async (e) => {
             const btnTechnologies = document.querySelector("#btnTechnologies");
             btnTechnologies.disabled = false; // Active le bouton Jouer
             btnTechnologies.classList.remove('disabled'); // Enlève la classe disabled
+            const btnBestiaire = document.querySelector('#btnBestiaire');
+            btnBestiaire.disabled = false; // Active le bouton Jouer
+            btnBestiaire.classList.remove('disabled'); // Enlève la classe disabled
             document.querySelector('#nomSauvegarde').value = sauvegardeSelectionnee.firstChild.nodeValue; // Met à jour le champ de saisie avec le nom de la sauvegarde sélectionnée
             nomSauvegarde = document.querySelector('#nomSauvegarde').value; // Met à jour la variable nomSauvegarde
             niveauMaxReussi = await getNiveauMaxReussi(nomSauvegarde);
@@ -294,6 +297,9 @@ async function suppressionSauvegarde(poubelle){
         const btnTechnologies = document.querySelector("#btnTechnologies");
         btnTechnologies.disabled = true; // Désactive le bouton Technologies
         btnTechnologies.classList.add('disabled'); // Ajoute la classe disabled
+        const btnBestiaire = document.querySelector('#btnBestiaire');
+        btnBestiaire.disabled = true; // Désactive le bouton Technologies
+        btnBestiaire.classList.add('disabled'); // Ajoute la classe disabled
     }
     divSauvegardeSupr.firstChild.nodeValue = 'Emplacement Vide'; // Réinitialise le nom de la sauvegarde
 }

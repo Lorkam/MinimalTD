@@ -1,52 +1,50 @@
 {
     "saves": {
-        "zf": {
+        "sodiugf": {
             "description": "sauvegarde vide",
             "monnaies": {
-                "triangles": 196,
-                "ronds": 15,
-                "hexagones": 1
+                "triangles": 0,
+                "ronds": 0,
+                "hexagones": 0
             },
             "niveauxCompletes": {
-                "Niveau 1": true,
-                "Niveau 2": true,
+                "Niveau 1": false,
+                "Niveau 2": false,
                 "Niveau 3": false
             },
             "dateCreation": "2025-07-09",
             "dateDerniereSave": "2025-07-09",
             "modificateurs": {
                 "tours": {
-                    "degats": 1.6,
-                    "vitesseAttaque": 1.6,
+                    "degats": 1,
+                    "vitesseAttaque": 1,
                     "prix": 1,
-                    "critRate": 0.3,
+                    "critRate": 0.1,
                     "critDamage": 1.2,
                     "portee": 1
                 },
                 "economie": {
-                    "goldsBonusDepart": 2,
-                    "goldsBonusParEnnemis": 3
+                    "goldsBonusDepart": 0,
+                    "goldsBonusParEnnemis": 0
                 },
                 "coeurBonus": 0,
-                "lvlUpTours": 3
+                "lvlUpTours": 0
             },
             "technologies": {
-                "centre": 1,
-                "vitesseAttaque": 3,
-                "degats": 3,
-                "goldsBonusDepart": 1,
-                "goldsBonusParEnnemis": 3,
-                "lvlUpTours": 2,
-                "critRate": 2,
+                "centre": 0,
+                "vitesseAttaque": 0,
+                "degats": 0,
+                "goldsBonusDepart": 0,
+                "goldsBonusParEnnemis": 0,
+                "lvlUpTours": 0,
+                "critRate": 0,
                 "critDamage": 0
             },
             "ennemisRencontres": [
                 "EnnemiClassique",
                 "EnnemiTank",
                 "EnnemiRapide",
-                "BossMontagne",
-                "EnnemiReplicateur",
-                "BossInvocateur"
+                "BossMontagne"
             ]
         }
     }

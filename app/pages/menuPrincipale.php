@@ -28,7 +28,7 @@ $sauvegarde = $_SESSION['nomSauvegarde']??null;
                 <button id="btnJouer" class="btnMenuPrincipale <?php if($sauvegarde==null){echo "disabled";}?>" <?php if($sauvegarde==null){echo "disabled";}?>>Jouer</button>
                 <button id="btnTechnologies" class="btnMenuPrincipale <?php if($sauvegarde==null){echo "disabled";}?>" onclick="window.location.href='technologies.php'" <?php if($sauvegarde==null){echo "disabled";}?>>Technologies</button>
                 <button id="btnMenuSauvegarder" class="btnMenuPrincipale">Charger une sauvegarde</button>
-                <button id="btnBestiaire" class="btnMenuPrincipale" onclick="window.location.href='bestiaire.php'">Bestiaire</button>
+                <button id="btnBestiaire" class="btnMenuPrincipale" <?php if($sauvegarde==null){echo "disabled";}?>" onclick="window.location.href='bestiaire.php'" <?php if($sauvegarde==null){echo "disabled";}?>>Bestiaire</button>
                 <button id="btnCredits" class="btnMenuPrincipale" onclick="window.location.href='credit.html'">Crédits</button>
             </div>
         </div>
