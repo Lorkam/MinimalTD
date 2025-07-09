@@ -55,9 +55,15 @@ switch ($action){
 function sauvegarder(&$saves, $nom){
     if($saves['saves'][$nom]['niveauxCompletes'][$_POST['niveau']]==false) $saves['saves'][$nom]['niveauxCompletes'][$_POST['niveau']] = $_POST['reussiteNiveau']=='true' ? true : false;
     $monnaies = json_decode($_POST['monnaies'], true);
+    $ennemisRencontres = json_decode($_POST['ennemisRencontres'], true);
     $saves['saves'][$nom]['monnaies']['triangles'] += $monnaies['triangles'];
     $saves['saves'][$nom]['monnaies']['ronds'] += $monnaies['ronds'];
     $saves['saves'][$nom]['monnaies']['hexagones'] += $monnaies['hexagones'];
+    foreach ($ennemisRencontres as $ennemi) {
+        if (!in_array($ennemi, $saves['saves'][$nom]['ennemisRencontres'])) {
+            array_push($saves['saves'][$nom]['ennemisRencontres'], $ennemi);
+        }
+    }
 
     // Remplacement dans le fichier JSON
     file_put_contents('saves.json', json_encode($saves, JSON_PRETTY_PRINT));
@@ -138,7 +144,8 @@ function creerSauvegarde(&$saves, $nom){
             "coeurBonus"=> 0,
             "lvlUpTours"=> 0,
         ],
-        "technologies"=> []
+        "technologies"=> [],
+        "ennemisRencontres" => []
     ];
     foreach($listeTechno as $nomTechno){
         $saves['saves'][$nom]['technologies'][$nomTechno['nom']] = 0;

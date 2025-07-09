@@ -25,7 +25,7 @@ export class Sauvegarde {
                  body: 'action=lireSaves'+ '&nom=' + encodeURIComponent(this.nom)
               });
               const rep = await response.json();
-              console.log(rep);
+              //console.log(rep.saves);
               return rep;
            } catch (error) {
               console.error('Erreur récupération données :', error);

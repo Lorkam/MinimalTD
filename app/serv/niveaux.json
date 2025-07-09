@@ -14,33 +14,33 @@
     "vagues": [
       {
         "ennemis": [
-          { "type": "classique", "nb": 2, "intervale": 1000 }
+          { "type": "EnnemiClassique", "nb": 2, "intervale": 1000 }
         ],
         "derniereVague": false
       },
       {
         "ennemis": [
-          { "type": "classique", "nb": 7, "intervale": 1500 }
+          { "type": "EnnemiClassique", "nb": 7, "intervale": 1500 }
         ],
         "derniereVague": false
       },
       {
         "ennemis": [
-          { "type": "tank", "nb": 1, "intervale": 2000 },
-          { "type": "classique", "nb": 5, "intervale": 1500 }
+          { "type": "EnnemiTank", "nb": 1, "intervale": 2000 },
+          { "type": "EnnemiClassique", "nb": 5, "intervale": 1500 }
         ],
         "derniereVague": false
       },
       {
         "ennemis": [
-          { "type": "rapide", "nb": 7, "intervale": 500 }
+          { "type": "EnnemiRapide", "nb": 7, "intervale": 500 }
         ],
         "derniereVague": false
       },
       {
         "ennemis": [
-          { "type": "rapide", "nb": 20, "intervale": 300 },
-          { "type": "tank", "nb": 3, "intervale": 2000 }
+          { "type": "EnnemiRapide", "nb": 20, "intervale": 300 },
+          { "type": "EnnemiTank", "nb": 3, "intervale": 2000 }
         ],
         "derniereVague": false
       },
@@ -74,27 +74,28 @@
     "vagues": [
       {
         "ennemis": [
-          { "type": "classique", "nb": 10, "intervale": 1000 }
+          { "type": "EnnemiClassique", "nb": 10, "intervale": 1000 }
         ],
         "derniereVague": false
       },
       {
         "ennemis": [
-          { "type": "rapide", "nb": 10, "intervale": 1500 },
-          { "type": "tank", "nb": 5, "intervale": 1000 }
+          { "type": "EnnemiRapide", "nb": 10, "intervale": 1500 },
+          { "type": "EnnemiTank", "nb": 5, "intervale": 1000 }
 
         ],
         "derniereVague": false
       },
       {
         "ennemis": [
-          { "type": "EnnemiReplicateur", "nb": 4, "intervale": 1000 }
+          { "type": "EnnemiReplicateur", "nb": 4, "intervale": 1000 },
+          { "type": "EnnemiReplique", "nb": 0, "intervale": 1000 }
         ],
         "derniereVague": false
       },
       {
         "ennemis": [
-          { "type": "rapide", "nb": 20, "intervale": 300 }
+          { "type": "EnnemiRapide", "nb": 20, "intervale": 300 }
         ],
         "derniereVague": false
       },
@@ -123,35 +124,35 @@
     "vagues": [
       {
         "ennemis": [
-          { "type": "classique", "nb": 10, "intervale": 500 },
-          { "type": "tank", "nb": 1, "intervale": 1000 }
+          { "type": "EnnemiClassique", "nb": 10, "intervale": 500 },
+          { "type": "EnnemiTank", "nb": 1, "intervale": 1000 }
         ],
         "derniereVague": false
       },
       {
         "ennemis": [
-          { "type": "tank", "nb": 5, "intervale": 750 },
-          { "type": "rapide", "nb": 10, "intervale": 500 }
+          { "type": "EnnemiTank", "nb": 5, "intervale": 750 },
+          { "type": "EnnemiRapide", "nb": 10, "intervale": 500 }
         ],
         "derniereVague": false
       },
       {
         "ennemis": [
-          { "type": "tank", "nb": 15, "intervale": 500 }
+          { "type": "EnnemiTank", "nb": 15, "intervale": 500 }
         ],
         "derniereVague": false
       },
       {
         "ennemis": [
-          { "type": "rapide", "nb": 30, "intervale": 200 }
+          { "type": "EnnemiRapide", "nb": 30, "intervale": 200 }
         ],
         "derniereVague": false
       },
       {
         "ennemis": [
-          { "type": "classique", "nb": 39, "intervale": 1000 },
-          { "type": "tank", "nb": 20, "intervale": 1750 },
-          { "type": "rapide", "nb": 50, "intervale": 750 },
+          { "type": "EnnemiClassique", "nb": 39, "intervale": 1000 },
+          { "type": "EnnemiTank", "nb": 20, "intervale": 1750 },
+          { "type": "EnnemiRapide", "nb": 50, "intervale": 750 },
           { "type": "BossAmplificateur", "nb": 1, "intervale": 2000 }
         ],
         "derniereVague": true

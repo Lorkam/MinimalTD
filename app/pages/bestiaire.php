@@ -21,7 +21,7 @@ $nomSauvegarde = $_SESSION['nomSauvegarde'] ?? null;
 <body>
     <div id="divBordureJeu">
     <div id="divContainerJeu">
-        <input type="hidden" name="nomSauvegarde" value="<?php echo $nomSauvegarde; ?>">
+        <input type="hidden" id="nomSauvegarde" value="<?php echo $nomSauvegarde; ?>">
         <div id="divRetourMenuPrincipale" onclick="window.location.href='menuPrincipale.php'"><img src="../assets/img/maison.png"></div>
         <div class="flex-row"><h1>Bestiaire</h1></div>
         <div id="grilleBestiaire">

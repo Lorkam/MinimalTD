@@ -69,6 +69,14 @@ export class Partie {
             this.niveau = data; // Récupère le niveau depuis la réponse
             this.chemin = this.niveau.chemin;
             this.heartPos = this.niveau.heart;
+            this.ennemisRencontres = [];
+            for(const vague of this.niveau.vagues) {
+                for(const ennemi of vague.ennemis) {
+                    if(this.ennemisRencontres.includes(ennemi.type) == false) {
+                        this.ennemisRencontres.push(ennemi.type); // Ajoute le type d'ennemi rencontré
+                    }
+                }
+            }
         } catch (error) {
             console.error('Erreur récupération données :', error);
         }
@@ -199,13 +207,13 @@ export class Partie {
                 // Création de l'ennemi en fonction du type
                 let ennemi;
                 switch (type) {
-                    case "classique":
+                    case "EnnemiClassique":
                         ennemi = new EnnemiClassique(this); // Tu peux faire évoluer ça selon le type
                         break;
-                    case "tank":
+                    case "EnnemiTank":
                         ennemi = new EnnemiTank(this); // Tu peux faire évoluer ça selon le type
                         break;
-                    case "rapide":
+                    case "EnnemiRapide":
                         ennemi = new EnnemiRapide(this); // Tu peux faire évoluer ça selon le type
                         break;
                     case "EnnemiReplicateur":
@@ -319,11 +327,11 @@ export class Partie {
                 headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
                 body: 'action=sauvegarder' + '&nom=' + encodeURIComponent(this.nomSauvegarde) +
                       '&niveau=' + encodeURIComponent(this.niveau.nom) + '&reussiteNiveau=' + encodeURIComponent(reussite) +
-                      '&monnaies=' + encodeURIComponent(JSON.stringify(this.monnaies))
+                      '&monnaies=' + encodeURIComponent(JSON.stringify(this.monnaies)) + '&ennemisRencontres=' + encodeURIComponent(JSON.stringify(this.ennemisRencontres))
             });
 
             const data = await response.text();
-            //console.log(data);
+            console.log(data);
             return ;
         } catch (error) {
             console.error('Erreur récupération données :', error);

@@ -1,4 +1,5 @@
 import { Item } from '../bestiaire/item.js';
+import { Sauvegarde } from '../sauvegarde/sauvegarde.js';
 
 async function getEnnemis() {
     const url = '../serv/gestionTours&Ennemis.php';
@@ -33,7 +34,11 @@ async function getTours() {
     }
 }
 
-function creerListeItem(listeTours, listeEnnemis) {
+async function creerListeItem(listeTours, listeEnnemis) {
+    var saves = new Sauvegarde();
+    saves = await saves.lireSaves();
+    var nomSaveActuelle = (document.querySelector('#nomSauvegarde').value=== '')? 'aucune' : document.querySelector('#nomSauvegarde').value;
+    const ennemisRencontres = (nomSaveActuelle=='aucune')? [] : saves.saves[nomSaveActuelle]['ennemisRencontres'];
     var listeItem = [];
     for(const tour of Object.keys(listeTours)) {
         listeItem.push(new Item(tour, listeTours[tour]));
@@ -56,13 +61,15 @@ function creerListeItem(listeTours, listeEnnemis) {
         canvaItem.width = 120;
         canvaItem.height = 120;
 
+        const decouvert = (ennemisRencontres.includes(item.attributs.nom))? true : (type == 'tour') ? true : false;
+
         const pItem = document.createElement('p');
-        pItem.textContent = item.attributs.nomBestiaire;
+        pItem.textContent = decouvert?item.attributs.nomBestiaire:"inconnu";
 
         const inputItem = document.createElement('input');
         inputItem.type = 'hidden';
-        inputItem.value = "1";                               // A changer dynamiquement
         inputItem.name = item.attributs.nom;
+        inputItem.value = decouvert?"1":"0";
 
         divItem.appendChild(canvaItem);
         divItem.appendChild(pItem);
@@ -87,7 +94,6 @@ function creerListeItem(listeTours, listeEnnemis) {
 }
 
 function dessinerCadenas(ctx, width, height) {
-    console.log("Dessiner un cadenas");
     // Dimensions du cadenas
     const cadenasWidth = width / 2;
     const cadenasHeight = height / 2.5;
@@ -266,5 +272,5 @@ function dessinerCanvas(listeItem) {
 
 const listeTours = await getTours();
 const listeEnnemis = await getEnnemis();
-const listeItem = creerListeItem(listeTours, listeEnnemis);
+const listeItem = await creerListeItem(listeTours, listeEnnemis);
 dessinerCanvas(listeItem);

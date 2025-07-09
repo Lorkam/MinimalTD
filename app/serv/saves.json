@@ -1,3 +1,53 @@
 {
-    "saves": []
+    "saves": {
+        "zf": {
+            "description": "sauvegarde vide",
+            "monnaies": {
+                "triangles": 196,
+                "ronds": 15,
+                "hexagones": 1
+            },
+            "niveauxCompletes": {
+                "Niveau 1": true,
+                "Niveau 2": true,
+                "Niveau 3": false
+            },
+            "dateCreation": "2025-07-09",
+            "dateDerniereSave": "2025-07-09",
+            "modificateurs": {
+                "tours": {
+                    "degats": 1.6,
+                    "vitesseAttaque": 1.6,
+                    "prix": 1,
+                    "critRate": 0.3,
+                    "critDamage": 1.2,
+                    "portee": 1
+                },
+                "economie": {
+                    "goldsBonusDepart": 2,
+                    "goldsBonusParEnnemis": 3
+                },
+                "coeurBonus": 0,
+                "lvlUpTours": 3
+            },
+            "technologies": {
+                "centre": 1,
+                "vitesseAttaque": 3,
+                "degats": 3,
+                "goldsBonusDepart": 1,
+                "goldsBonusParEnnemis": 3,
+                "lvlUpTours": 2,
+                "critRate": 2,
+                "critDamage": 0
+            },
+            "ennemisRencontres": [
+                "EnnemiClassique",
+                "EnnemiTank",
+                "EnnemiRapide",
+                "BossMontagne",
+                "EnnemiReplicateur",
+                "BossInvocateur"
+            ]
+        }
+    }
 }
