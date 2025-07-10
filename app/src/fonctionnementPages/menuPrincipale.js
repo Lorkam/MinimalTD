@@ -10,7 +10,7 @@ const btnLancerNiveau = document.querySelector('#btnLancerNiveau');
 const inputNumNiveau = document.querySelector('#numNiveau');
 const divNiveaux = document.querySelector('#divNiveaux');
 const divImagesNiveaux = document.querySelector('#divImagesNiveaux');
-var lvlActuellementSelectionne = 1;
+let lvlActuellementSelectionne = 1;
 /* Menu Sauvegarder */
 const menuSauvegarder = document.querySelector('#divContainerSauvegarder');
 const divSauvegardes = document.querySelector('#divSauvegardes');
@@ -18,8 +18,8 @@ const listeDivSauvegardes = divSauvegardes.querySelectorAll('.divEmplacementSauv
 const listeSauvegardes = divSauvegardes.querySelectorAll('.emplacementSauvegarde');
 const listeBtnPoubelles = divSauvegardes.querySelectorAll('.poubelle');
 const btnSauvegarder = document.querySelector('#btnSauvegarder');
-var nomSauvegarde = document.querySelector('#nomSauvegarde').value; // Nom de la sauvegarde sélectionnée
-var niveauMaxReussi = 0;
+let nomSauvegarde = document.querySelector('#nomSauvegarde').value; // Nom de la sauvegarde sélectionnée
+let niveauMaxReussi = 0;
 
 const endroitsClickable = [
     btnJouer, 

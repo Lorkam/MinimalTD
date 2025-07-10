@@ -7,7 +7,7 @@ export class Emplacement {
         this.y = position['y']; // Position Y de l'emplacement
         this.taille = 30; // Taille de l'emplacement
         this.image = new Image();
-        this.image.src = '../assets/img/emplacement.png';
+        this.image.src = '../assets/img/emplacement2.png';
         this.tour = null; // Tour placée sur cet emplacement (null si aucune)
     }
 
@@ -87,12 +87,12 @@ export class Emplacement {
     afficherOptions() {
         if(!this.tour){
             const divOptionsEmplacement = document.querySelector('#divOptionsEmplacement');
-            divOptionsEmplacement.style.display = 'flex'; // Masque les options de l'emplacement
-            divOptionsEmplacement.style.top = `${this.y - divOptionsEmplacement.offsetHeight*1.2}px`; // Positionne le div au-dessus de l'emplacement
-            divOptionsEmplacement.style.left = `${this.x - divOptionsEmplacement.offsetWidth/2}px`; // Positionne le div à gauche de l'emplacement
             for(const typeTour of Object.keys(this.partie.statTours)){
                 divOptionsEmplacement.querySelector('#prix'+typeTour).textContent = this.lvl >= this.nbLvl ? 'Max' : this.partie['prix'+typeTour]; // Met à jour le prix de la tour classique
             }
+            divOptionsEmplacement.style.display = 'flex'; // Masque les options de l'emplacement
+            divOptionsEmplacement.style.top = `${this.y - divOptionsEmplacement.offsetHeight*1.2}px`; // Positionne le div au-dessus de l'emplacement
+            divOptionsEmplacement.style.left = `${this.x - divOptionsEmplacement.offsetWidth/2}px`; // Positionne le div à gauche de l'emplacement
             this.partie.emplacementSelectionne = this;
         }else{
             const divOptionsTour = document.querySelector('#divOptionsTour');

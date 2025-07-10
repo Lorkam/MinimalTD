@@ -77,6 +77,8 @@ export class Partie {
                     }
                 }
             }
+            this.imageChemin = new Image();
+            this.imageChemin.src = this.niveau.imgChemin; // ton image texture
         } catch (error) {
             console.error('Erreur récupération données :', error);
         }
@@ -260,6 +262,44 @@ export class Partie {
         }
     }
 
+    dessinerBatiment(forme, x, y, largeur, hauteur) {
+        switch (forme) {
+            case 'rectangle':
+                // Ombre
+                this.ctx.save();
+                this.ctx.shadowColor = "#2228";
+                this.ctx.shadowBlur = 12;
+                // Corps du bâtiment
+                this.ctx.fillStyle = "#b0b0b0";
+                this.ctx.fillRect(x, y, largeur, hauteur);
+                // Toit
+                this.ctx.fillStyle = "#888";
+                this.ctx.fillRect(x + 10, y + 10, largeur - 20, hauteur - 20);
+
+                this.ctx.restore();
+                break;
+            case 'cercle':
+                // Ombre
+                this.ctx.save();
+                this.ctx.shadowColor = "#2228";
+                this.ctx.shadowBlur = 12;
+                // Corps du bâtiment
+                this.ctx.fillStyle = "#b0b0b0";
+                this.ctx.beginPath();
+                this.ctx.arc(x + largeur / 2, y + hauteur / 2, Math.min(largeur, hauteur) / 2, 0, Math.PI * 2);
+                this.ctx.fill();
+                // Toit
+                this.ctx.fillStyle = "#888";
+                this.ctx.beginPath();
+                this.ctx.arc(x + largeur / 2, y + hauteur / 2, Math.min(largeur, hauteur) / 2 - 10, 0, Math.PI * 2);
+                this.ctx.fill();
+
+                this.ctx.restore();
+                break;
+        }
+        this.ctx.shadowColor = "transparent"; // Réinitialise l'ombre
+    }
+
     /**
      * Dessine le niveau actuel sur le canvas.
      * Efface le canvas, trace le chemin défini par `this.chemin` et affiche l'image du cœur à la position spécifiée.
@@ -268,22 +308,35 @@ export class Partie {
      */
     dessinerNiveau() {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-        // déssine le chemin
-        this.ctx.strokeStyle = "white";
+
+        // Création du motif de chemin
+        const pattern = this.ctx.createPattern(this.imageChemin, "repeat");
+
+        // Dessine le chemin avec le motif
+        this.ctx.strokeStyle = pattern;
         this.ctx.lineWidth = 30;
+        this.ctx.lineJoin = "round"; // lisse les jonctions
+        this.ctx.shadowColor = "#00000055";
+        this.ctx.shadowBlur = 20;
         this.ctx.beginPath();
         this.ctx.moveTo(this.chemin[0].x, this.chemin[0].y);
         for (let i = 1; i < this.chemin.length; i++) {
             this.ctx.lineTo(this.chemin[i].x, this.chemin[i].y);
         }
         this.ctx.stroke();
-        // Affichage du coeur
+
+        for (const batiment of this.niveau.batiments) {
+            this.dessinerBatiment(...batiment);
+        }
+        
+        // Dessine le cœur
         this.ctx.beginPath();
         this.ctx.fillStyle = "white";
-        this.ctx.arc(this.heartPos.x+25, this.heartPos.y+22, 35, 0, Math.PI * 2);
+        this.ctx.arc(this.heartPos.x + 25, this.heartPos.y + 22, 35, 0, Math.PI * 2);
         this.ctx.fill();
         this.ctx.drawImage(this.imageCoeur, this.heartPos.x, this.heartPos.y, 50, 50);
     }
+
 
     /**
      * Gère les actions de toutes les structures en parcourant chaque emplacement

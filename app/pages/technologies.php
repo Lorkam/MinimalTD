@@ -8,7 +8,7 @@ $sauvegarde = $_SESSION['nomSauvegarde'];
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" href="../assets/img/iconeJeu.png" />
-    <title>Technologies</title>
+    <title>MinimalTD - Technologies</title>
     <div id="style-container"></div>
     <script>
         const dateCSS = new Date().getTime();

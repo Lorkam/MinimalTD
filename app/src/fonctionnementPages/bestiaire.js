@@ -35,11 +35,11 @@ async function getTours() {
 }
 
 async function creerListeItem(listeTours, listeEnnemis) {
-    var saves = new Sauvegarde();
+    let saves = new Sauvegarde();
     saves = await saves.lireSaves();
-    var nomSaveActuelle = (document.querySelector('#nomSauvegarde').value=== '')? 'aucune' : document.querySelector('#nomSauvegarde').value;
+    let nomSaveActuelle = (document.querySelector('#nomSauvegarde').value=== '')? 'aucune' : document.querySelector('#nomSauvegarde').value;
     const ennemisRencontres = (nomSaveActuelle=='aucune')? [] : saves.saves[nomSaveActuelle]['ennemisRencontres'];
-    var listeItem = [];
+    let listeItem = [];
     for(const tour of Object.keys(listeTours)) {
         listeItem.push(new Item(tour, listeTours[tour]));
     }
