@@ -22,5 +22,18 @@
         "formeDessin":"TourRalentissante",
         "ralentissement":0.5,
         "dureeRalentissement":1000
+    },
+    "TourExplosive":{
+        "nom":"TourExplosive",
+        "description":"Tour qui tire des projectiles explosifs.",
+        "prix":[20, 60, 150],
+        "degats":7,
+        "attaqueSpeed":1500,
+        "portee":120,
+        "taille":30,
+        "nomBestiaire":"Explosive",
+        "formeDessin":"TourExplosive",
+        "porteeExplosion":50,
+        "degatsEplosion":0.8
     }
 }

@@ -1,6 +1,7 @@
 {
   "Niveau 1": {
     "nom": "Niveau 1",
+    "imgNiveau": "../assets/img/niveau1.png",
     "chemin": [{ "x": 400, "y": 300 }, { "x": 1000, "y": 300 }],
     "emplacementsTower": [
       { "x": 560, "y": 260 },
@@ -54,6 +55,7 @@
   },
   "Niveau 2": {
     "nom": "Niveau 2",
+    "imgNiveau": "../assets/img/niveau2.png",
     "chemin": [{ "x": 250, "y": 450 }, { "x": 500, "y": 450 }, { "x": 500, "y": 250 }, { "x": 900, "y": 250 }, { "x": 900, "y": 450 }],
     "emplacementsTower": [
       { "x": 420, "y": 390 },
@@ -109,6 +111,7 @@
   },
   "Niveau 3": {
     "nom": "Niveau 3",
+    "imgNiveau": "../assets/img/niveau3.png",
     "chemin": [{ "x": 300, "y": 300 }, { "x": 800, "y": 300 }, { "x": 800, "y": 450 }, { "x": 500, "y": 450 }, { "x": 500, "y": 150 }, { "x": 950, "y": 150 }, { "x": 950, "y": 450 }],
     "emplacementsTower": [
       { "x": 420, "y": 225 },
@@ -158,5 +161,13 @@
         "derniereVague": true
       }
     ]
+  },
+  "Niveau 4": {
+    "nom": "Niveau 4",
+    "imgNiveau": "../assets/img/niveau4.png"
+  },
+  "Niveau 5": {
+    "nom": "Niveau 5",
+    "imgNiveau": "../assets/img/niveau5.png"
   }
 }

@@ -137,56 +137,30 @@ h2{
     position: relative;
 }
 #divNiveaux{
-    width: 1000px;
     position: absolute;
-    left: 35%;
-    bottom: 60px;
-    text-align: center;
-    font-size: 30px;
-    justify-content: space-between;
+    height: 90%;
+    top: 2.5%;
+    left: 0;
+    transition: left 0.3s ease;
 }
-.from1To2{
-    animation: from1To2 0.5s ease-in-out forwards;
-}
-@keyframes from1To2 {
-    0% {
-        transform: translateX(0);
+.niveau{
+    width: 400px;
+    height: 93%;
+    position: absolute;
+    top: 0;
+    img{
+        width: 350px;
+        height: 215px;
+        border: 2px solid #b1b1b1;
+        border-radius: 10px;
     }
-    100% {
-        transform: translateX(-45%);
-    }
-}
-.from2To3{
-    animation: from2To3 0.5s ease-in-out forwards;
-}
-@keyframes from2To3 {
-    0% {
-        transform: translateX(-45%);
-    }
-    100% {
-        transform: translateX(-89%);
-    }
-}
-.from3To2{
-    animation: from3To2 0.5s ease-in-out forwards;
-}
-@keyframes from3To2 {
-    0% {
-        transform: translateX(-89%);
-    }
-    100% {
-        transform: translateX(-45%);
-    }
-}
-.from2To1{
-    animation: from2To1 0.5s ease-in-out forwards;
-}
-@keyframes from2To1 {
-    0% {
-        transform: translateX(-45%);
-    }
-    100% {
-        transform: translateX(0);
+    span{
+        position: absolute;
+        bottom: 0px;
+        left: 50%;
+        font-size: 35px;
+        font-weight: bold;
+        transform: translateX(-50%);
     }
 }
 .fleche{

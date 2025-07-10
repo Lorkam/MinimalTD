@@ -145,3 +145,77 @@ export class Onde extends Projectile {
     }
 
 }
+export class Bombe extends Projectile {
+    constructor(tour, cible) {
+        super(tour, cible);
+        this.rayon = 8; // Rayon visuel de la bombe
+        this.couleur = "#00000099"; // Couleur de la bombe
+        this.speed = 5;
+        this.ralentissement = this.tour.ralentissement;
+        this.dureeRalentissement = this.tour.dureeRalentissement;
+
+        // Propriétés pour l’animation d’explosion
+        this.explose = false;
+        this.explosionRayon = 0;
+        this.explosionMaxRayon = this.tour.porteeExplosion;
+        this.explosionOpacity = 1;
+        this.explosionSpeed = 4; // Contrôle la vitesse de l'explosion visuelle
+        this.animationTerminee = false;
+    }
+
+    toucherEnnemi() {
+        this.cible.pv -= this.degats;
+        for (const ennemi of this.tour.partie.ennemies) {
+            if (ennemi === this.cible) continue;
+            const dx = ennemi.x - this.x;
+            const dy = ennemi.y - this.y;
+            const dist = Math.sqrt(dx * dx + dy * dy);
+            if (dist <= this.tour.porteeExplosion) {
+                ennemi.pv -= this.degats;
+            }
+        }
+        this.explose = true;
+    }
+
+    update() {
+        if (this.explose) {
+            this.explosionRayon += this.explosionSpeed;
+            this.explosionOpacity -= 0.1;
+            if (this.explosionRayon >= this.explosionMaxRayon || this.explosionOpacity <= 0) {
+                this.animationTerminee = true;
+            }
+            return this.animationTerminee; // true si l'explosion est terminée
+        }
+
+        const dx = this.cible.x - this.x;
+        const dy = this.cible.y - this.y;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+
+        if (dist < this.speed) {
+            this.toucherEnnemi();
+        } else {
+            this.x += (dx / dist) * this.speed;
+            this.y += (dy / dist) * this.speed;
+        }
+
+        return false;
+    }
+
+    draw(ctx) {
+        ctx.save();
+        if (!this.explose) {
+            // Dessin de la bombe en vol
+            ctx.fillStyle = this.couleur;
+            ctx.beginPath();
+            ctx.arc(this.x, this.y, this.rayon, 0, Math.PI * 2);
+            ctx.fill();
+        } else {
+            // Animation de l'explosion
+            ctx.fillStyle = `rgba(255, 100, 0, ${this.explosionOpacity})`;
+            ctx.beginPath();
+            ctx.arc(this.x, this.y, this.explosionRayon, 0, Math.PI * 2);
+            ctx.fill();
+        }
+        ctx.restore();
+    }
+}

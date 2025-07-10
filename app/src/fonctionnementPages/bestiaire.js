@@ -129,9 +129,11 @@ function dessinerCadenas(ctx, width, height) {
     ctx.fillText('?', arcCenterX, cadenasY + cadenasHeight / 2);
 }
 
+const multiplicateurTaille = 2;
+
 function dessinerTourClassique(ctx, widthCanvas, heightCanvas, item) {
     //console.log(`Dessiner une tour carrée pour l'item : ${item.attributs.nom}`);
-    const taille = item.attributs.taille * 2;
+    const taille = item.attributs.taille * multiplicateurTaille;
     ctx.fillStyle = "blue";
     ctx.beginPath();
     // Dessiner un carré bleu à bords arrondis centré sur la position
@@ -158,13 +160,13 @@ function dessinerTourClassique(ctx, widthCanvas, heightCanvas, item) {
     ctx.fillStyle = "white";
     ctx.fill();
 }
-function dessinerTourRalentisante(ctx, widthCanvas, heightCanvas, item) {
+function dessinerTourRalentissante(ctx, widthCanvas, heightCanvas, item) {
     const x = widthCanvas/2;
     const y = heightCanvas/2;
 
     // Corps principal de la tour : cercle bleu clair
     ctx.beginPath();
-    ctx.arc(x, y, 15*2, 0, Math.PI * 2);
+    ctx.arc(x, y, 15*multiplicateurTaille, 0, Math.PI * 2);
     ctx.fillStyle = "#00bfff"; // bleu clair
     ctx.fill();
 
@@ -174,7 +176,7 @@ function dessinerTourRalentisante(ctx, widthCanvas, heightCanvas, item) {
     ctx.lineWidth = 2;
 
     const spiraleTours = 2.5;
-    const rayonMax = 12*2;
+    const rayonMax = 12*multiplicateurTaille;
     const points = 100;
 
     for (let i = 0; i < points; i++) {
@@ -188,18 +190,61 @@ function dessinerTourRalentisante(ctx, widthCanvas, heightCanvas, item) {
     }
     ctx.stroke();
 }
+function dessinerTourExplosive(ctx, widthCanvas, heightCanvas, item) {
+    const taille = item.attributs.taille * multiplicateurTaille;
+    const width = taille;
+    const height = taille;
+    const x = widthCanvas/2 - width/2;
+    const y = heightCanvas/2 - height/2;
+    const radius = 7*multiplicateurTaille;
+
+    // Dessin du carré arrondi
+    ctx.beginPath();
+    ctx.moveTo(x + radius, y);
+    ctx.lineTo(x + width - radius, y);
+    ctx.quadraticCurveTo(x + width, y, x + width, y + radius);
+    ctx.lineTo(x + width, y + height - radius);
+    ctx.quadraticCurveTo(x + width, y + height, x + width - radius, y + height);
+    ctx.lineTo(x + radius, y + height);
+    ctx.quadraticCurveTo(x, y + height, x, y + height - radius);
+    ctx.lineTo(x, y + radius);
+    ctx.quadraticCurveTo(x, y, x + radius, y);
+    ctx.closePath();
+    ctx.fillStyle = "#1e90ff";
+    ctx.fill();
+
+    // Dessin de l'étoile
+    const centerX = widthCanvas/2;
+    const centerY = heightCanvas/2;
+    const spikes = 8;
+    const outerRadius = 11*multiplicateurTaille;
+    const innerRadius = 5*multiplicateurTaille;
+    ctx.save();
+    ctx.beginPath();
+    ctx.translate(centerX, centerY);
+    ctx.moveTo(0, -outerRadius);
+    for (let i = 0; i < spikes * 2; i++) {
+        const angle = (Math.PI / spikes) * i;
+        const r = i % 2 === 0 ? outerRadius : innerRadius;
+        ctx.lineTo(Math.sin(angle) * r, -Math.cos(angle) * r);
+    }
+    ctx.closePath();
+    ctx.fillStyle = "#ffd700";
+    ctx.shadowColor = "#ffae00";
+    ctx.shadowBlur = 8;
+    ctx.fill();
+    ctx.restore();
+    ctx.shadowBlur = 0;
+}
 
 function dessinerCercle(ctx, widthCanvas, heightCanvas, item) {
-    //console.log(`Dessiner un cercle pour l'item : ${item.attributs.nom}`);
-    // Dessiner l'item découvert
     ctx.fillStyle = item.attributs.couleur;
     ctx.beginPath();
-    ctx.arc(widthCanvas / 2, heightCanvas / 2, item.attributs.taille * 2, 0, Math.PI * 2);
+    ctx.arc(widthCanvas / 2, heightCanvas / 2, item.attributs.taille * multiplicateurTaille, 0, Math.PI * 2);
     ctx.fill();
 }
 function dessinerTriangle(ctx, widthCanvas, heightCanvas, item) {
-    //console.log(`Dessiner un triangle pour l'item : ${item.attributs.nom}`);
-    const taille = item.attributs.taille * 2;
+    const taille = item.attributs.taille * multiplicateurTaille;
     // Calculer la direction du mouvement
     let angle = 0;
     const target = {x:widthCanvas, y:heightCanvas / 2};
@@ -227,7 +272,7 @@ function dessinerTriangle(ctx, widthCanvas, heightCanvas, item) {
 function dessinerEllipse(ctx, widthCanvas, heightCanvas, item) {
     ctx.save();
     ctx.beginPath();
-    ctx.ellipse(widthCanvas/2, heightCanvas/2, item.attributs.taille*2, item.attributs.taille*2 * 0.6, 0, 0, Math.PI * 2);
+    ctx.ellipse(widthCanvas/2, heightCanvas/2, item.attributs.taille*multiplicateurTaille, item.attributs.taille*multiplicateurTaille * 0.6, 0, 0, Math.PI * 2);
     ctx.fillStyle = item.attributs.couleur;
     ctx.fill();
     ctx.restore();
@@ -258,7 +303,10 @@ function dessinerCanvas(listeItem) {
                     dessinerTourClassique(ctx, width, height, item);
                     break;
                 case 'TourRalentissante':
-                    dessinerTourRalentisante(ctx, width, height, item);
+                    dessinerTourRalentissante(ctx, width, height, item);
+                    break;
+                case 'TourExplosive':
+                    dessinerTourExplosive(ctx, width, height, item);
                     break;
                 default:
                     console.warn(`Forme de dessin inconnue : ${item.attributs.formeDessin} pour l'item ${item.attributs.nom}`);

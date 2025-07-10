@@ -121,11 +121,7 @@ function creerSauvegarde(&$saves, $nom){
             "ronds"=> 0,
             "hexagones"=> 0
         ],
-        "niveauxCompletes"=> [
-            "Niveau 1"=> false,
-            "Niveau 2"=> false,
-            "Niveau 3"=> false
-        ],
+        "niveauxCompletes"=> [],
         "dateCreation"=> $date,
         "dateDerniereSave"=> $date,
         "modificateurs"=> [
@@ -150,6 +146,10 @@ function creerSauvegarde(&$saves, $nom){
     foreach($listeTechno as $nomTechno){
         $saves['saves'][$nom]['technologies'][$nomTechno['nom']] = 0;
 
+    }
+    $niveaux = json_decode(file_get_contents('niveaux.json'), true);
+    foreach ($niveaux as $niveau) {
+        $saves['saves'][$nom]['niveauxCompletes'][$niveau['nom']] = false;
     }
     file_put_contents('saves.json', json_encode($saves, JSON_PRETTY_PRINT));
 }

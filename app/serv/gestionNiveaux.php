@@ -11,9 +11,9 @@ switch ($action){
     case 'chargerNiveau':
         chargerNiveau($niveaux, $nomNiveau);
         break;
-    /*case 'selectionnerNiveau':
-        selectionnerNiveau($numero);
-        break;*/
+    case 'getNiveaux':
+        echo json_encode($niveaux);
+        break;
     default:
         echo 'action non reconnue';
         break;

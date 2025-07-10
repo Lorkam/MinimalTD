@@ -1,5 +1,5 @@
 import { Ennemi } from "./enemy.js";
-import { Projectile, Onde } from "./projectiles.js";
+import { Projectile, Onde, Bombe } from "./projectiles.js";
 
 export class Tower {
     constructor(type, position, partie) {
@@ -67,14 +67,19 @@ export class Tower {
         }
     }
 
-
+    vendre(){
+        this.partie.emplacementSelectionne.tour = null; // Retire la tour de l'emplacement
+        this.partie.towers = this.partie.towers.filter(tour => tour !== this); // Retire la tour de la liste des tours
+        this.partie['prix'+this.type] /= 2; // Réduit le prix de la tour classique pour la prochaine fois
+        return this.valeur; // Retourne la valeur de la tour pour la vendre
+    }
 }
 
 export class TourClassique extends Tower {
     constructor(position, partie) {
         const modificateursToursClassiques = partie.modificateurs.tours;
         const statToursClassiques = partie.statTours.TourClassique;
-        super('Classique', position, partie);
+        super('TourClassique', position, partie);
         this.lvl = 1; // Niveau de la tour
         this.prix = statToursClassiques.prix[0] * modificateursToursClassiques.prix; // Prix de la tour
         this.listePrixAmelioration = [statToursClassiques.prix[0], statToursClassiques.prix[1], statToursClassiques.prix[2], 'Max']; // Prix d'amélioration de la tour
@@ -170,19 +175,12 @@ export class TourClassique extends Tower {
         this.prixAmelioration = this.listePrixAmelioration[this.lvl];
         return -cout;
     }
-
-    vendre(){
-        this.partie.emplacementSelectionne.tour = null; // Retire la tour de l'emplacement
-        this.partie.towers = this.partie.towers.filter(tour => tour !== this); // Retire la tour de la liste des tours
-        this.partie.prixTourClassique /= 2; // Réduit le prix de la tour classique pour la prochaine fois
-        return this.valeur; // Retourne la valeur de la tour pour la vendre
-    }
 }
 export class TourRalentissante extends Tower {
     constructor(position, partie) {
         const modificateursTours = partie.modificateurs.tours;
         const statToursRalentissante = partie.statTours.TourRalentissante;
-        super('Ralentissante', position, partie);
+        super('TourRalentissante', position, partie);
         this.lvl = 1; // Niveau de la tour
         this.prix = statToursRalentissante.prix[0] * modificateursTours.prix; // Prix de la tour
         this.liqtePrixAmelioration = [statToursRalentissante.prix[0], statToursRalentissante.prix[1], statToursRalentissante.prix[2], 'Max']; // Prix d'amélioration de la tour
@@ -282,13 +280,6 @@ export class TourRalentissante extends Tower {
         return -cout;
     }
 
-    vendre(){
-        this.partie.emplacementSelectionne.tour = null; // Retire la tour de l'emplacement
-        this.partie.towers = this.partie.towers.filter(tour => tour !== this); // Retire la tour de la liste des tours
-        this.partie.prixTourClassique /= 2; // Réduit le prix de la tour classique pour la prochaine fois
-        return this.valeur; // Retourne la valeur de la tour pour la vendre
-    }
-
     tirer(ennemi = null) {
         if (Date.now() - this.derniereAttaque < this.attaqueSpeed) {
             return; // Ne tire pas si le temps de recharge n'est pas écoulé
@@ -306,5 +297,123 @@ export class TourRalentissante extends Tower {
             }
             balle.draw(this.partie.ctx);
         }
+    }
+}
+export class TourExplosive extends Tower {
+    constructor(position, partie) {
+        const modificateursTours = partie.modificateurs.tours;
+        const statTourExplosive = partie.statTours.TourExplosive;
+        super('TourExplosive', position, partie);
+        this.lvl = 1; // Niveau de la tour
+        this.prix = statTourExplosive.prix[0]; // Prix de la tour
+        this.listePrixAmelioration = [statTourExplosive.prix[0], statTourExplosive.prix[1], statTourExplosive.prix[2], 'Max']; // Prix d'amélioration de la tour
+        this.prixAmelioration = this.listePrixAmelioration[this.lvl]; // Prix d'amélioration de la tour
+        this.valeur = this.prix;
+        this.degats = statTourExplosive.degats * modificateursTours.degats; // Dégâts infligés par la tour
+        this.attaqueSpeed = statTourExplosive.attaqueSpeed / modificateursTours.vitesseAttaque; // Temps de recharge en millisecondes
+        this.portee = statTourExplosive.portee + modificateursTours.portee
+        this.derniereAttaque = Date.now();
+        this.afficherPortee = false; // Indique si la portée de la tour doit être affichée
+        this.tauxCrit = modificateursTours.critRate; // Taux de critique de la tour
+        this.multiplicateurCrit = modificateursTours.critDamage; // dégats supplémentaires en cas de coup critique
+        this.porteeExplosion = statTourExplosive.porteeExplosion; // Portée de l'explosion
+        this.degatsExplosion = statTourExplosive.degatsExplosion; // Dégâts de l'explosion
+    }
+
+    dessiner() {
+        const ctx = this.partie.ctx;
+        const x = this.position.x - 15;
+        const y = this.position.y - 15;
+        const width = 30;
+        const height = 30;
+        const radius = 7;
+
+        // Dessin du carré arrondi
+        ctx.beginPath();
+        ctx.moveTo(x + radius, y);
+        ctx.lineTo(x + width - radius, y);
+        ctx.quadraticCurveTo(x + width, y, x + width, y + radius);
+        ctx.lineTo(x + width, y + height - radius);
+        ctx.quadraticCurveTo(x + width, y + height, x + width - radius, y + height);
+        ctx.lineTo(x + radius, y + height);
+        ctx.quadraticCurveTo(x, y + height, x, y + height - radius);
+        ctx.lineTo(x, y + radius);
+        ctx.quadraticCurveTo(x, y, x + radius, y);
+        ctx.closePath();
+        ctx.fillStyle = "#1e90ff";
+        ctx.fill();
+
+        // Dessin de l'étoile
+        const centerX = this.position.x;
+        const centerY = this.position.y;
+        const spikes = 8;
+        const outerRadius = 11;
+        const innerRadius = 5;
+        ctx.save();
+        ctx.beginPath();
+        ctx.translate(centerX, centerY);
+        ctx.moveTo(0, -outerRadius);
+        for (let i = 0; i < spikes * 2; i++) {
+            const angle = (Math.PI / spikes) * i;
+            const r = i % 2 === 0 ? outerRadius : innerRadius;
+            ctx.lineTo(Math.sin(angle) * r, -Math.cos(angle) * r);
+        }
+        ctx.closePath();
+        ctx.fillStyle = "#ffd700";
+        ctx.shadowColor = "#ffae00";
+        ctx.shadowBlur = 8;
+        ctx.fill();
+        ctx.restore();
+        ctx.shadowBlur = 0;
+
+        // Dessiner la portée de la tour
+        if(this.afficherPortee){
+            this.partie.ctx.beginPath();
+            this.partie.ctx.arc(this.position.x, this.position.y, this.portee, 0, 2 * Math.PI);
+            this.partie.ctx.strokeStyle = "rgba(0, 255, 0, 0.3)";
+            this.partie.ctx.lineWidth = 2;
+            this.partie.ctx.stroke();
+        }
+    }
+
+    ameliorer(){
+        const spanAmelioration = document.querySelector('#divOptionsTour #ameliorer');
+        if(spanAmelioration.classList.contains('pasDispo')) {
+            this.partie.console.ecrire("Vous n'avez pas débloqué la technologie nécessaire : Ingénierie niv " + (this.lvl));
+            return 0; // Retourne 0 si l'utilisateur n'a pas débloqué la technologie
+        }
+        if(this.partie.golds < this.prixAmelioration) {
+            this.partie.console.ecrire("Pas assez d'or pour améliorer cette tour.");
+            return 0;
+        }
+        const lvlCible = this.lvl + 1;
+        switch (lvlCible) {
+            case 2:
+                this.degats *= 1.5;
+                this.attaqueSpeed *= 0.9;
+                this.portee *= 1.1;
+                break;
+            case 3:
+                this.degats *= 2;
+                this.attaqueSpeed *= 0.8;
+                this.portee *= 1.2;
+                break;
+            default:
+                console.error("Cette tour ne peut pas être améliorée au-delà du niveau 3.");
+                return 0;
+        }
+        this.lvl++;
+        const cout = this.prixAmelioration;
+        this.valeur += cout; // Augmente la valeur de la tour
+        this.prixAmelioration = this.listePrixAmelioration[this.lvl];
+        return -cout;
+    }
+
+    tirer(ennemi) {
+        if (Date.now() - this.derniereAttaque < this.attaqueSpeed) {
+            return; // Ne tire pas si le temps de recharge n'est pas écoulé
+        }
+        this.listeBalles.push(new Bombe(this, ennemi));
+        this.derniereAttaque = Date.now(); // Met à jour le temps de la dernière attaque
     }
 }

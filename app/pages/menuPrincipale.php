@@ -35,8 +35,10 @@ $sauvegarde = $_SESSION['nomSauvegarde']??null;
         <div class="flex-column cachee" id="menuMilieu">
             <div id="divContainerNiveaux" style="display: none;">
                 <h2>Choisissez un niveau</h2>
-                <div class="flex-row" id="divImagesNiveaux"><img src="../assets/img/niveau1.png"><img src="../assets/img/niveau2.png"><img src="../assets/img/niveau3.png"></div>
-                <div class="flex-row" id="divNiveaux"><span>Niveau 1</span><span>Niveau 2</span><span>Niveau 3</span></div>
+                <div id="divNiveaux">
+                    <!-- Ajout dynamique en js-->
+                </div>
+
                 <button id="flecheGauche" class="fleche"><img src="../assets/img/flecheGauche.png"></button>
                 <button id="flecheDroite" class="fleche"><img src="../assets/img/flecheDroite.png"></button>
                 <form id="formLancerNiveau" action="partie.php" method="post">

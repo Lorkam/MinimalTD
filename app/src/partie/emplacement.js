@@ -1,4 +1,4 @@
-import { TourClassique, TourRalentissante } from "./tower.js";
+import { TourClassique, TourRalentissante, TourExplosive } from "./tower.js";
 
 export class Emplacement {
     constructor(position, partie) {
@@ -36,6 +36,19 @@ export class Emplacement {
                     this.partie.towers.push(this.tour); // Ajoute la tour à la liste des tours
                     const cout = this.partie.prixTourRalentissante
                     this.partie.prixTourRalentissante *=2;
+                    return -1*cout; // renvoie le coût de la tour
+                }else{
+                    this.partie.console.ecrire("Pas assez d'or pour acheter cette tour.");
+                    return 0; // Retourne 0 si l'or est insuffisant
+                }
+            case 'TourExplosive':
+                const nouvelleTourExplosive = new TourExplosive({x:this.x, y:this.y}, this.partie); // Crée une nouvelle tour Explosive
+                console.log(this.partie.prixTourExplosive);
+                if (this.partie.golds >= this.partie.prixTourExplosive) { // Vérifie si l'or est suffisant
+                    this.tour = nouvelleTourExplosive;
+                    this.partie.towers.push(this.tour); // Ajoute la tour à la liste des tours
+                    const cout = this.partie.prixTourExplosive
+                    this.partie.prixTourExplosive *=2;
                     return -1*cout; // renvoie le coût de la tour
                 }else{
                     this.partie.console.ecrire("Pas assez d'or pour acheter cette tour.");

@@ -25,7 +25,7 @@ const endroitsClickable = [
     btnJouer, 
     menuMilieu, 
     divNiveaux, 
-    ...divNiveaux.querySelectorAll('span'), 
+    ...divNiveaux.children, 
     ...document.querySelectorAll('#divImagesNiveaux img'),
     ...document.querySelectorAll('.fleche img'), 
     btnLancerNiveau, 
@@ -121,49 +121,63 @@ document.querySelectorAll('.fleche img').forEach((fleche) => {
     });
 });
 
+async function getNiveaux() {
+    const url = '../serv/gestionNiveaux.php';
+    try {
+        // Création de la requête pour accéder au PHP
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: 'action=getNiveaux'
+        });
+
+        const data = await response.json();
+        //console.log(data);
+        return data;
+    } catch (error) {
+        console.error('Erreur récupération données :', error);
+    }
+}
+
+const niveaux = await getNiveaux();
+const nomsNiveaux = Object.keys(niveaux); // Noms des niveaux
+
+function chargerNiveau() {
+    let i = 1;
+    for(const niveau of nomsNiveaux) {
+        const divniveau = document.createElement('div');
+        divniveau.classList.add('niveau', 'flex-column');
+        divniveau.id = 'niveau'.i;
+        divniveau.style.left = 33+(i-1)*466 + 'px'; // Positionnement horizontal des niveaux
+        i++;
+        const imgNiveau = document.createElement('img');
+        imgNiveau.src = niveaux[niveau].imgNiveau; // Chemin de l'image du niveau
+        const spanNiveau = document.createElement('span');
+        spanNiveau.textContent = niveau; // Nom du niveau
+        divniveau.appendChild(imgNiveau);
+        divniveau.appendChild(spanNiveau);
+        divNiveaux.appendChild(divniveau);
+    }
+}
+
+chargerNiveau(); // Charge les niveaux
+
+let currentLeft = 0; // Position actuelle du niveau, initialisé à 0 (premier niveau)
+divNiveaux.style.left = '0%'; // Position initiale du divNiveaux
 function mettreAJourNiveauSelectionne(action) {
-    const nomsNiveaux = ['Niveau 1', 'Niveau 2', 'Niveau 3'];
     switch (action) {
         case '-':
-            switch (lvlActuellementSelectionne) {
-                case 2:
-                    divNiveaux.classList.remove('from3To2');
-                    divNiveaux.classList.remove('from1To2');
-                    divNiveaux.classList.add('from2To1');
-                    divImagesNiveaux.classList.remove('from3To2');
-                    divImagesNiveaux.classList.remove('from1To2');
-                    divImagesNiveaux.classList.add('from2To1');
-                    break;
-                case 3:
-                    divNiveaux.classList.remove('from2To3');
-                    divNiveaux.classList.add('from3To2');
-                    divImagesNiveaux.classList.remove('from2To3');
-                    divImagesNiveaux.classList.add('from3To2');
-                    break;
-            }
-            if (lvlActuellementSelectionne > 1) {
+            if(lvlActuellementSelectionne > 1) {
+                currentLeft += 100; // décale vers la gauche
                 lvlActuellementSelectionne--;
+                divNiveaux.style.left = `${currentLeft}%`;
             }
             break;
         case '+':
-            switch (lvlActuellementSelectionne) {
-                case 1:
-                    divNiveaux.classList.remove('from2To1');
-                    divNiveaux.classList.add('from1To2');
-                    divImagesNiveaux.classList.remove('from2To1');
-                    divImagesNiveaux.classList.add('from1To2');
-                    break;
-                case 2:
-                    divNiveaux.classList.remove('from3To2');
-                    divNiveaux.classList.remove('from1To2');
-                    divNiveaux.classList.add('from2To3');
-                    divImagesNiveaux.classList.remove('from3To2');
-                    divImagesNiveaux.classList.remove('from1To2');
-                    divImagesNiveaux.classList.add('from2To3');
-                    break;
-            }
-            if (lvlActuellementSelectionne < 3) {
+            if(lvlActuellementSelectionne < nomsNiveaux.length) {
+                currentLeft -= 100; // décale vers la gauche
                 lvlActuellementSelectionne++;
+                divNiveaux.style.left = `${currentLeft}%`;
             }
             break;
     }

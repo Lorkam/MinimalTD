@@ -105,6 +105,7 @@ export class Partie {
             this.statTours = data; // Récupère les statistiques des tours depuis la réponse
             this.prixTourClassique = this.statTours.TourClassique.prix[0]; // Prix de la tour classique
             this.prixTourRalentissante = this.statTours.TourRalentissante.prix[0]; // Prix de la tour Ralentissante
+            this.prixTourExplosive = this.statTours.TourExplosive.prix[0]; // Prix de la tour Explosive
         } catch (error) {
             console.error('Erreur récupération données :', error);
         }
