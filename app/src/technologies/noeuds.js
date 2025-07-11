@@ -193,7 +193,7 @@ export class Noeud {
             });
 
             const data = await response.text();
-            //console.log(data);
+            console.log(data);
             return data.resultat === true;//'succes';
         } catch (error) {
             console.error('Erreur récupération données :', error);

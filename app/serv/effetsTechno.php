@@ -81,3 +81,33 @@ function critDamage($action, &$technosSave, $lvl, &$modificateursSave, $listeTec
     $modificateursSave['tours']['critDamage'] = $listeTechno['critDamage']['detailLvl'][$lvl];
     return;
 }
+function tourExplosive($action, &$technosSave, $lvl, &$modificateursSave, $listeTechno){
+    $lvl = (int)$lvl;
+    if($action == 'achat'){
+        $technosSave['tourExplosive'] = $lvl;
+    }elseif($action == 'vente'){
+        $technosSave['tourExplosive'] = $lvl;
+    }
+    $modificateursSave['TourExplosive'] = $listeTechno['tourExplosive']['detailLvl'][$lvl];
+    return;
+}
+function coeurBonus($action, &$technosSave, $lvl, &$modificateursSave, $listeTechno){
+    $lvl = (int)$lvl;
+    if($action == 'achat'){
+        $technosSave['coeurBonus'] = $lvl;
+    }elseif($action == 'vente'){
+        $technosSave['coeurBonus'] = $lvl;
+    }
+    $modificateursSave['coeurBonus'] = $listeTechno['coeurBonus']['detailLvl'][$lvl];
+    return;
+}
+function portee($action, &$technosSave, $lvl, &$modificateursSave, $listeTechno){
+    $lvl = (int)$lvl;
+    if($action == 'achat'){
+        $technosSave['portee'] = $lvl;
+    }elseif($action == 'vente'){
+        $technosSave['portee'] = $lvl;
+    }
+    $modificateursSave['tours']['portee'] = $listeTechno['portee']['detailLvl'][$lvl];
+    return;
+}

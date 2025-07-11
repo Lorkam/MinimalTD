@@ -18,7 +18,7 @@ export class Partie {
         this.emplacements = []; // Liste des emplacements pour les tours
         this.towers = []; // Liste des tours
         this.projectiles = []; // Liste des projectiles
-        this.heartPV = 3; // Points de vie du coeur
+        this.heartPV = 1; // Points de vie du coeur
         
         this.canvas = document.getElementById('gameCanvas');
         this.ctx = this.canvas.getContext('2d');
@@ -170,6 +170,7 @@ export class Partie {
     }
     chargerOptionsEmplacement(divOptionsEmplacement) {
         for (const [key, value] of Object.entries(this.statTours)) {
+            if(this.modificateurs[key] == false) continue; // Si la tour n'est pas débloquée, on passe à la suivante
             const option = document.createElement('span');
             option.className = 'optionEmplacement';
             option.id = key;
@@ -403,12 +404,15 @@ export class Partie {
      */
     verifChangementVague() {
         const lancerVagueBtn = document.getElementById('lancerVagueBtn');
-        if (this.nbEnnemisMorts == this.totalEnnemis && this.niveau.vagues[this.vague - 1].derniereVague==false) {
-            this.console.ecrire("Fin de la vague " + (this.vague ));
-            this.vague++;
-            this.initialisationVague();
-            lancerVagueBtn.disabled = false; // Réactive le bouton pour la prochaine vague
+        if(this.heartPV <= 0) {
+            this.console.ecrire("Game Over ! Vous avez perdu !");
+            console.log(this.monnaies);
+            this.sauvegarder(false); // Sauvegarde l'état du jeu
             this.jeuDemarre = false; // Indique que le jeu n'est plus en cours
+            this.jeuTermine = true; // Indique que le jeu est terminé
+            lancerVagueBtn.disabled = false;
+            document.getElementById('divEcranSombre').style.display = 'flex'; // Affiche l'image de défaite
+            document.getElementById('divImgDefaite').style.display = 'flex'; // Affiche l'image de défaite
         }else if(this.nbEnnemisMorts == this.totalEnnemis && this.niveau.vagues[this.vague - 1].derniereVague==true) {
             this.console.ecrire("Fin de la dernière vague");
             this.console.ecrire("Félicitations ! Vous avez terminé ce niveau !");
@@ -419,15 +423,12 @@ export class Partie {
             lancerVagueBtn.disabled = false;
             document.getElementById('divEcranSombre').style.display = 'flex'; // Affiche l'image de victoire
             document.getElementById('divImgVictoire').style.display = 'flex'; // Affiche l'image de victoire
-        }else if(this.heartPV <= 0) {
-            this.console.ecrire("Game Over ! Vous avez perdu !");
-            console.log(this.monnaies);
-            this.sauvegarder(false); // Sauvegarde l'état du jeu
+        }else if (this.nbEnnemisMorts == this.totalEnnemis && this.niveau.vagues[this.vague - 1].derniereVague==false) {
+            this.console.ecrire("Fin de la vague " + (this.vague ));
+            this.vague++;
+            this.initialisationVague();
+            lancerVagueBtn.disabled = false; // Réactive le bouton pour la prochaine vague
             this.jeuDemarre = false; // Indique que le jeu n'est plus en cours
-            this.jeuTermine = true; // Indique que le jeu est terminé
-            lancerVagueBtn.disabled = false;
-            document.getElementById('divEcranSombre').style.display = 'flex'; // Affiche l'image de défaite
-            document.getElementById('divImgDefaite').style.display = 'flex'; // Affiche l'image de défaite
         }
     }
 

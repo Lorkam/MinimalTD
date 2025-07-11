@@ -61,7 +61,6 @@ export class Emplacement {
         }
     }
 
-
     actionsDuTour() {
         // Vérifie si une tour est déjà placée sur cet emplacement
         if (this.tour) {
@@ -88,6 +87,7 @@ export class Emplacement {
         if(!this.tour){
             const divOptionsEmplacement = document.querySelector('#divOptionsEmplacement');
             for(const typeTour of Object.keys(this.partie.statTours)){
+                if(this.partie.modificateurs[typeTour] == 0) continue; // Si la tour n'est pas débloquée, on passe à la suivante
                 divOptionsEmplacement.querySelector('#prix'+typeTour).textContent = this.lvl >= this.nbLvl ? 'Max' : this.partie['prix'+typeTour]; // Met à jour le prix de la tour classique
             }
             divOptionsEmplacement.style.display = 'flex'; // Masque les options de l'emplacement

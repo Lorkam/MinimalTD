@@ -2,7 +2,7 @@
     "centre":{
         "nom": "centre",
         "titre":"Centre de l'arbre technologique",
-        "description": "Point de départ de l'arbre technologique",
+        "description": "Point de départ de l'arbre technologique.",
         "position":{"x": 775, "y": 405},
         "prix":{"type": "triangles", "quantite": 1},
         "technologiesFille":["degats", "vitesseAttaque", "lvlUpTours", "goldsBonusDepart"],
@@ -17,10 +17,10 @@
     "vitesseAttaque":{
         "nom": "vitesseAttaque",
         "titre":"Rapidité",
-        "description": "Augmente la vitesse d'attaque de vos tours",
+        "description": "Augmente la vitesse d'attaque de vos tours.",
         "position":{"x": 620, "y": 511},
         "prix":{"type": "triangles", "quantite": 10},
-        "technologiesFille":[],
+        "technologiesFille":["portee"],
         "lienImage1":"../assets/img/arc.png",
         "etatParDefaut": "inconnu",
         "nbLvl": 3,
@@ -34,7 +34,7 @@
     "degats":{
         "nom": "degats",
         "titre":"Force de frappe",
-        "description": "Augmente les dégâts de vos tours",
+        "description": "Augmente les dégâts de vos tours.",
         "position":{"x": 620, "y": 298},
         "prix":{"type": "triangles", "quantite": 5},
         "technologiesFille":["critRate", "critDamage"],
@@ -51,10 +51,10 @@
     "goldsBonusDepart":{
         "nom": "goldsBonusDepart",
         "titre":"Argent de poche",
-        "description": "Augmente les golds de départ",
+        "description": "Augmente les golds de départ.",
         "position":{"x": 930, "y": 298},
         "prix":{"type": "triangles", "quantite": 7},
-        "technologiesFille":["goldsBonusParEnnemis"],
+        "technologiesFille":["goldsBonusParEnnemis", "coeurBonus"],
         "lienImage1":"../assets/img/euro.png",
         "etatParDefaut": "inconnu",
         "nbLvl": 3,
@@ -68,7 +68,7 @@
     "goldsBonusParEnnemis":{
         "nom": "goldsBonusParEnnemis",
         "titre":"Savoir où chercher",
-        "description": "Augmente les golds obtenus par ennemi",
+        "description": "Augmente les golds obtenus par ennemi.",
         "position":{"x": 1130, "y": 250},
         "prix":{"type": "triangles", "quantite": 7},
         "technologiesFille":[],
@@ -85,10 +85,10 @@
     "lvlUpTours":{
         "nom": "lvlUpTours",
         "titre":"ingénierie",
-        "description": "Augmente le niveau max de vos tours",
+        "description": "Augmente le niveau max de vos tours.",
         "position":{"x": 930, "y": 511},
         "prix":{"type": "triangles", "quantite": 30},
-        "technologiesFille":[],
+        "technologiesFille":["tourExplosive"],
         "lienImage1":"../assets/img/flecheVerte.png",
         "etatParDefaut": "inconnu",
         "nbLvl": 2,
@@ -101,7 +101,7 @@
     "critRate":{
         "nom": "critRate",
         "titre":"Précision",
-        "description": "Vos tours ont plus de chances de faire un coup critique",
+        "description": "Vos tours ont plus de chances de faire un coup critique.",
         "position":{"x": 600, "y": 150},
         "prix":{"type": "triangles", "quantite": 20},
         "technologiesFille":[],
@@ -119,7 +119,7 @@
     "critDamage":{
         "nom": "critDamage",
         "titre":"Appuyer là où ça fait mal",
-        "description": "Augmente les dégâts critiques de vos tours",
+        "description": "Augmente les dégâts critiques de vos tours.",
         "position":{"x": 480, "y": 180},
         "prix":{"type": "triangles", "quantite": 20},
         "technologiesFille":[],
@@ -131,6 +131,55 @@
             "1":1.2,
             "2":1.4,
             "3":1.6
+        }
+    },
+    "tourExplosive":{
+        "nom": "tourExplosive",
+        "titre":"Ça va péter !",
+        "description": "Tour qui tire des projectiles explosifs, infligeant des dégâts de zone.",
+        "position":{"x": 1150, "y": 540},
+        "prix":{"type": "hexagones", "quantite": 1},
+        "technologiesFille":[],
+        "lienImage1":"../assets/img/tourExplosive.png",
+        "etatParDefaut": "cache",
+        "nbLvl": 1,
+        "detailLvl":{
+            "0":0,
+            "1":1
+        }
+    },
+    "coeurBonus":{
+        "nom": "coeurBonus",
+        "titre":"Ça vie heeiiinnnn !",
+        "description": "Ajoute une vie par niveau à votre coeur.",
+        "position":{"x": 1030, "y": 150},
+        "prix":{"type": "ronds", "quantite": 4},
+        "technologiesFille":[],
+        "lienImage1":"../assets/img/heart.png",
+        "etatParDefaut": "cache",
+        "nbLvl": 3,
+        "detailLvl":{
+            "0":0,
+            "1":1,
+            "2":2,
+            "3":3
+        }
+    },
+    "portee":{
+        "nom": "portee",
+        "titre":"Oeil de lynx",
+        "description": "Augmente la portée de vos tours.",
+        "position":{"x": 450, "y": 540},
+        "prix":{"type": "ronds", "quantite": 5},
+        "technologiesFille":[],
+        "lienImage1":"../assets/img/portee.png",
+        "etatParDefaut": "cache",
+        "nbLvl": 3,
+        "detailLvl":{
+            "0":0,
+            "1":10,
+            "2":20,
+            "3":30
         }
     }
 }

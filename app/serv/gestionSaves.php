@@ -141,7 +141,8 @@ function creerSauvegarde(&$saves, $nom){
             "lvlUpTours"=> 0,
         ],
         "technologies"=> [],
-        "ennemisRencontres" => []
+        "ennemisRencontres" => [],
+        "toursDebloquees" => [],
     ];
     foreach($listeTechno as $nomTechno){
         $saves['saves'][$nom]['technologies'][$nomTechno['nom']] = 0;
@@ -150,6 +151,10 @@ function creerSauvegarde(&$saves, $nom){
     $niveaux = json_decode(file_get_contents('niveaux.json'), true);
     foreach ($niveaux as $niveau) {
         $saves['saves'][$nom]['niveauxCompletes'][$niveau['nom']] = false;
+    }
+    $tours = json_decode(file_get_contents('tours.json'), true);
+    foreach ($tours as $tour) {
+        $saves['saves'][$nom]['toursDebloquees'][$tour['nom']] = $tour['debloqueDepart'];
     }
     file_put_contents('saves.json', json_encode($saves, JSON_PRETTY_PRINT));
 }

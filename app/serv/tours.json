@@ -8,7 +8,8 @@
         "portee":100,
         "taille":30,
         "nomBestiaire":"Classique",
-        "formeDessin":"TourClassique"
+        "formeDessin":"TourClassique",
+        "debloqueDepart":true
     },
     "TourRalentissante":{
         "nom":"TourRalentissante",
@@ -20,6 +21,7 @@
         "taille":30,
         "nomBestiaire":"Ralentissante",
         "formeDessin":"TourRalentissante",
+        "debloqueDepart":true,
         "ralentissement":0.5,
         "dureeRalentissement":1000
     },
@@ -33,6 +35,7 @@
         "taille":30,
         "nomBestiaire":"Explosive",
         "formeDessin":"TourExplosive",
+        "debloqueDepart":false,
         "porteeExplosion":50,
         "degatsEplosion":0.8
     }

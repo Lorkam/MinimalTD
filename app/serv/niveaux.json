@@ -29,8 +29,7 @@
       },
       {
         "ennemis": [
-          { "type": "EnnemiTank", "nb": 1, "intervale": 2000 },
-          { "type": "EnnemiClassique", "nb": 5, "intervale": 1500 }
+          { "type": "EnnemiTank", "nb": 1, "intervale": 2000 }
         ],
         "derniereVague": false
       },
@@ -42,7 +41,7 @@
       },
       {
         "ennemis": [
-          { "type": "EnnemiRapide", "nb": 20, "intervale": 300 },
+          { "type": "EnnemiRapide", "nb": 15, "intervale": 500 },
           { "type": "EnnemiTank", "nb": 3, "intervale": 2000 }
         ],
         "derniereVague": false
@@ -136,7 +135,13 @@
       { "x": 875, "y": 375 },
       { "x": 875, "y": 225 }
     ],
-    "batiments":[],
+    "batiments":[
+      ["cercle", 380, 185, 80, 80],
+      ["cercle", 380, 335, 80, 80],
+      ["rectangle", 530, 185, 235, 80],
+      ["rectangle", 530, 335, 235, 80],
+      ["rectangle", 830, 185, 90, 235]
+    ],
     "imgChemin": "../assets/img/chemin.png",
     "heart": { "x": 925, "y": 460},
     "vagues": [
@@ -176,13 +181,5 @@
         "derniereVague": true
       }
     ]
-  },
-  "Niveau 4": {
-    "nom": "Niveau 4",
-    "imgNiveau": "../assets/img/niveau4.png"
-  },
-  "Niveau 5": {
-    "nom": "Niveau 5",
-    "imgNiveau": "../assets/img/niveau5.png"
   }
 }

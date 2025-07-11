@@ -38,6 +38,7 @@ const endroitsClickable = [
     ...listeSauvegardes,
     btnMenuSauvegarder,
     btnSauvegarder,
+    // d'autres éléments sont ajoutés dans les initialisations
 ];
 //console.log(endroitsClickable);
 
@@ -157,6 +158,8 @@ function chargerNiveau() {
         divniveau.appendChild(imgNiveau);
         divniveau.appendChild(spanNiveau);
         divNiveaux.appendChild(divniveau);
+        endroitsClickable.push(divniveau);
+        endroitsClickable.push(...divniveau.children);
     }
 }
 
