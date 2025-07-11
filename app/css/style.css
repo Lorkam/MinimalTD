@@ -20,6 +20,7 @@ body{
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
 }
 #divContainerJeu{
+    background: #c4c4c4;
     margin: 0;
     padding: 0;
     width: 1550px;
@@ -27,7 +28,6 @@ body{
     overflow: hidden;
 }
 canvas {
-    background: #c4c4c4;
     display: block;
     margin: 0;
     z-index: 2;

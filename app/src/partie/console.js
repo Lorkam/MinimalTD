@@ -41,11 +41,15 @@ export class Console {
                 case 'aide':
                     this.ecrire('Commandes disponibles : /aide, /give, /vie');
                     break;
-                case 'give':
+                case 'give': // cheat
                     this.partie.golds += parseInt(listeMots[1], 10);
                     break;
-                case 'vie':
-                    this.ecrire(`Vie restante : ${this.partie.heartPV}`);
+                case 'malphite': // Easter Egg
+                    this.ecrire(`top Diff`);
+                    this.partie.canvas.style.background = "url(../assets/img/KAYOU.jpg)";
+                    this.partie.canvas.style.backgroundSize = "cover";
+                    this.partie.canvas.style.backgroundPosition = "center";
+                    this.partie.canvas.style.backgroundRepeat = "no-repeat";
                     break;
                 default:
                     this.ecrire(`Commande inconnue : ${message}`);
