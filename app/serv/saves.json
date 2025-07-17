@@ -3,9 +3,9 @@
         "sdtyg": {
             "description": "sauvegarde vide",
             "monnaies": {
-                "triangles": 1712,
-                "ronds": 776,
-                "hexagones": 36
+                "triangles": 3542,
+                "ronds": 1576,
+                "hexagones": 116
             },
             "niveauxCompletes": {
                 "Niveau 1": true,

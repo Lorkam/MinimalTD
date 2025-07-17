@@ -20,54 +20,8 @@ export class Ennemi {
         this.recompense = {'or':0, 'triangles':0, 'ronds':0, 'hexagones':0}; // Récompense pour la destruction de l'ennemi
     }
 
-    async initModel() {
-        //console.log(this.constructor.name);
-        let cheminModel;
-        let taille;
-        let numAnimation = 0;
-        switch (this.constructor.name) {
-            case 'EnnemiClassique':
-                cheminModel = '../assets/model3D/carapateur.glb';
-                taille = 0.15;
-                break;
-            case 'EnnemiTank':
-                cheminModel = '../assets/model3D/blueBuff.glb';
-                taille = 0.15;
-                numAnimation = 6;
-                break;
-            case 'EnnemiRapide':
-                cheminModel = '../assets/model3D/raptor.glb';
-                taille = 0.3;
-                break;
-            case 'EnnemiReplicateur':
-                cheminModel = '../assets/model3D/voidgrub.glb';
-                taille = 0.2;
-                break;
-            case 'EnnemiReplique':
-                cheminModel = '../assets/model3D/voidmite.glb';
-                taille = 0.15;
-                break;
-            case 'BossMontagne':
-                cheminModel = '../assets/model3D/dragonMontagne.glb';
-                taille = 0.2;
-                break;
-            case 'BossInvocateur':
-                cheminModel = '../assets/model3D/chogath_(tft_set_14).glb';
-                taille = 0.2;
-                numAnimation = 3;
-                break;
-            case 'BossAmplificateur':
-                cheminModel = '../assets/model3D/atakhan.glb';
-                taille = 0.2;
-                numAnimation = 15;
-                break;
-            default:
-                console.warn(`Modèle 3D non défini pour ${this.constructor.name}`);
-                cheminModel = '../assets/model3D/carapateur.glb';
-                taille = 0.15;
-                return;
-        }
-        this.id3D = await this.partie.scene3D.addModel(cheminModel, {x: this.x, y: this.y}, taille, numAnimation);
+    async initModel(cheminModel, tailleModel, runAnimation) {
+        this.id3D = await this.partie.scene3D.addModel(cheminModel, {x: this.x, y: this.y}, tailleModel, runAnimation);
     }
 
     /**
@@ -166,9 +120,11 @@ export class Ennemi {
         this.couleur = couleur;
     }
 
-    mort(type){
+    async mort(type){
         if (this.id3D != null) {
+            //if(this.constructor.name.includes("Boss")) await this.partie.scene3D.animationMort(this.id3D, this.indexAnimationMort);
             this.partie.scene3D.removeModel(this.id3D);
+            this.id3D = null;
         }
         if (type=='tour') {
             this.partie.golds += this.recompense.or + this.partie.modificateurs.economie.goldsBonusParEnnemis; // Ajoute la récompense au joueur
@@ -202,60 +158,64 @@ function random(min, max){
 export class EnnemiClassique extends Ennemi {
     constructor( partie, position = null, cheminIndex = 0) {
         super(partie, position);
-        this.couleur = this.partie.statEnnemis.EnnemiClassique.couleur;
-        this.pvMax = this.partie.statEnnemis.EnnemiClassique.pvMax;
+        const statEnnemiClassique = this.partie.statEnnemis.EnnemiClassique;
+        this.couleur = statEnnemiClassique.couleur;
+        this.pvMax = statEnnemiClassique.pvMax;
         this.pv = this.pvMax;
         this.cheminIndex = cheminIndex;
-        this.degatAuCoeur = this.partie.statEnnemis.EnnemiClassique.degatAuCoeur;
-        this.speed = this.partie.statEnnemis.EnnemiClassique.vitesse;
-        this.taille = this.partie.statEnnemis.EnnemiClassique.taille;
-        this.recompense.or = this.partie.statEnnemis.EnnemiClassique.or;
-        this.recompense.triangles = this.partie.statEnnemis.EnnemiClassique.triangles;
-        this.initModel();
+        this.degatAuCoeur = statEnnemiClassique.degatAuCoeur;
+        this.speed = statEnnemiClassique.vitesse;
+        this.taille = statEnnemiClassique.taille;
+        this.recompense.or = statEnnemiClassique.or;
+        this.recompense.triangles = statEnnemiClassique.triangles;
+        this.initModel(statEnnemiClassique.cheminModel, statEnnemiClassique.tailleModel, statEnnemiClassique.runAnimation);
     }
 }
 export class EnnemiTank extends Ennemi {
     constructor(partie, position = null) {
         super(partie, position);
-        this.couleur = this.partie.statEnnemis.EnnemiTank.couleur;
-        this.pvMax = this.partie.statEnnemis.EnnemiTank.pvMax;
+        const statEnnemiTank = this.partie.statEnnemis.EnnemiTank;
+        this.couleur = statEnnemiTank.couleur;
+        this.pvMax = statEnnemiTank.pvMax;
         this.pv = this.pvMax;
-        this.degatAuCoeur = this.partie.statEnnemis.EnnemiTank.degatAuCoeur;
-        this.taille = this.partie.statEnnemis.EnnemiTank.taille;
-        this.speed = this.partie.statEnnemis.EnnemiTank.vitesse;
-        this.recompense.or = this.partie.statEnnemis.EnnemiTank.or;
-        this.recompense.triangles = this.partie.statEnnemis.EnnemiTank.triangles;
-        this.initModel();
+        this.degatAuCoeur = statEnnemiTank.degatAuCoeur;
+        this.taille = statEnnemiTank.taille;
+        this.speed = statEnnemiTank.vitesse;
+        this.recompense.or = statEnnemiTank.or;
+        this.recompense.triangles = statEnnemiTank.triangles;
+        this.initModel(statEnnemiTank.cheminModel, statEnnemiTank.tailleModel, statEnnemiTank.runAnimation);
     }
 }
 export class EnnemiRapide extends Ennemi {
     constructor(partie, position = null) {
         super(partie, position);
-        this.couleur = this.partie.statEnnemis.EnnemiRapide.couleur;
-        this.pvMax = this.partie.statEnnemis.EnnemiRapide.pvMax;
+        const statEnnemiRapide = this.partie.statEnnemis.EnnemiRapide;
+        this.couleur = statEnnemiRapide.couleur;
+        this.pvMax = statEnnemiRapide.pvMax;
         this.pv = this.pvMax;
-        this.degatAuCoeur = this.partie.statEnnemis.EnnemiRapide.degatAuCoeur;
-        this.taille = this.partie.statEnnemis.EnnemiRapide.taille;
-        this.speed = this.partie.statEnnemis.EnnemiRapide.vitesse;
-        this.recompense.or = this.partie.statEnnemis.EnnemiRapide.or;
-        this.recompense.triangles = this.partie.statEnnemis.EnnemiRapide.triangles;
-        this.initModel();
+        this.degatAuCoeur = statEnnemiRapide.degatAuCoeur;
+        this.taille = statEnnemiRapide.taille;
+        this.speed = statEnnemiRapide.vitesse;
+        this.recompense.or = statEnnemiRapide.or;
+        this.recompense.triangles = statEnnemiRapide.triangles;
+        this.initModel(statEnnemiRapide.cheminModel, statEnnemiRapide.tailleModel, statEnnemiRapide.runAnimation);
     }
 }
 export class EnnemiReplicateur extends Ennemi {
     constructor(partie, position = null) {
         super(partie, position);
-        this.couleur = this.partie.statEnnemis.EnnemiReplicateur.couleur;
-        this.pvMax = this.partie.statEnnemis.EnnemiReplicateur.pvMax;
+        const statEnnemiReplicateur = this.partie.statEnnemis.EnnemiReplicateur;
+        this.couleur = statEnnemiReplicateur.couleur;
+        this.pvMax = statEnnemiReplicateur.pvMax;
         this.pv = this.pvMax;
-        this.degatAuCoeur = this.partie.statEnnemis.EnnemiReplicateur.degatAuCoeur;
-        this.taille = this.partie.statEnnemis.EnnemiReplicateur.taille;
-        this.speed = this.partie.statEnnemis.EnnemiReplicateur.vitesse;
-        this.recompense.or = this.partie.statEnnemis.EnnemiReplicateur.or;
-        this.recompense.triangles = this.partie.statEnnemis.EnnemiReplicateur.triangles;
-        this.recompense.ronds = this.partie.statEnnemis.EnnemiReplicateur.ronds;
-        this.recompense.hexagones = this.partie.statEnnemis.EnnemiReplicateur.hexagones;
-        this.initModel();
+        this.degatAuCoeur = statEnnemiReplicateur.degatAuCoeur;
+        this.taille = statEnnemiReplicateur.taille;
+        this.speed = statEnnemiReplicateur.vitesse;
+        this.recompense.or = statEnnemiReplicateur.or;
+        this.recompense.triangles = statEnnemiReplicateur.triangles;
+        this.recompense.ronds = statEnnemiReplicateur.ronds;
+        this.recompense.hexagones = statEnnemiReplicateur.hexagones;
+        this.initModel(statEnnemiReplicateur.cheminModel, statEnnemiReplicateur.tailleModel, statEnnemiReplicateur.runAnimation);
     }
 
     mort(type){
@@ -284,51 +244,58 @@ export class EnnemiReplicateur extends Ennemi {
 export class EnnemiReplique extends Ennemi {
     constructor(partie, position = null, cheminIndex = 0) {
         super(partie, position);
-        this.couleur = this.partie.statEnnemis.EnnemiReplique.couleur;
-        this.pvMax = this.partie.statEnnemis.EnnemiReplique.pvMax;
+        const statEnnemiReplique = this.partie.statEnnemis.EnnemiReplique;
+        this.couleur = statEnnemiReplique.couleur;
+        this.pvMax = statEnnemiReplique.pvMax;
         this.pv = this.pvMax;
         this.cheminIndex = cheminIndex;
-        this.degatAuCoeur = this.partie.statEnnemis.EnnemiReplique.degatAuCoeur;
-        this.taille = this.partie.statEnnemis.EnnemiReplique.taille;
-        this.speed = this.partie.statEnnemis.EnnemiReplique.vitesse;
-        this.recompense.or = this.partie.statEnnemis.EnnemiReplique.or;
-        this.recompense.triangles = this.partie.statEnnemis.EnnemiReplique.triangles;
-        this.recompense.ronds = this.partie.statEnnemis.EnnemiReplique.ronds;
-        this.recompense.hexagones = this.partie.statEnnemis.EnnemiReplique.hexagones;
-        this.initModel();
+        this.degatAuCoeur = statEnnemiReplique.degatAuCoeur;
+        this.taille = statEnnemiReplique.taille;
+        this.speed = statEnnemiReplique.vitesse;
+        this.recompense.or = statEnnemiReplique.or;
+        this.recompense.triangles = statEnnemiReplique.triangles;
+        this.recompense.ronds = statEnnemiReplique.ronds;
+        this.recompense.hexagones = statEnnemiReplique.hexagones;
+        this.initModel(statEnnemiReplique.cheminModel, statEnnemiReplique.tailleModel, statEnnemiReplique.runAnimation);
     }
 }
 
 export class BossMontagne extends Ennemi {
     constructor(partie, position = null) {
         super(partie, position);
-        this.couleur = this.partie.statEnnemis.BossMontagne.couleur;
-        this.pvMax = this.partie.statEnnemis.BossMontagne.pvMax;
+        const statBossMontagne = this.partie.statEnnemis.BossMontagne;
+        this.couleur = statBossMontagne.couleur;
+        this.pvMax = statBossMontagne.pvMax;
         this.pv = this.pvMax;
-        this.degatAuCoeur = this.partie.statEnnemis.BossMontagne.degatAuCoeur;
-        this.taille = this.partie.statEnnemis.BossMontagne.taille;
-        this.speed = this.partie.statEnnemis.BossMontagne.vitesse;
-        this.recompense.or = this.partie.statEnnemis.BossMontagne.or;
-        this.recompense.triangles = this.partie.statEnnemis.BossMontagne.triangles;
-        this.recompense.ronds = this.partie.statEnnemis.BossMontagne.ronds;
-        this.recompense.hexagones = this.partie.statEnnemis.BossMontagne.hexagones;
-        this.initModel();
+        this.degatAuCoeur = statBossMontagne.degatAuCoeur;
+        this.taille = statBossMontagne.taille;
+        this.speed = statBossMontagne.vitesse;
+        this.recompense.or = statBossMontagne.or;
+        this.recompense.triangles = statBossMontagne.triangles;
+        this.recompense.ronds = statBossMontagne.ronds;
+        this.recompense.hexagones = statBossMontagne.hexagones;
+        this.indexAnimationMort = statBossMontagne.deathAnimation; // Index de l'animation de mort
+        this.indexAnimationBestiaire = statBossMontagne.bestiaireAnimation; // Index de l'animation pour le bestiaire
+        this.initModel(statBossMontagne.cheminModel, statBossMontagne.tailleModel, statBossMontagne.runAnimation);
     }
 }
 export class BossInvocateur extends Ennemi {
     constructor(partie, position = null) {
         super(partie, position);
-        this.couleur = this.partie.statEnnemis.BossInvocateur.couleur;
-        this.pvMax = this.partie.statEnnemis.BossInvocateur.pvMax;
+        const statBossInvocateur = this.partie.statEnnemis.BossInvocateur;
+        this.couleur = statBossInvocateur.couleur;
+        this.pvMax = statBossInvocateur.pvMax;
         this.pv = this.pvMax;
-        this.degatAuCoeur = this.partie.statEnnemis.BossInvocateur.degatAuCoeur;
-        this.taille = this.partie.statEnnemis.BossInvocateur.taille;
-        this.speed = this.partie.statEnnemis.BossInvocateur.vitesse;
-        this.recompense.or = this.partie.statEnnemis.BossInvocateur.or;
-        this.recompense.triangles = this.partie.statEnnemis.BossInvocateur.triangles;
-        this.recompense.ronds = this.partie.statEnnemis.BossInvocateur.ronds;
-        this.recompense.hexagones = this.partie.statEnnemis.BossInvocateur.hexagones;
-        this.initModel();
+        this.degatAuCoeur = statBossInvocateur.degatAuCoeur;
+        this.taille = statBossInvocateur.taille;
+        this.speed = statBossInvocateur.vitesse;
+        this.recompense.or = statBossInvocateur.or;
+        this.recompense.triangles = statBossInvocateur.triangles;
+        this.recompense.ronds = statBossInvocateur.ronds;
+        this.recompense.hexagones = statBossInvocateur.hexagones;
+        this.indexAnimationMort = statBossInvocateur.deathAnimation; // Index de l'animation de mort
+        this.indexAnimationBestiaire = statBossInvocateur.bestiaireAnimation; // Index de l'animation pour le bestiaire
+        this.initModel(statBossInvocateur.cheminModel, statBossInvocateur.tailleModel, statBossInvocateur.runAnimation);
         this.dernierreInvocation = Date.now();
     }
 
@@ -338,7 +305,7 @@ export class BossInvocateur extends Ennemi {
                 const ennemi = new EnnemiClassique(this.partie, {x: this.x + random(-10, 10), y: this.y + random(-10, 10)}, this.cheminIndex);
                 this.partie.ennemies.push(ennemi);
                 this.partie.totalEnnemis++;
-                console.log("Un ennemi classique a été invoqué par le boss invocateur.");
+                //console.log("Un ennemi classique a été invoqué par le boss invocateur.");
             }
             this.partie.majUI();
             this.dernierreInvocation = Date.now();
@@ -348,19 +315,22 @@ export class BossInvocateur extends Ennemi {
 export class BossAmplificateur extends Ennemi {
     constructor(partie, position = null) {
         super(partie, position);
-        this.couleur = this.partie.statEnnemis.BossAmplificateur.couleur;
-        this.pvMax = this.partie.statEnnemis.BossAmplificateur.pvMax;
+        const statBossAmplificateur = this.partie.statEnnemis.BossAmplificateur;
+        this.couleur = statBossAmplificateur.couleur;
+        this.pvMax = statBossAmplificateur.pvMax;
         this.pv = this.pvMax;
-        this.degatAuCoeur = this.partie.statEnnemis.BossAmplificateur.degatAuCoeur;
-        this.taille = this.partie.statEnnemis.BossAmplificateur.taille;
-        this.speed = this.partie.statEnnemis.BossAmplificateur.vitesse;
-        this.recompense.or = this.partie.statEnnemis.BossAmplificateur.or;
-        this.recompense.triangles = this.partie.statEnnemis.BossAmplificateur.triangles;
-        this.recompense.ronds = this.partie.statEnnemis.BossAmplificateur.ronds;
-        this.recompense.hexagones = this.partie.statEnnemis.BossAmplificateur.hexagones;
-        this.initModel();
-        this.amplification = this.partie.statEnnemis.BossAmplificateur.valeurAmplification;
-        this.portee = this.partie.statEnnemis.BossAmplificateur.porteeAmplification;
+        this.degatAuCoeur = statBossAmplificateur.degatAuCoeur;
+        this.taille = statBossAmplificateur.taille;
+        this.speed = statBossAmplificateur.vitesse;
+        this.recompense.or = statBossAmplificateur.or;
+        this.recompense.triangles = statBossAmplificateur.triangles;
+        this.recompense.ronds = statBossAmplificateur.ronds;
+        this.recompense.hexagones = statBossAmplificateur.hexagones;
+        this.indexAnimationMort = statBossAmplificateur.deathAnimation; // Index de l'animation de mort
+        this.indexAnimationBestiaire = statBossAmplificateur.bestiaireAnimation; // Index de l'animation pour le bestiaire
+        this.initModel(statBossAmplificateur.cheminModel, statBossAmplificateur.tailleModel, statBossAmplificateur.runAnimation);
+        this.amplification = statBossAmplificateur.valeurAmplification;
+        this.portee = statBossAmplificateur.porteeAmplification;
     }
 
     action() {

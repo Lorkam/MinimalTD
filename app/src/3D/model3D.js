@@ -87,7 +87,7 @@ export class Model3D {
         }
 
         const index = this.models.length;
-        this.models.push({ model, mixer, lastPosition: new THREE.Vector2(position.x, position.z)});
+        this.models.push({ model, mixer, lastPosition: new THREE.Vector2(position.x, position.z), gltf });
         this.mixers.push(mixer);
 
         return index;
@@ -114,6 +114,41 @@ export class Model3D {
         }
     }
 
+    async animationMort(index, indexAnimationMort) {
+        console.log("boss mort 1");
+        const entry = this.models[index];
+        if (!entry) return false;
+
+        console.log("boss mort 2");
+        const { model, mixer, gltf } = entry;
+        if (!gltf) return false;
+        
+        console.log("boss mort 3");
+        const clip = gltf.animations[indexAnimationMort];
+        if (!clip) return false;
+        
+        console.log("boss mort 4");
+        // Stop les autres animations
+        mixer.stopAllAction();
+
+        // Joue l'animation de mort une seule fois
+        const action = mixer.clipAction(clip);
+        action.reset();
+        action.setLoop(THREE.LoopOnce);
+        action.clampWhenFinished = true;
+        action.play();
+
+        // Retourne une promesse qui résout quand l'animation est finie
+        return new Promise(resolve => {
+            const onFinished = (event) => {
+                if (event.action === action) {
+                    mixer.removeEventListener('finished', onFinished);
+                    resolve(true);
+                }
+            };
+            mixer.addEventListener('finished', onFinished);
+        });
+    }
 
 
     removeModel(index) {

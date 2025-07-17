@@ -388,7 +388,7 @@ export class Partie {
             });
 
             const data = await response.text();
-            console.log(data);
+            //console.log(data);
             return ;
         } catch (error) {
             console.error('Erreur récupération données :', error);

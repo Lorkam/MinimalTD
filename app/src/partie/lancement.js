@@ -2,7 +2,7 @@ import { Partie } from "./game.js";
 
 const niveauChoisi = document.getElementById('niveauChoisi').value;
 const nomSauvegarde = document.getElementById('nomSauvegarde').value;
-const parametrePartie = [niveauChoisi, 1, nomSauvegarde]; // Paramètres du jeu, par exemple le niveau et la difficulté
+const parametrePartie = [niveauChoisi, 5, nomSauvegarde]; // Paramètres du jeu, par exemple le niveau et la difficulté
 let partie = new Partie(...parametrePartie); // Création d'une instance de Partie avec les paramètres
 partie.play();
 

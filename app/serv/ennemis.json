@@ -12,7 +12,11 @@
         "ronds":0,
         "hexagones":0,
         "nomBestiaire":"Classique",
-        "formeDessin":"cercle"
+        "cheminModel":"../assets/model3D/carapateur.glb",
+        "tailleModel":0.15,
+        "runAnimation":0,
+        "deathAnimation":-1,
+        "bestiaireAnimation":1
     },
     "EnnemiTank":{
         "nom":"EnnemiTank",
@@ -27,7 +31,11 @@
         "ronds":0,
         "hexagones":0,
         "nomBestiaire":"Tank",
-        "formeDessin":"cercle"
+        "cheminModel":"../assets/model3D/blueBuff.glb",
+        "tailleModel":0.15,
+        "runAnimation":0,
+        "deathAnimation":1,
+        "bestiaireAnimation":2
     },
     "EnnemiRapide":{
         "nom":"EnnemiRapide",
@@ -42,7 +50,11 @@
         "ronds":0,
         "hexagones":0,
         "nomBestiaire":"Rapide",
-        "formeDessin":"triangle"
+        "cheminModel":"../assets/model3D/raptor.glb",
+        "tailleModel":0.3,
+        "runAnimation":0,
+        "deathAnimation":1,
+        "bestiaireAnimation":2
     },
     "EnnemiReplicateur":{
         "nom":"EnnemiReplicateur",
@@ -57,7 +69,11 @@
         "ronds":0,
         "hexagones":0,
         "nomBestiaire":"Réplicateur",
-        "formeDessin":"cercle",
+        "cheminModel":"../assets/model3D/voidgrub.glb",
+        "tailleModel":0.2,
+        "runAnimation":1,
+        "deathAnimation":0,
+        "bestiaireAnimation":2,
         "nbRepliques":3
     },
     "EnnemiReplique":{
@@ -73,7 +89,11 @@
         "ronds":0,
         "hexagones":0,
         "nomBestiaire":"Répliqué",
-        "formeDessin":"cercle"
+        "cheminModel":"../assets/model3D/voidmite.glb",
+        "tailleModel":0.15,
+        "runAnimation":0,
+        "deathAnimation":2,
+        "bestiaireAnimation":1
     },
     "BossMontagne":{
         "nom":"BossMontagne",
@@ -88,7 +108,11 @@
         "ronds":20,
         "hexagones":1,
         "nomBestiaire":"Montagne",
-        "formeDessin":"cercle"
+        "cheminModel":"../assets/model3D/dragonMontagne.glb",
+        "tailleModel":0.2,
+        "runAnimation":0,
+        "deathAnimation":1,
+        "bestiaireAnimation":0
     },
     "BossInvocateur":{
         "nom":"BossInvocateur",
@@ -103,7 +127,11 @@
         "ronds":30,
         "hexagones":3,  
         "nomBestiaire":"Invocateur",
-        "formeDessin":"cercle",
+        "cheminModel":"../assets/model3D/chogath.glb",
+        "tailleModel":0.2,
+        "runAnimation":1,
+        "deathAnimation":0,
+        "bestiaireAnimation":2,
         "intervalInvocation":3000,
         "nbInvocation":2
     },
@@ -120,7 +148,11 @@
         "ronds":50,
         "hexagones":5,  
         "nomBestiaire":"Amplificateur",
-        "formeDessin":"ellipse",
+        "cheminModel":"../assets/model3D/atakhan.glb",
+        "tailleModel":0.2,
+        "runAnimation":1,
+        "deathAnimation":0,
+        "bestiaireAnimation":1,
         "porteeAmplification":100,
         "valeurAmplification":3
     }
