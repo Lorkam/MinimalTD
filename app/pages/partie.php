@@ -24,6 +24,7 @@ $sauvegarde = $_SESSION['nomSauvegarde'];
     <div id="divBordureJeu">
     <div id="divContainerJeu">
         <canvas id="gameCanvas" width="1550" height="710"></canvas>
+        <canvas id="gameCanvas3D" width="1550" height="710"></canvas>
         <div id="divRetourMenuPrincipale" onclick="window.location.href='menuPrincipale.php'"><img src="../assets/img/maison.png"></div>
 
 

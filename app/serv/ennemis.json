@@ -110,8 +110,8 @@
     "BossAmplificateur":{
         "nom":"BossAmplificateur",
         "description":"Boss ayant pas mal de vie qui augmente celle des ennemis à proximité.",
-        "vitesse":0.2,
-        "couleur":"#fceb00",
+        "vitesse":0.3,
+        "couleur":"#fc0400",
         "pvMax":2000,
         "degatAuCoeur":10,
         "taille":17,

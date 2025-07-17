@@ -6,14 +6,25 @@ const parametrePartie = [niveauChoisi, 1, nomSauvegarde]; // Paramètres du jeu,
 let partie = new Partie(...parametrePartie); // Création d'une instance de Partie avec les paramètres
 partie.play();
 
+/**
+ * Réinitialise le niveau actuel en rechargeant la page avec les paramètres du niveau choisi.
+ * @function
+ */
 function reset() {
-    document.getElementById('divEcranSombre').style.display = 'none';
-    document.getElementById('divImgVictoire').style.display = 'none';
-    document.getElementById('divImgDefaite').style.display = 'none';
-    partie = null;
-    console.clear();
-    partie = new Partie(...parametrePartie);
-    partie.play();
+    const body = document.querySelector('body')
+    const form = document.createElement('form');
+    const url = 'partie.php';
+    form.method = 'POST';
+    form.action = url;
+    form.style.display = 'none';
+    const input = document.createElement('input');
+    input.type = 'hidden';
+    input.name = 'numNiveau';
+    input.id = 'numNiveau';
+    input.value = niveauChoisi;
+    form.appendChild(input);
+    body.appendChild(form);
+    form.submit();
 }
 
 document.getElementById('btnRejouerVictoire').addEventListener('click', reset);

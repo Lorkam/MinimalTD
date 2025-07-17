@@ -20,6 +20,56 @@ export class Ennemi {
         this.recompense = {'or':0, 'triangles':0, 'ronds':0, 'hexagones':0}; // Récompense pour la destruction de l'ennemi
     }
 
+    async initModel() {
+        //console.log(this.constructor.name);
+        let cheminModel;
+        let taille;
+        let numAnimation = 0;
+        switch (this.constructor.name) {
+            case 'EnnemiClassique':
+                cheminModel = '../assets/model3D/carapateur.glb';
+                taille = 0.15;
+                break;
+            case 'EnnemiTank':
+                cheminModel = '../assets/model3D/blueBuff.glb';
+                taille = 0.15;
+                numAnimation = 6;
+                break;
+            case 'EnnemiRapide':
+                cheminModel = '../assets/model3D/raptor.glb';
+                taille = 0.3;
+                break;
+            case 'EnnemiReplicateur':
+                cheminModel = '../assets/model3D/voidgrub.glb';
+                taille = 0.2;
+                break;
+            case 'EnnemiReplique':
+                cheminModel = '../assets/model3D/voidmite.glb';
+                taille = 0.15;
+                break;
+            case 'BossMontagne':
+                cheminModel = '../assets/model3D/dragonMontagne.glb';
+                taille = 0.2;
+                break;
+            case 'BossInvocateur':
+                cheminModel = '../assets/model3D/chogath_(tft_set_14).glb';
+                taille = 0.2;
+                numAnimation = 3;
+                break;
+            case 'BossAmplificateur':
+                cheminModel = '../assets/model3D/atakhan.glb';
+                taille = 0.2;
+                numAnimation = 15;
+                break;
+            default:
+                console.warn(`Modèle 3D non défini pour ${this.constructor.name}`);
+                cheminModel = '../assets/model3D/carapateur.glb';
+                taille = 0.15;
+                return;
+        }
+        this.id3D = await this.partie.scene3D.addModel(cheminModel, {x: this.x, y: this.y}, taille, numAnimation);
+    }
+
     /**
      * Met à jour la position des ennemis en fonction du chemin.
      */
@@ -43,7 +93,7 @@ export class Ennemi {
             if (this.cheminIndex >= this.chemin.length - 1) {
                 this.mort('coeur'); // Appelle la méthode mort pour gérer la mort de l'ennemi
                 return false; // Indique que l'ennemi n'est plus en vie
-            }   
+            }
             return true; // Indique que l'ennemi est toujours en vie
         }
     }
@@ -53,7 +103,7 @@ export class Ennemi {
      * @param {CanvasRenderingContext2D} ctx - Le canvas sur lequel déssiner.
      */
     draw(ctx) {
-        switch (this.partie.statEnnemis[this.constructor.name].formeDessin) {
+        /*switch (this.partie.statEnnemis[this.constructor.name].formeDessin) {
             case 'cercle':
                 ctx.fillStyle = this.couleur;
                 ctx.beginPath();
@@ -95,12 +145,12 @@ export class Ennemi {
                 break;
             default:
                 console.warn(`Forme de dessin inconnue : ${this.partie.statEnnemis[this.constructor.name].formeDessin}`);
-        }
+        }*/
         if (this.pv < this.pvMax) {
             const barWidth = this.taille * 2;
             const barHeight = 4;
             const barX = this.x - this.taille;
-            const barY = this.y + this.taille + 4;
+            const barY = this.y +10+ this.taille + 4;
             ctx.fillStyle = 'gray';
             ctx.fillRect(barX, barY, barWidth, barHeight);
             ctx.fillStyle = 'green';
@@ -117,6 +167,9 @@ export class Ennemi {
     }
 
     mort(type){
+        if (this.id3D != null) {
+            this.partie.scene3D.removeModel(this.id3D);
+        }
         if (type=='tour') {
             this.partie.golds += this.recompense.or + this.partie.modificateurs.economie.goldsBonusParEnnemis; // Ajoute la récompense au joueur
             for(const monnaie of Object.keys(this.partie.monnaies)) {
@@ -133,6 +186,7 @@ export class Ennemi {
         if (index > -1) {
             this.partie.ennemies.splice(index, 1);
         }
+        //console.log(this.id3D);
     }
 
     action() {
@@ -157,6 +211,7 @@ export class EnnemiClassique extends Ennemi {
         this.taille = this.partie.statEnnemis.EnnemiClassique.taille;
         this.recompense.or = this.partie.statEnnemis.EnnemiClassique.or;
         this.recompense.triangles = this.partie.statEnnemis.EnnemiClassique.triangles;
+        this.initModel();
     }
 }
 export class EnnemiTank extends Ennemi {
@@ -170,6 +225,7 @@ export class EnnemiTank extends Ennemi {
         this.speed = this.partie.statEnnemis.EnnemiTank.vitesse;
         this.recompense.or = this.partie.statEnnemis.EnnemiTank.or;
         this.recompense.triangles = this.partie.statEnnemis.EnnemiTank.triangles;
+        this.initModel();
     }
 }
 export class EnnemiRapide extends Ennemi {
@@ -183,6 +239,7 @@ export class EnnemiRapide extends Ennemi {
         this.speed = this.partie.statEnnemis.EnnemiRapide.vitesse;
         this.recompense.or = this.partie.statEnnemis.EnnemiRapide.or;
         this.recompense.triangles = this.partie.statEnnemis.EnnemiRapide.triangles;
+        this.initModel();
     }
 }
 export class EnnemiReplicateur extends Ennemi {
@@ -198,9 +255,13 @@ export class EnnemiReplicateur extends Ennemi {
         this.recompense.triangles = this.partie.statEnnemis.EnnemiReplicateur.triangles;
         this.recompense.ronds = this.partie.statEnnemis.EnnemiReplicateur.ronds;
         this.recompense.hexagones = this.partie.statEnnemis.EnnemiReplicateur.hexagones;
+        this.initModel();
     }
 
     mort(type){
+        if (this.id3D != null) {
+            this.partie.scene3D.removeModel(this.id3D);
+        }
         if (type=='tour') {
             this.partie.golds += this.recompense.or + this.partie.modificateurs.economie.goldsBonusParEnnemis; // Ajoute la récompense au joueur
             for(const monnaie of Object.keys(this.partie.monnaies)) {
@@ -234,6 +295,7 @@ export class EnnemiReplique extends Ennemi {
         this.recompense.triangles = this.partie.statEnnemis.EnnemiReplique.triangles;
         this.recompense.ronds = this.partie.statEnnemis.EnnemiReplique.ronds;
         this.recompense.hexagones = this.partie.statEnnemis.EnnemiReplique.hexagones;
+        this.initModel();
     }
 }
 
@@ -250,6 +312,7 @@ export class BossMontagne extends Ennemi {
         this.recompense.triangles = this.partie.statEnnemis.BossMontagne.triangles;
         this.recompense.ronds = this.partie.statEnnemis.BossMontagne.ronds;
         this.recompense.hexagones = this.partie.statEnnemis.BossMontagne.hexagones;
+        this.initModel();
     }
 }
 export class BossInvocateur extends Ennemi {
@@ -265,6 +328,7 @@ export class BossInvocateur extends Ennemi {
         this.recompense.triangles = this.partie.statEnnemis.BossInvocateur.triangles;
         this.recompense.ronds = this.partie.statEnnemis.BossInvocateur.ronds;
         this.recompense.hexagones = this.partie.statEnnemis.BossInvocateur.hexagones;
+        this.initModel();
         this.dernierreInvocation = Date.now();
     }
 
@@ -294,6 +358,7 @@ export class BossAmplificateur extends Ennemi {
         this.recompense.triangles = this.partie.statEnnemis.BossAmplificateur.triangles;
         this.recompense.ronds = this.partie.statEnnemis.BossAmplificateur.ronds;
         this.recompense.hexagones = this.partie.statEnnemis.BossAmplificateur.hexagones;
+        this.initModel();
         this.amplification = this.partie.statEnnemis.BossAmplificateur.valeurAmplification;
         this.portee = this.partie.statEnnemis.BossAmplificateur.porteeAmplification;
     }

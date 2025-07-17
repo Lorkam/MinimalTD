@@ -2,6 +2,7 @@ import { EnnemiClassique, EnnemiTank, EnnemiRapide, EnnemiReplicateur, EnnemiRep
 import { Emplacement } from "./emplacement.js";
 import { Sauvegarde } from "../sauvegarde/sauvegarde.js";
 import { Console } from "./console.js";
+import { Model3D } from '../3D/model3D.js';
 
 
 export class Partie {
@@ -22,6 +23,8 @@ export class Partie {
         
         this.canvas = document.getElementById('gameCanvas');
         this.ctx = this.canvas.getContext('2d');
+        this.div3D = document.getElementById('container3D');
+        this.scene3D = new Model3D(this); // Instance de la scène 3D
         this.console = new Console(this); // Instance de la classe Console
         this.imageCoeur = new Image();
         this.imageCoeur.src = '../assets/img/heart.png';
@@ -194,7 +197,7 @@ export class Partie {
      * Fait apparaître un nouvel ennemi si l'intervalle de spawn est écoulé et que le nombre maximum d'ennemis n'est pas atteint.
      * Met à jour le temps du dernier spawn, ajoute une nouvelle instance d'Enemy au tableau des ennemis et incrémente le compteur d'ennemis.
      */
-    spawnEnnemis() {
+    async spawnEnnemis() {
         const currentTime = Date.now();
 
         for (const [type, data] of Object.entries(this.ennemiesASpawn)) {
@@ -239,7 +242,6 @@ export class Partie {
                         console.warn("Type d'ennemi inconnu :", type);
                         continue;
                 }
-
                 this.ennemies.push(ennemi);
                 data.nb--; // Un ennemi de moins à spawn
                 data.lastSpawnTime = currentTime; // Mise à jour du dernier spawn
@@ -438,10 +440,10 @@ export class Partie {
      * de la prochaine frame. Cette fonction est appelée récursivement via requestAnimationFrame
      * pour créer une boucle de jeu continue.
      */
-    boucleDeJeu() {
+    async boucleDeJeu() {
         this.dessinerNiveau();
         // Spawn des ennemis
-        if (this.jeuDemarre) this.spawnEnnemis();
+        if (this.jeuDemarre) await this.spawnEnnemis();
     
         this.gestionStructures();
     
@@ -530,7 +532,8 @@ export class Partie {
         });
         this.initialisationVague(); // Initialise les ennemis de la vague
         console.log(this);
-        this.spawnEnnemis(); // Lance le spawn des ennemis
+        //await this.spawnEnnemis(); // Lance le spawn des ennemis
+        this.scene3D.reRender3D(); // Redessine la scène 3D
         this.boucleDeJeu();
     }
 
