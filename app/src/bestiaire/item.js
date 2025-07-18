@@ -1,11 +1,13 @@
 
 export class Item{
-    constructor(nom, attributs) {
+    constructor(nom, attributs, dimension) {
         this.nom = nom;
         this.attributs = attributs;
-        this.canvas = null
-        this.ctx = null
+        this.canvas = null;
+        this.ctx = null;
         this.decouvert = false;
+        this.dimension = dimension;
+        this.index3D = null; // Index du modèle 3D dans la scène
     }
 
     initialiser(div){
@@ -24,8 +26,9 @@ export class Item{
                 divInfoItem.querySelector('#description').textContent = this.attributs.description;
                 const divStatItem = divInfoItem.querySelector('#statItem');
                 divStatItem.innerHTML = ''; // Réinitialiser les attributs
+                const infoApasMontrer = ['nomBestiaire', 'description', 'nom', 'formeDessin', 'couleur', 'taille', 'runAnimation', 'deathAnimation', 'tailleModel', 'cheminModel', 'bestiaireAnimation'];
                 for(const [key, value] of Object.entries(this.attributs)) {
-                    if(key !== 'nomBestiaire' && key !== 'description' && key !== 'nom' && key !== 'formeDessin' && key !== 'couleur' && key !== 'taille') {
+                    if(!infoApasMontrer.includes(key)) {
                         const ligneAttribut = document.createElement('div');
                         ligneAttribut.classList.add('ligneAttribut');
                         const spanNom = document.createElement('span');
@@ -53,5 +56,8 @@ export class Item{
                 divInfoItem.classList.add('cacher');
             }
         });
+        if(!this.attributs.formeDessin) {
+            this.attributs.formeDessin = 'ennemi';
+        }
     }
 }

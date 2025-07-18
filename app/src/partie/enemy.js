@@ -142,7 +142,6 @@ export class Ennemi {
             if (index > -1) {
                 this.partie.ennemies.splice(index, 1);
             }
-        //console.log(this.id3D);
         }
     }
 

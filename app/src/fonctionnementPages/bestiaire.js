@@ -1,5 +1,7 @@
 import { Item } from '../bestiaire/item.js';
 import { Sauvegarde } from '../sauvegarde/sauvegarde.js';
+import { Model3D } from '../3D/model3D.js';
+
 
 async function getEnnemis() {
     const url = '../serv/gestionTours&Ennemis.php';
@@ -41,13 +43,13 @@ async function creerListeItem(listeTours, listeEnnemis) {
     const ennemisRencontres = (nomSaveActuelle=='aucune')? [] : saves.saves[nomSaveActuelle]['ennemisRencontres'];
     let listeItem = [];
     for(const tour of Object.keys(listeTours)) {
-        listeItem.push(new Item(tour, listeTours[tour]));
+        listeItem.push(new Item(tour, listeTours[tour], '2D'));
     }
     for(const ennemi of Object.keys(listeEnnemis)) {
-        listeItem.push(new Item(ennemi, listeEnnemis[ennemi]));
+        listeItem.push(new Item(ennemi, listeEnnemis[ennemi], '3D'));
     }
     const divEnnemisNormaux = document.querySelector('#ennmisNormaux div.grilleCase');
-    const divEnnemisBoss = document.querySelector('#Boss div.grilleCase');
+    const divEnnemisBoss = document.querySelector('#Boss div.grilleCase2');
     const divTours = document.querySelector('#Tours div.grilleCase');
     for(const item of listeItem) {
         let type = item.attributs.nom;
@@ -58,8 +60,8 @@ async function creerListeItem(listeTours, listeEnnemis) {
 
         const canvaItem = document.createElement('canvas');
         canvaItem.id = item.attributs.nom;
-        canvaItem.width = 120;
-        canvaItem.height = 120;
+        canvaItem.width = type=='boss'?200:120;
+        canvaItem.height = type=='boss'?200:120;
 
         const decouvert = (ennemisRencontres.includes(item.attributs.nom))? true : (type == 'tour') ? true : false;
 
@@ -237,46 +239,16 @@ function dessinerTourExplosive(ctx, widthCanvas, heightCanvas, item) {
     ctx.shadowBlur = 0;
 }
 
-function dessinerCercle(ctx, widthCanvas, heightCanvas, item) {
-    ctx.fillStyle = item.attributs.couleur;
-    ctx.beginPath();
-    ctx.arc(widthCanvas / 2, heightCanvas / 2, item.attributs.taille * multiplicateurTaille, 0, Math.PI * 2);
-    ctx.fill();
+const Scene3D = new Model3D(null, canvas3D.id);
+function dessin3D(item) {
+    const posCanvas2D = item.canvas.getBoundingClientRect();
+    const left = posCanvas2D.left + ((item.nom.includes('Boss')) ?item.canvas.offsetWidth*0.2 : -15);
+    const top = posCanvas2D.top + item.canvas.offsetHeight / 2 + ((item.nom.includes('Boss')) ? 7 : 0);
+    console.log(`Position 3D pour l'item ${item.attributs.nom} : (${left}, ${top})`);
+    const multiplicateurTaille3D = 2;
+    item.index3D = Scene3D.addModel(item.attributs.cheminModel, { x: left, y: top }, item.attributs.tailleModel*multiplicateurTaille3D, item.attributs.bestiaireAnimation);
 }
-function dessinerTriangle(ctx, widthCanvas, heightCanvas, item) {
-    const taille = item.attributs.taille * multiplicateurTaille;
-    // Calculer la direction du mouvement
-    let angle = 0;
-    const target = {x:widthCanvas, y:heightCanvas / 2};
-    if (target) {
-        const dx = target.x - widthCanvas/2;
-        const dy = target.y - heightCanvas/2;
-        angle = Math.atan2(dy, dx);
-    }
 
-    ctx.save();
-    ctx.translate(widthCanvas/2, heightCanvas/2);
-    ctx.rotate(angle);
-
-    // Dessiner un triangle pointant vers la droite (0 radian)
-    ctx.beginPath();
-    ctx.moveTo(taille, 0); // pointe du triangle
-    ctx.lineTo(-taille, taille / 1.5);
-    ctx.lineTo(-taille, -taille / 1.5);
-    ctx.closePath();
-    ctx.fillStyle = item.attributs.couleur;
-    ctx.fill();
-
-    ctx.restore();
-}
-function dessinerEllipse(ctx, widthCanvas, heightCanvas, item) {
-    ctx.save();
-    ctx.beginPath();
-    ctx.ellipse(widthCanvas/2, heightCanvas/2, item.attributs.taille*multiplicateurTaille, item.attributs.taille*multiplicateurTaille * 0.6, 0, 0, Math.PI * 2);
-    ctx.fillStyle = item.attributs.couleur;
-    ctx.fill();
-    ctx.restore();
-}
 
 function dessinerCanvas(listeItem) {
     for (const item of listeItem) {
@@ -290,15 +262,6 @@ function dessinerCanvas(listeItem) {
 
         if (item.decouvert) {
             switch (item.attributs.formeDessin) {
-                case 'cercle':
-                    dessinerCercle(ctx, width, height, item);
-                    break;
-                case 'triangle':
-                    dessinerTriangle(ctx, width, height, item);
-                    break;
-                case 'ellipse':
-                    dessinerEllipse(ctx, width, height, item);
-                    break;
                 case 'TourClassique':
                     dessinerTourClassique(ctx, width, height, item);
                     break;
@@ -307,6 +270,9 @@ function dessinerCanvas(listeItem) {
                     break;
                 case 'TourExplosive':
                     dessinerTourExplosive(ctx, width, height, item);
+                    break;
+                case 'ennemi':
+                    dessin3D(item);
                     break;
                 default:
                     console.warn(`Forme de dessin inconnue : ${item.attributs.formeDessin} pour l'item ${item.attributs.nom}`);

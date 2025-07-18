@@ -4,10 +4,10 @@ import { gsap } from 'https://cdn.skypack.dev/gsap';
 import { clone } from 'https://esm.sh/three@0.150.1/examples/jsm/utils/SkeletonUtils.js';
 
 export class Model3D {
-    constructor(partie) {
+    constructor(partie, idCanva3D = 'gameCanvas3D') {
         this.partie = partie;
 
-        const canvas3D = document.querySelector('#gameCanvas3D');
+        const canvas3D = document.querySelector(`#${idCanva3D}`);
         const width = canvas3D.clientWidth;
         const height = canvas3D.clientHeight;
 
@@ -162,9 +162,11 @@ export class Model3D {
     reRender3D() {
         requestAnimationFrame(this.reRender3D);
 
-        for (const ennemi of this.partie.ennemies) {
-            if (typeof ennemi.id3D !== "undefined") {
-                this.updateFrom2DPosition(ennemi.id3D, ennemi.x, ennemi.y);
+        if(this.partie!=null){
+            for (const ennemi of this.partie.ennemies) {
+                if (typeof ennemi.id3D !== "undefined") {
+                    this.updateFrom2DPosition(ennemi.id3D, ennemi.x, ennemi.y);
+                }
             }
         }
 
