@@ -177,4 +177,34 @@ export class Model3D {
 
         this.renderer.render(this.scene, this.camera);
     }
+
+    rotationModel(index, x, y, z) {
+        const entry = this.models[index];
+        if (!entry) return;
+        const model = entry.model;
+
+        model.rotation.x = x * Math.PI * 2;
+        model.rotation.y = y * Math.PI * 2;
+        model.rotation.z = z * Math.PI * 2;
+    }
+
+    AnimationRotation(index, x, y, z) {
+        const entry = this.models[index];
+        if (!entry) return;
+        const model = entry.model;
+
+        gsap.to(model.rotation, {
+            x: "+=" + x * Math.PI * 2,
+            y: "+=" + y * Math.PI * 2,
+            z: "+=" + z * Math.PI * 2,
+            duration: 5,
+            repeat: -1,
+            ease: "linear",
+            modifiers: {
+                x: gsap.utils.wrap(0, Math.PI * 2),
+                y: gsap.utils.wrap(0, Math.PI * 2),
+                z: gsap.utils.wrap(0, Math.PI * 2)
+            }
+        });
+    }
 }

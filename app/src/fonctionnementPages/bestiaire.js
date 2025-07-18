@@ -240,13 +240,19 @@ function dessinerTourExplosive(ctx, widthCanvas, heightCanvas, item) {
 }
 
 const Scene3D = new Model3D(null, canvas3D.id);
-function dessin3D(item) {
+async function dessin3D(item, decouvert = true) {
     const posCanvas2D = item.canvas.getBoundingClientRect();
-    const left = posCanvas2D.left + ((item.nom.includes('Boss')) ?item.canvas.offsetWidth*0.2 : -15);
+    const left = posCanvas2D.left + ((item.nom.includes('Boss')) ?item.canvas.offsetWidth*0.2 : 0);
     const top = posCanvas2D.top + item.canvas.offsetHeight / 2 + ((item.nom.includes('Boss')) ? 7 : 0);
-    console.log(`Position 3D pour l'item ${item.attributs.nom} : (${left}, ${top})`);
-    const multiplicateurTaille3D = 2;
-    item.index3D = Scene3D.addModel(item.attributs.cheminModel, { x: left, y: top }, item.attributs.tailleModel*multiplicateurTaille3D, item.attributs.bestiaireAnimation);
+    console.log(item.attributs.tailleModel);
+    if (!decouvert) {
+        item.attributs.cheminModel = '../assets/model3D/luckyBock.glb';
+        item.index3D = await Scene3D.addModel(item.attributs.cheminModel, { x: left+25, y: top+((item.nom.includes('Boss')) ?40:20) }, 0.2*((item.nom.includes('Boss')) ?0.5:0.3), item.attributs.bestiaireAnimation);
+        Scene3D.rotationModel(item.index3D, 0, 0, 0);
+        Scene3D.AnimationRotation(item.index3D, 0, 1, 0);
+    }else{
+        item.index3D = await Scene3D.addModel(item.attributs.cheminModel, { x: left+25, y: top }, item.attributs.tailleModel*2, item.attributs.bestiaireAnimation);
+    }
 }
 
 
@@ -279,7 +285,7 @@ function dessinerCanvas(listeItem) {
                     break;
             }
         } else {
-            dessinerCadenas(ctx, width, height);
+            dessin3D(item, item.decouvert);
         }
     }
 }

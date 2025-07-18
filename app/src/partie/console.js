@@ -39,13 +39,13 @@ export class Console {
             listeMots[0] = listeMots[0].slice(1).trim();
             switch (listeMots[0]) {
                 case 'aide':
-                    this.ecrire('Commandes disponibles : /aide, /give, /vie');
+                    this.ecrire('Commandes disponibles : /aide, /give, /malphite');
                     break;
                 case 'give': // cheat
                     this.partie.golds += parseInt(listeMots[1], 10);
                     break;
                 case 'malphite': // Easter Egg
-                    this.ecrire(`top Diff`);
+                    this.ecrire(`Top Diff`);
                     this.partie.canvas.style.background = "url(../assets/img/KAYOU.jpg)";
                     this.partie.canvas.style.backgroundSize = "cover";
                     this.partie.canvas.style.backgroundPosition = "center";
