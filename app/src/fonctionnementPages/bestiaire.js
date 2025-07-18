@@ -241,17 +241,16 @@ function dessinerTourExplosive(ctx, widthCanvas, heightCanvas, item) {
 
 const Scene3D = new Model3D(null, canvas3D.id);
 async function dessin3D(item, decouvert = true) {
-    const posCanvas2D = item.canvas.getBoundingClientRect();
-    const left = posCanvas2D.left + ((item.nom.includes('Boss')) ?item.canvas.offsetWidth*0.2 : 0);
-    const top = posCanvas2D.top + item.canvas.offsetHeight / 2 + ((item.nom.includes('Boss')) ? 7 : 0);
-    console.log(item.attributs.tailleModel);
+    const left = item.canvas.offsetLeft + item.canvas.offsetWidth / 2;
+    const top = item.canvas.offsetTop + item.canvas.offsetHeight / 2 + ((item.nom.includes('Amplificateur')) ? 55 : 0);
+    console.log(left, top);
     if (!decouvert) {
         item.attributs.cheminModel = '../assets/model3D/luckyBock.glb';
-        item.index3D = await Scene3D.addModel(item.attributs.cheminModel, { x: left+25, y: top+((item.nom.includes('Boss')) ?40:20) }, 0.2*((item.nom.includes('Boss')) ?0.5:0.3), item.attributs.bestiaireAnimation);
+        item.index3D = await Scene3D.addModel(item.attributs.cheminModel, { x: left, y: top + ((item.nom.includes('Boss')) ? 45 : 25) }, 0.2 * ((item.nom.includes('Boss')) ? 0.5 : 0.3), item.attributs.bestiaireAnimation);
         Scene3D.rotationModel(item.index3D, 0, 0, 0);
         Scene3D.AnimationRotation(item.index3D, 0, 1, 0);
     }else{
-        item.index3D = await Scene3D.addModel(item.attributs.cheminModel, { x: left+25, y: top }, item.attributs.tailleModel*2, item.attributs.bestiaireAnimation);
+        item.index3D = await Scene3D.addModel(item.attributs.cheminModel, { x: left, y: top + ((item.nom.includes('Boss')) ? 10 : 0) }, item.attributs.tailleModel*2, item.attributs.bestiaireAnimation);
     }
 }
 

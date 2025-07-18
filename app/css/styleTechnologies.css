@@ -196,3 +196,8 @@ canvas{
     border-radius: 10px;
     z-index: 12; /* pour que le titre soit au-dessus des noeuds */
 }
+#imgTypeMonnaiePrix{
+    width: 20px;
+    height: 20px;
+    margin-left: 5px;
+}

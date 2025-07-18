@@ -20,7 +20,7 @@ $nomSauvegarde = $_SESSION['nomSauvegarde'] ?? null;
 </head>
 <body>
     <div id="divBordureJeu">
-    <canvas id="canvas3D" width="1570" height="880"></canvas>
+    <canvas id="canvas3D" width="2570" height="880"></canvas>
     <div id="divContainerJeu">
         <input type="hidden" id="nomSauvegarde" value="<?php echo $nomSauvegarde; ?>">
         <div id="divRetourMenuPrincipale" onclick="window.location.href='menuPrincipale.php'"><img src="../assets/img/maison.png"></div>

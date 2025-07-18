@@ -123,14 +123,15 @@ export class Ennemi {
     async mort(type){
         if (this.id3D != null) {
             const id3D = this.id3D;
-            if(this.constructor.name.includes("Boss")) await this.partie.scene3D.animationMort(id3D, this.indexAnimationMort, this);
-            this.partie.scene3D.removeModel(id3D);
             if (type=='tour') {
+                if(this.constructor.name.includes("Boss")) await this.partie.scene3D.animationMort(id3D, this.indexAnimationMort, this);
+                this.partie.scene3D.removeModel(id3D);
                 this.partie.golds += this.recompense.or + this.partie.modificateurs.economie.goldsBonusParEnnemis; // Ajoute la récompense au joueur
                 for(const monnaie of Object.keys(this.partie.monnaies)) {
                     this.partie.monnaies[monnaie] += this.recompense[monnaie] //+ this.partie.modificateurs.economie[`${monnaie}BonusParEnnemis`]; // Ajoute la récompense de chaque type de monnaie
                 }
             }else{
+                this.partie.scene3D.removeModel(id3D);
                 console.log(this.partie.heartPV, this.degatAuCoeur);
                 this.partie.heartPV -= this.degatAuCoeur;
                 this.partie.console.ecrire("Un ennemi a atteint le coeur -> PV : " + this.partie.heartPV);
