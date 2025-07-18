@@ -114,20 +114,18 @@ export class Model3D {
         }
     }
 
-    async animationMort(index, indexAnimationMort) {
-        console.log("boss mort 1");
+    async animationMort(index, indexAnimationMort, ennemi) {
+        //console.log("boss mort");
+        ennemi.id3D = null;
         const entry = this.models[index];
         if (!entry) return false;
 
-        console.log("boss mort 2");
         const { model, mixer, gltf } = entry;
         if (!gltf) return false;
         
-        console.log("boss mort 3");
         const clip = gltf.animations[indexAnimationMort];
         if (!clip) return false;
         
-        console.log("boss mort 4");
         // Stop les autres animations
         mixer.stopAllAction();
 
@@ -137,12 +135,14 @@ export class Model3D {
         action.setLoop(THREE.LoopOnce);
         action.clampWhenFinished = true;
         action.play();
+        //await new Promise(r => setTimeout(r, 1500)); // Attendre un peu pour que l'animation commence
 
-        // Retourne une promesse qui résout quand l'animation est finie
+        // Retourne une promesse qui se résout quand l'animation est finie
         return new Promise(resolve => {
             const onFinished = (event) => {
                 if (event.action === action) {
                     mixer.removeEventListener('finished', onFinished);
+                    console.log("animation de mort terminée");
                     resolve(true);
                 }
             };

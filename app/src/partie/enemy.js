@@ -122,27 +122,28 @@ export class Ennemi {
 
     async mort(type){
         if (this.id3D != null) {
-            //if(this.constructor.name.includes("Boss")) await this.partie.scene3D.animationMort(this.id3D, this.indexAnimationMort);
-            this.partie.scene3D.removeModel(this.id3D);
-            this.id3D = null;
-        }
-        if (type=='tour') {
-            this.partie.golds += this.recompense.or + this.partie.modificateurs.economie.goldsBonusParEnnemis; // Ajoute la récompense au joueur
-            for(const monnaie of Object.keys(this.partie.monnaies)) {
-                this.partie.monnaies[monnaie] += this.recompense[monnaie] //+ this.partie.modificateurs.economie[`${monnaie}BonusParEnnemis`]; // Ajoute la récompense de chaque type de monnaie
+            const id3D = this.id3D;
+            if(this.constructor.name.includes("Boss")) await this.partie.scene3D.animationMort(id3D, this.indexAnimationMort, this);
+            this.partie.scene3D.removeModel(id3D);
+            if (type=='tour') {
+                this.partie.golds += this.recompense.or + this.partie.modificateurs.economie.goldsBonusParEnnemis; // Ajoute la récompense au joueur
+                for(const monnaie of Object.keys(this.partie.monnaies)) {
+                    this.partie.monnaies[monnaie] += this.recompense[monnaie] //+ this.partie.modificateurs.economie[`${monnaie}BonusParEnnemis`]; // Ajoute la récompense de chaque type de monnaie
+                }
+            }else{
+                console.log(this.partie.heartPV, this.degatAuCoeur);
+                this.partie.heartPV -= this.degatAuCoeur;
+                this.partie.console.ecrire("Un ennemi a atteint le coeur -> PV : " + this.partie.heartPV);
             }
-        }else{
-            console.log(this.partie.heartPV, this.degatAuCoeur);
-            this.partie.heartPV -= this.degatAuCoeur;
-            this.partie.console.ecrire("Un ennemi a atteint le coeur -> PV : " + this.partie.heartPV);
-        }
-        // Si l'ennemi n'est plus en vie, on le retire de la liste
-        this.partie.nbEnnemisMorts++;
-        const index = this.partie.ennemies.indexOf(this);
-        if (index > -1) {
-            this.partie.ennemies.splice(index, 1);
-        }
+            // Si l'ennemi n'est plus en vie, on le retire de la liste
+            console.log("suppression de l'ennemi");
+            this.partie.nbEnnemisMorts++;
+            const index = this.partie.ennemies.indexOf(this);
+            if (index > -1) {
+                this.partie.ennemies.splice(index, 1);
+            }
         //console.log(this.id3D);
+        }
     }
 
     action() {
