@@ -100,6 +100,8 @@ export class Noeud {
         }
         // dessin des liens vers les enfants
         this.menuTechonologies.dessinerLiensNoeuds();
+        this.cacherInfo();
+        this.afficherInfo();
     }
     async vendre(n=0) {
         //console.log(`Vente du noeud ${this.idHTML} - n = ${n}`);
@@ -140,6 +142,8 @@ export class Noeud {
         // dessin des liens vers les enfants
         this.menuTechonologies.dessinerLiensNoeuds();
         this.majMonnaies();
+        this.cacherInfo();
+        this.afficherInfo();
     }
 
     ameliorerNoeud() {
@@ -161,6 +165,8 @@ export class Noeud {
         }else {
             console.warn(`La technologie '${this.idHTML}' est déjà au niveau maximum : ${this.nbLvl}`);
         }
+        this.cacherInfo();
+        this.afficherInfo();
     }
     vendreAmeliorationNoeud() {
         //console.log(`Vente de l'amélioration du noeud ${this.idHTML} - niveau actuel : ${this.lvl}`);
@@ -176,6 +182,8 @@ export class Noeud {
             // Mise à jour de l'image
             this.menuTechonologies.dessinerLiensNoeuds();
         }
+        this.cacherInfo();
+        this.afficherInfo();
     }
 
     async changerNivNoeud(direction) {
@@ -215,6 +223,11 @@ export class Noeud {
     }
 
     afficherInfo(){
+        const correspondanceTypeMonnaie = {
+            'triangles': '../assets/img/triangle.png',
+            'ronds': '../assets/img/rond.png',
+            'hexagones': '../assets/img/hexagone.png'
+        }
         this.divInfoNoeud.style.top = `${this.divElementHTML.offsetTop - this.divInfoNoeud.offsetHeight - 35}px`;
         this.divInfoNoeud.style.left = `${this.divElementHTML.offsetLeft - (this.divInfoNoeud.offsetWidth/2)}px`;
         this.divInfoNoeud.classList.remove('cachee');
@@ -222,6 +235,12 @@ export class Noeud {
         this.divInfoNoeud.querySelector('#titre').firstChild.nodeValue = this.titre;
         this.divInfoNoeud.querySelector('#lvl').firstChild.nodeValue = 'Niveau : ' + this.lvl + '/' + this.nbLvl;
         this.divInfoNoeud.querySelector('#prix').firstChild.nodeValue = 'Prix : ' + (this.lvl<this.nbLvl?((this.lvl==0) ? this.prix : this.prixAmelioration):'Max');
+        if(this.divInfoNoeud.querySelector('#prix').firstChild.nodeValue.includes('Max')){
+            this.divInfoNoeud.querySelector('#imgTypeMonnaiePrix').style.display = 'none';
+        }else{
+            this.divInfoNoeud.querySelector('#imgTypeMonnaiePrix').style.display = 'inline';
+            this.divInfoNoeud.querySelector('#imgTypeMonnaiePrix').src = correspondanceTypeMonnaie[this.typePrix];
+        }
         this.divInfoNoeud.querySelector('#description').firstChild.nodeValue = this.description;
     }
     cacherInfo() {

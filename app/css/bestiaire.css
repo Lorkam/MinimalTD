@@ -83,6 +83,11 @@ body{
     grid-template-columns: 1fr 1fr 1fr 1fr;
     grid-template-rows: auto;
 }
+.grilleCase2{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: auto;
+}
 .gap{
     gap: 10px;
 }
@@ -121,6 +126,12 @@ h2{
     z-index: 2;
     pointer-events: none;
     opacity: 0;
+}
+#canvas3D{
+    position: absolute;
+    top: 0;
+    left: 0;
+    pointer-events: none;
 }
 .cacher{
     animation: cacher 0.2s forwards;

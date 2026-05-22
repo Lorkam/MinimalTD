@@ -37,7 +37,10 @@ $sauvegarde = $_SESSION['nomSauvegarde'];
             <h3 id="titre">-Titre par défaut-</h3>
             <div class="flex-row space-between" style="width: 100%;">
                 <span id="lvl">-1/6-</span>
-                <span id="prix">-99-</span>
+                <div id="divPrixTechno" class="flex-row">
+                    <span id="prix">-99-</span>
+                    <img src="" id="imgTypeMonnaiePrix">
+                </div>
             </div><br>
             <span id="description">-Description par défaut-</span>
         </div>

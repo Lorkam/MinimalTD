@@ -1,3 +1,114 @@
 {
-    "saves": []
+    "saves": {
+        "test": {
+            "description": "sauvegarde vide",
+            "monnaies": {
+                "triangles": 697,
+                "ronds": 95,
+                "hexagones": 9
+            },
+            "niveauxCompletes": {
+                "Niveau 1": true,
+                "Niveau 2": true,
+                "Niveau 3": true
+            },
+            "dateCreation": "2025-07-18",
+            "dateDerniereSave": "2025-07-18",
+            "modificateurs": {
+                "tours": {
+                    "degats": 1,
+                    "vitesseAttaque": 1.2,
+                    "prix": 1,
+                    "critRate": 0.1,
+                    "critDamage": 1,
+                    "portee": 10
+                },
+                "economie": {
+                    "goldsBonusDepart": 0,
+                    "goldsBonusParEnnemis": 0
+                },
+                "coeurBonus": 0,
+                "lvlUpTours": 2,
+                "TourExplosive": 0
+            },
+            "technologies": {
+                "centre": 1,
+                "vitesseAttaque": 1,
+                "degats": 0,
+                "goldsBonusDepart": 0,
+                "goldsBonusParEnnemis": 0,
+                "lvlUpTours": 1,
+                "critRate": 0,
+                "critDamage": 0,
+                "tourExplosive": 0,
+                "coeurBonus": 0,
+                "portee": 1
+            },
+            "ennemisRencontres": [
+                "EnnemiClassique",
+                "EnnemiTank",
+                "EnnemiRapide",
+                "BossMontagne",
+                "EnnemiReplicateur",
+                "EnnemiReplique",
+                "BossInvocateur",
+                "BossAmplificateur"
+            ],
+            "toursDebloquees": {
+                "TourClassique": true,
+                "TourRalentissante": true,
+                "TourExplosive": false
+            }
+        },
+        "57": {
+            "description": "sauvegarde vide",
+            "monnaies": {
+                "triangles": 0,
+                "ronds": 0,
+                "hexagones": 0
+            },
+            "niveauxCompletes": {
+                "Niveau 1": false,
+                "Niveau 2": false,
+                "Niveau 3": false
+            },
+            "dateCreation": "2025-07-18",
+            "dateDerniereSave": "2025-07-18",
+            "modificateurs": {
+                "tours": {
+                    "degats": 1,
+                    "vitesseAttaque": 1,
+                    "prix": 1,
+                    "critRate": 0.1,
+                    "critDamage": 1.2,
+                    "portee": 1
+                },
+                "economie": {
+                    "goldsBonusDepart": 0,
+                    "goldsBonusParEnnemis": 0
+                },
+                "coeurBonus": 0,
+                "lvlUpTours": 0
+            },
+            "technologies": {
+                "centre": 0,
+                "vitesseAttaque": 0,
+                "degats": 0,
+                "goldsBonusDepart": 0,
+                "goldsBonusParEnnemis": 0,
+                "lvlUpTours": 0,
+                "critRate": 0,
+                "critDamage": 0,
+                "tourExplosive": 0,
+                "coeurBonus": 0,
+                "portee": 0
+            },
+            "ennemisRencontres": [],
+            "toursDebloquees": {
+                "TourClassique": true,
+                "TourRalentissante": true,
+                "TourExplosive": false
+            }
+        }
+    }
 }

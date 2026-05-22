@@ -17,7 +17,7 @@
     "vagues": [
       {
         "ennemis": [
-          { "type": "EnnemiClassique", "nb": 2, "intervale": 1000 }
+          { "type": "EnnemiClassique", "nb": 3, "intervale": 1000 }
         ],
         "derniereVague": false
       },
@@ -35,14 +35,14 @@
       },
       {
         "ennemis": [
-          { "type": "EnnemiRapide", "nb": 7, "intervale": 500 }
+          { "type": "EnnemiRapide", "nb": 5, "intervale": 500 }
         ],
         "derniereVague": false
       },
       {
         "ennemis": [
-          { "type": "EnnemiRapide", "nb": 15, "intervale": 500 },
-          { "type": "EnnemiTank", "nb": 3, "intervale": 2000 }
+          { "type": "EnnemiRapide", "nb": 10, "intervale": 500 },
+          { "type": "EnnemiTank", "nb": 2, "intervale": 2000 }
         ],
         "derniereVague": false
       },

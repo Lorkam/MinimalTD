@@ -32,6 +32,16 @@ canvas {
     margin: 0;
     z-index: 2;
 }
+#gameCanvas3D{
+    display: block;
+    margin: 0;
+    position: absolute;
+    z-index: 2;
+    top: 0;
+    left: 0;
+    pointer-events: none; /* pour que les clics ne soient pas captés par le container3D */
+    background-color: transparent;
+}
 #divRetourMenuPrincipale{
     position: absolute;
     top: 20px;
